@@ -66,7 +66,7 @@ public class Player extends JPanel implements KeyListener{
 	public void keyReleased(KeyEvent e){
 		keys[e.getKeyCode()] = false;
 	}
-
+//hi
 
     
 }
