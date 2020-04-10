@@ -59,7 +59,7 @@ public class GamePanel extends JPanel implements KeyListener{
     public void paintComponent(Graphics g){
 
     	//g.drawImage(back,1185-p.getBx(),0,null);
-        if ((p.getX() - 850) %  3840 == 0){
+        /*if ((p.getX() - 850) %  3840 == 0){
             p.setBx(0);
         }
         if ((p.getX() - 2770) % 3840 == 0){
@@ -69,7 +69,22 @@ public class GamePanel extends JPanel implements KeyListener{
         if (p.getX() >= 850){
             g.drawImage(back,1185-p.getBx(),0,null);
         }
-    	g.drawImage(p.getImage(),70/*p.getX()*/,p.getY(),null);
+    	g.drawImage(p.getImage(),70p.getX()*p.getY(),null);*/
+
+
+
+
+        if (p.getX() >= 850){
+            p.setScroll(true);
+
+            g.drawImage(back,1185-p.getBx2(),0,null);
+            g.drawImage(p.getImage(),850,p.getY(),null);
+        }
+        else if (p.getX() < 850){
+            p.setScroll(false);
+            g.drawImage(back, 0, 0,null);
+            g.drawImage(p.getImage(),p.getX(),p.getY(),null);
+        }
 
         if(direction.equals("right")){
             if(frame % 5 == 0){
