@@ -55,7 +55,7 @@ public class Player extends JPanel{
 	public int getHP(){
 		return hp;
 	}
-
+	//yo
 	public void moveX(){
     	x += dx;
     	if (scroll){
