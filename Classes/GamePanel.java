@@ -23,8 +23,8 @@ public class GamePanel extends JPanel implements KeyListener{
 		addKeyListener(this);
 		
 		//loading images//
-		back = new ImageIcon("back.jpg").getImage();
-		player = new ImageIcon("player.jpg").getImage();
+		back = new ImageIcon("Pictures/back.jpg").getImage();
+		player = new ImageIcon("Pictures/player.jpg").getImage();
     }
     
     public void addNotify() {
