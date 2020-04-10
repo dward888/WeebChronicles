@@ -7,7 +7,6 @@ import javax.imageio.*;
 import javax.sound.midi.*;
 import java.applet.*;
 
-//yo boobs vagi
 
 public class WeebChronicles extends JFrame implements ActionListener {
 	Timer myTimer;
@@ -38,7 +37,7 @@ public class WeebChronicles extends JFrame implements ActionListener {
 		if(source==myTimer){//if the game is running
 			myTimer.start();
 		    game.requestFocus();
-		    game.move();//hi
+		    game.move();
 
 
 		    game.repaint();

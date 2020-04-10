@@ -14,7 +14,6 @@ public class GamePanel extends JPanel implements KeyListener{
 	private Character[]chars;
 	private String direction;
 	private int frame;
-	private int scrollX, scrollX2;
 	//images//
 	private Image back;
 	//private Image player;
@@ -60,8 +59,9 @@ public class GamePanel extends JPanel implements KeyListener{
 
     public void paintComponent(Graphics g){
 
-    	//g.drawImage(back,1185-p.getBx(),0,null);
-        /*if ((p.getX() - 850) %  3840 == 0){
+
+        //attempt at infinite scrolling background (w.i.p.)
+        if ((p.getX() - 850) %  3840 == 0){
             p.setBx(0);
         }
         if ((p.getX() - 2770) % 3840 == 0){
@@ -71,24 +71,24 @@ public class GamePanel extends JPanel implements KeyListener{
         if (p.getX() >= 850){
             g.drawImage(back,1185-p.getBx(),0,null);
         }
-    	g.drawImage(p.getImage(),70p.getX()*p.getY(),null);*/
+    	//g.drawImage(p.getImage(),70p.getX()*p.getY(),null);*/
 
 
 
-        //System.out.println(p.checkScroll());
-        //System.out.println(scrollX2);
+
+        //the code below allows the player to side scroll past a certain point and only past that point
         if (p.getX() >= 850) {
             if (direction.equals("right")) {
                 //scrollX2 = p.getX();
                 p.setScroll(true);
                 g.drawImage(back, 1185 - p.getBx2(), 0, null);
-                g.drawImage(p.getImage(), 850, p.getY(), null);
+                //g.drawImage(p.getImage(), 850, p.getY(), null);
                 System.out.println(p.getX());
             }
             else if(direction.equals("left") || direction.equals("still")){
                 p.setScroll(false);
                 g.drawImage(back, 1185 - p.getBx2(), 0, null);
-                g.drawImage(p.getImage(), p.getX(), p.getY(), null);
+                //g.drawImage(p.getImage(), p.getX(), p.getY(), null);
                 System.out.println(p.getX());
 
             }
@@ -102,9 +102,10 @@ public class GamePanel extends JPanel implements KeyListener{
         else if (p.getX() < 850){
             p.setScroll(false);
             g.drawImage(back, 0, 0,null);
-            g.drawImage(p.getImage(),p.getX(),p.getY(),null);
+            //g.drawImage(p.getImage(),p.getX(),p.getY(),null);
         }
 
+        //drawing the sprites for their respective direction
         if(direction.equals("still")){
             g.drawImage(p.getFrame("standing"), p.getX(), p.getY(), null);
         }
@@ -112,7 +113,7 @@ public class GamePanel extends JPanel implements KeyListener{
             if (p.checkScroll()){
                 g.drawImage(p.getFrame("run right"), 850, p.getY(), null);
             }
-            else if (p.checkScroll() == false){
+            else if (!p.checkScroll()){
                 g.drawImage(p.getFrame("run right"), p.getX()-10, p.getY(), null);
             }
         }
@@ -121,8 +122,9 @@ public class GamePanel extends JPanel implements KeyListener{
         }
 
         frame ++;
-    }//yugkjhgchdd
+    }
 
+    //user moving the character
     public void move(){
         if (keys[KeyEvent.VK_RIGHT]) {
             p.setDx(10);

@@ -15,7 +15,6 @@ public class Player extends JPanel{
 	private int currentF;
 
     public Player(Character w) {
-		player = new ImageIcon("Pictures/player.jpg").getImage();
 		weeb = w;
     	x = 120;
 		y = 400;
@@ -51,18 +50,19 @@ public class Player extends JPanel{
     	return scroll;
 	}
 	public void setScroll(boolean n){
-		if (n) scroll = true;
-		else scroll = false;
+		scroll = n;
 	}
 	public int getHP(){
 		return hp;
 	}
-	//yo
+
 	public void moveX(){
-    	x += dx;
     	if (scroll){
 			bx += dx;
 			bx2 += dx;
+		}
+    	else{
+    		x += dx;
 		}
 	}
 	public Image getFrame(String motion){
@@ -99,9 +99,6 @@ public class Player extends JPanel{
     	currentF = 0;
 	}
 
-    public Image getImage(){
-    	return player;
-	}
 }
 
     
