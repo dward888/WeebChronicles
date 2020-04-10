@@ -20,22 +20,28 @@ public class Character {
         speed = s;
         runRight  = new Image[6];
         runLeft = new Image[6];
+        loadSprite();
+    }
+    public void loadSprite(){
+            loadSprite(runRight, runLeft, "run", name + "/run/");
     }
     public void loadSprite(Image[]actionRight, Image[]actionLeft, String motion, String directory){
         try{
-            for(int i = 0; i < actionRight.length; i++) {
+            for(int i = 1; i < actionRight.length + 1; i++) {
                 Image img = ImageIO.read(new File(directory + motion + i + ".gif"));
-                actionRight[i] = img;
+                actionRight[i-1] = img;
                 //Following code mirrors the image
-                AffineTransform mirror = AffineTransform.getScaleInstance(1, -1);
+                AffineTransform mirror = AffineTransform.getScaleInstance(-1, 1);
                 mirror.translate(- img.getWidth(null), 0);
                 AffineTransformOp mirrorOp = new AffineTransformOp(mirror, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
                 img = mirrorOp.filter((BufferedImage) img, null);
-                actionLeft[i] = img;
+                actionLeft[i-1] = img;
             }
         }
         catch(IOException e ){
             e.printStackTrace();
         }
     }
+    public Image getRunLeft(int n){ return runLeft[n];}
+    public Image getRunRight(int n){return runRight[n];}
 }

@@ -12,14 +12,12 @@ import java.applet.*;
 public class WeebChronicles extends JFrame implements ActionListener {
 	Timer myTimer;
 	GamePanel game;
-	Player p;
     public WeebChronicles(){
     	super("The Weeb Chronicles");
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(1200,650);
 		myTimer = new Timer(10, this);	 // trigger every 10 ms
 		game = new GamePanel(this);
-		p = new Player();
 		add(game);
 
 		setResizable(false);

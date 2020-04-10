@@ -7,16 +7,15 @@ import javax.imageio.*;
 import javax.sound.midi.*;
 import java.applet.*;
 
-public class Player extends JPanel implements KeyListener{
+public class Player extends JPanel{
 	private int x,y,bx,bx2,dx,hp,sp;
 	private Image player;
-	private boolean []keys;
 	private boolean scroll;
+	private Character weeb;
 
-    public Player() {
-		keys = new boolean[KeyEvent.KEY_LAST+1];
-		addKeyListener(this);
+    public Player(Character w) {
 		player = new ImageIcon("Pictures/player.jpg").getImage();
+		weeb = w;
     	x = 120;
 		y = 400;
 		bx2 = 1185;//variable for scrolling background
@@ -63,7 +62,17 @@ public class Player extends JPanel implements KeyListener{
 			bx += dx;
 			bx2 += dx;
 		}
-
+	}
+	public Image getFrame(String motion, int num){
+		if(motion.equals("run left")){
+			return weeb.getRunLeft(num);
+		}
+		if(motion.equals("run right")){
+			return weeb.getRunRight(num);
+		}
+		else{
+			return null;
+		}
 	}
     public void moveY(int num){
     	y += num;
@@ -72,16 +81,6 @@ public class Player extends JPanel implements KeyListener{
     public Image getImage(){
     	return player;
 	}
-	public void keyTyped(KeyEvent e){
-	}
-	public void keyPressed(KeyEvent e){
-		keys[e.getKeyCode()] = true;
-	}
-	public void keyReleased(KeyEvent e){
-		keys[e.getKeyCode()] = false;
-	}
-//hi
-
 }
 
     
