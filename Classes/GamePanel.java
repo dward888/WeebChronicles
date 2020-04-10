@@ -26,7 +26,6 @@ public class GamePanel extends JPanel implements KeyListener{
         p = new Player(chars[0]);
         direction = "still";
         frame = 0;
-        scrollX = 850;
 
 
 		addKeyListener(this);
