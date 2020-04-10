@@ -12,6 +12,7 @@ public class Player extends JPanel{
 	private Image player;
 	private boolean scroll;
 	private Character weeb;
+	private int currentF;
 
     public Player(Character w) {
 		player = new ImageIcon("Pictures/player.jpg").getImage();
@@ -22,6 +23,7 @@ public class Player extends JPanel{
 		bx = 0;
 		dx = 0;
 		scroll = false;
+		currentF = 0;
     }
 
     public int getX(){
@@ -70,6 +72,9 @@ public class Player extends JPanel{
 		if(motion.equals("run right")){
 			return weeb.getRunRight(num);
 		}
+		if(motion.equals("standing")){
+			return weeb.getStanding();
+		}
 		else{
 			return null;
 		}
@@ -77,6 +82,9 @@ public class Player extends JPanel{
     public void moveY(int num){
     	y += num;
     }
+    public void resetCurrentF(){
+    	currentF = 0;
+	}
 
     public Image getImage(){
     	return player;

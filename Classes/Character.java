@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.*;
+import javax.swing.*;
 
 
 public class Character {
@@ -12,6 +13,7 @@ public class Character {
     private int attack, defense, speed;
     private Image[]runRight;
     private Image[]runLeft;
+    private Image standing;
 
     public Character(String n, int a,  int d, int s){
         name = n;
@@ -24,6 +26,7 @@ public class Character {
     }
     public void loadSprite(){
             loadSprite(runRight, runLeft, "run", name + "/run/");
+            standing = new ImageIcon(name + "/standing.gif").getImage();
     }
     public void loadSprite(Image[]actionRight, Image[]actionLeft, String motion, String directory){
         try{
@@ -42,6 +45,7 @@ public class Character {
             e.printStackTrace();
         }
     }
+    public Image getStanding(){return standing;}
     public Image getRunLeft(int n){ return runLeft[n];}
     public Image getRunRight(int n){return runRight[n];}
 }
