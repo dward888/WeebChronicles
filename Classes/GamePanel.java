@@ -83,52 +83,54 @@ public class GamePanel extends JPanel implements KeyListener{
                 p.setScroll(true);
                 g.drawImage(back, 1185 - p.getBx2(), 0, null);
                 g.drawImage(p.getImage(), 850, p.getY(), null);
+                System.out.println(p.getX());
             }
             else if(direction.equals("left") || direction.equals("still")){
                 p.setScroll(false);
                 g.drawImage(back, 1185 - p.getBx2(), 0, null);
                 g.drawImage(p.getImage(), p.getX(), p.getY(), null);
+                System.out.println(p.getX());
 
             }
         }
-        if (p.getX() <= 850){
-            p.setScroll(false);
-            g.drawImage(back,1185-p.getBx2(),0,null);
-            g.drawImage(p.getImage(),p.getX(),p.getY(),null);
-
-        }
-        //else if (p.getX() < 850){
+        //if (p.getX() <= 850){
             //p.setScroll(false);
-           // g.drawImage(back, 0, 0,null);
+
             //g.drawImage(p.getImage(),p.getX(),p.getY(),null);
+
         //}
-        System.out.println(p.getX());
+        else if (p.getX() < 850){
+            p.setScroll(false);
+            g.drawImage(back, 0, 0,null);
+            g.drawImage(p.getImage(),p.getX(),p.getY(),null);
+        }
+
         if(direction.equals("still")){
             g.drawImage(p.getFrame("standing"), p.getX(), p.getY(), null);
         }
         if(direction.equals("right")){
 
-            if(frame % 5 == 0){
-                if (p.checkScroll()){
-                    g.drawImage(p.getFrame("run right"), 850, p.getY(), null);
-                }
-                else if (p.checkScroll() == false){
-                    g.drawImage(p.getFrame("run right"), p.getX(), p.getY(), null);
-                }
 
+            if (p.checkScroll()){
+                g.drawImage(p.getFrame("run right"), 850, p.getY(), null);
             }
+            else if (p.checkScroll() == false){
+                g.drawImage(p.getFrame("run right"), p.getX()-10, p.getY(), null);
+            }
+
+
         }
         frame ++;
     }//yugkjhg
 
     public void move(){
         if (keys[KeyEvent.VK_RIGHT]) {
-            p.setDx(3);
+            p.setDx(10);
             p.moveX();
             direction = "right";
         }
         if (keys[KeyEvent.VK_LEFT]) {
-            p.setDx(-3);
+            p.setDx(-10);
             p.moveX();
             direction = "left";
         }
