@@ -86,6 +86,9 @@ public class GamePanel extends JPanel implements KeyListener{
             g.drawImage(p.getImage(),p.getX(),p.getY(),null);
         }
 
+        if(direction.equals("still")){
+            g.drawImage(p.getFrame("standing", 0), p.getX(), p.getY(), null);
+        }
         if(direction.equals("right")){
             if(frame % 5 == 0){
                 g.drawImage(p.getFrame("run right", 0), p.getX(), p.getY(), null);
