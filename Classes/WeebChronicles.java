@@ -44,7 +44,6 @@ public class WeebChronicles extends JFrame implements ActionListener {
 		}
 	}
 	public static void main(String[] arguments) {
-
 		WeebChronicles frame = new WeebChronicles(); //starting the entire game
     }
     
