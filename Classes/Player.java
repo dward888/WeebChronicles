@@ -18,8 +18,9 @@ public class Player extends JPanel implements KeyListener{
 		player = new ImageIcon("Pictures/player.jpg").getImage();
     	x = 120;
 		y = 400;
-		bx = 1185;//variable for scrolling background 
-		bx2 = 0;
+		bx2 = 1185;//variable for scrolling background
+		bx = 0;
+		dx = 0;
 
     }
 
@@ -41,16 +42,18 @@ public class Player extends JPanel implements KeyListener{
 	public void setBx2(int n){
 		bx2 = n;
 	}
-	
+	public void setDx(int n){
+    	dx = n;
+	}
 	public int getHP(){
 		return hp;
 	}
 
-    public void moveX(int num){
-    	x += num;
-    	bx += num;
-    	bx2 += num;
-    }
+	public void moveX(){
+    	x += dx;
+    	bx += dx;
+    	bx2 += dx;
+	}
     public void moveY(int num){
     	y += num;
     }
@@ -68,5 +71,6 @@ public class Player extends JPanel implements KeyListener{
 	}
 //hi
 
-    
 }
+
+    

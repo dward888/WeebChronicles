@@ -21,6 +21,7 @@ public class WeebChronicles extends JFrame implements ActionListener {
 		game = new GamePanel(this);
 		p = new Player();
 		add(game);
+
 		setResizable(false);
 		setVisible(true);
     }
@@ -40,6 +41,8 @@ public class WeebChronicles extends JFrame implements ActionListener {
 			myTimer.start();
 		    game.requestFocus();
 		    game.move();
+
+
 		    game.repaint();
 		}
 	}
