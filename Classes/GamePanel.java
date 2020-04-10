@@ -14,7 +14,7 @@ public class GamePanel extends JPanel implements KeyListener{
 	private Character[]chars;
 	private String direction;
 	private int frame;
-	
+	private int scrollX, scrollX2;
 	//images//
 	private Image back;
 	//private Image player;
@@ -27,6 +27,8 @@ public class GamePanel extends JPanel implements KeyListener{
         p = new Player(chars[0]);
         direction = "still";
         frame = 0;
+        scrollX = 850;
+
 
 		addKeyListener(this);
 
@@ -73,25 +75,47 @@ public class GamePanel extends JPanel implements KeyListener{
 
 
 
+        //System.out.println(p.checkScroll());
+        //System.out.println(scrollX2);
+        if (p.getX() >= 850) {
+            if (direction.equals("right")) {
+                //scrollX2 = p.getX();
+                p.setScroll(true);
+                g.drawImage(back, 1185 - p.getBx2(), 0, null);
+                g.drawImage(p.getImage(), 850, p.getY(), null);
+            }
+            else if(direction.equals("left") || direction.equals("still")){
+                p.setScroll(false);
+                g.drawImage(back, 1185 - p.getBx2(), 0, null);
+                g.drawImage(p.getImage(), p.getX(), p.getY(), null);
 
-        if (p.getX() >= 850){
-            p.setScroll(true);
-
-            g.drawImage(back,1185-p.getBx2(),0,null);
-            g.drawImage(p.getImage(),850,p.getY(),null);
+            }
         }
-        else if (p.getX() < 850){
+        if (p.getX() <= 850){
             p.setScroll(false);
-            g.drawImage(back, 0, 0,null);
+            g.drawImage(back,1185-p.getBx2(),0,null);
             g.drawImage(p.getImage(),p.getX(),p.getY(),null);
-        }
 
+        }
+        //else if (p.getX() < 850){
+            //p.setScroll(false);
+           // g.drawImage(back, 0, 0,null);
+            //g.drawImage(p.getImage(),p.getX(),p.getY(),null);
+        //}
+        System.out.println(p.getX());
         if(direction.equals("still")){
             g.drawImage(p.getFrame("standing", 0), p.getX(), p.getY(), null);
         }
         if(direction.equals("right")){
+
             if(frame % 5 == 0){
-                g.drawImage(p.getFrame("run right", 0), p.getX(), p.getY(), null);
+                if (p.checkScroll()){
+                    g.drawImage(p.getFrame("run right", 0), 850, p.getY(), null);
+                }
+                else if (p.checkScroll() == false){
+                    g.drawImage(p.getFrame("run right", 0), p.getX(), p.getY(), null);
+                }
+
             }
         }
         frame ++;
