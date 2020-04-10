@@ -1,2 +1,2 @@
-public class GIFTest {
+public class GIFTest{
 }
