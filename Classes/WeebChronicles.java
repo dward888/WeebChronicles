@@ -7,7 +7,7 @@ import javax.imageio.*;
 import javax.sound.midi.*;
 import java.applet.*;
 
-//yo boobs vag
+//yo boobs vagi
 
 public class WeebChronicles extends JFrame implements ActionListener {
 	Timer myTimer;
