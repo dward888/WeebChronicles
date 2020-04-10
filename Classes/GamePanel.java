@@ -67,7 +67,7 @@ public class GamePanel extends JPanel implements KeyListener{
     	}*/
     	g.drawImage(player,120/*p.getX()*/,p.getY(),null);
     	
-    	
+    	//hi
     	
     }
     
