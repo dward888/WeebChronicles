@@ -109,17 +109,17 @@ public class GamePanel extends JPanel implements KeyListener{
             g.drawImage(p.getFrame("standing"), p.getX(), p.getY(), null);
         }
         if(direction.equals("right")){
-
-
             if (p.checkScroll()){
                 g.drawImage(p.getFrame("run right"), 850, p.getY(), null);
             }
             else if (p.checkScroll() == false){
                 g.drawImage(p.getFrame("run right"), p.getX()-10, p.getY(), null);
             }
-
-
         }
+        if(direction.equals("left")){
+            g.drawImage(p.getFrame("run left"), p.getX()-10, p.getY(), null);
+        }
+
         frame ++;
     }//yugkjhgchdd
 
