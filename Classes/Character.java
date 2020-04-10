@@ -35,7 +35,7 @@ public class Character {
                 actionRight[i-1] = img;
                 //Following code mirrors the image
                 AffineTransform mirror = AffineTransform.getScaleInstance(-1, 1);
-                mirror.translate(- img.getWidth(null), 0);
+                mirror.translate(-img.getWidth(null), 0);
                 AffineTransformOp mirrorOp = new AffineTransformOp(mirror, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
                 img = mirrorOp.filter((BufferedImage) img, null);
                 actionLeft[i-1] = img;
@@ -46,6 +46,6 @@ public class Character {
         }
     }
     public Image getStanding(){return standing;}
-    public Image getRunLeft(int n){ return runLeft[n];}
-    public Image getRunRight(int n){return runRight[n];}
+    public Image[] getRunLeft(){ return runLeft;}
+    public Image[] getRunRight(){return runRight;}
 }

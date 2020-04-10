@@ -65,14 +65,27 @@ public class Player extends JPanel{
 			bx2 += dx;
 		}
 	}
-	public Image getFrame(String motion, int num){
+	public Image getFrame(String motion){
 		if(motion.equals("run left")){
-			return weeb.getRunLeft(num);
+			if(currentF + 1 == weeb.getRunLeft().length){
+				currentF = 0;
+			}
+			else{
+				currentF ++;
+			}
+			return weeb.getRunLeft()[currentF];
 		}
 		if(motion.equals("run right")){
-			return weeb.getRunRight(num);
+			if(currentF + 1 == weeb.getRunRight().length){
+				currentF = 0;
+			}
+			else{
+				currentF ++;
+			}
+			return weeb.getRunRight()[currentF];
 		}
 		if(motion.equals("standing")){
+			currentF = 0;
 			return weeb.getStanding();
 		}
 		else{
