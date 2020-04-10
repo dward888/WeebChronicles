@@ -77,7 +77,7 @@ public class GamePanel extends JPanel implements KeyListener{
             }
         }
         frame ++;
-    }
+    }//yugkjhg
 
     public void move(){
         if (keys[KeyEvent.VK_RIGHT]) {
