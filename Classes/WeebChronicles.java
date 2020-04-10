@@ -16,7 +16,7 @@ public class WeebChronicles extends JFrame implements ActionListener {
     	super("The Weeb Chronicles");
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(1200,650);
-		myTimer = new Timer(10, this);	 // trigger every 10 ms
+		myTimer = new Timer(50, this);	 // trigger every 10 ms
 		game = new GamePanel(this);
 		add(game);
 
@@ -38,7 +38,7 @@ public class WeebChronicles extends JFrame implements ActionListener {
 		if(source==myTimer){//if the game is running
 			myTimer.start();
 		    game.requestFocus();
-		    game.move();
+		    game.move();//hi
 
 
 		    game.repaint();
