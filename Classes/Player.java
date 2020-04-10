@@ -11,6 +11,7 @@ public class Player extends JPanel implements KeyListener{
 	private int x,y,bx,bx2,dx,hp,sp;
 	private Image player;
 	private boolean []keys;
+	private boolean scroll;
 
     public Player() {
 		keys = new boolean[KeyEvent.KEY_LAST+1];
@@ -21,7 +22,7 @@ public class Player extends JPanel implements KeyListener{
 		bx2 = 1185;//variable for scrolling background
 		bx = 0;
 		dx = 0;
-
+		scroll = false;
     }
 
     public int getX(){
@@ -45,14 +46,24 @@ public class Player extends JPanel implements KeyListener{
 	public void setDx(int n){
     	dx = n;
 	}
+	public boolean checkScroll(){
+    	return scroll;
+	}
+	public void setScroll(boolean n){
+		if (n) scroll = true;
+		else scroll = false;
+	}
 	public int getHP(){
 		return hp;
 	}
 
 	public void moveX(){
     	x += dx;
-    	bx += dx;
-    	bx2 += dx;
+    	if (scroll){
+			bx += dx;
+			bx2 += dx;
+		}
+
 	}
     public void moveY(int num){
     	y += num;

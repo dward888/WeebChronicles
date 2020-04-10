@@ -45,17 +45,21 @@ public class GamePanel extends JPanel implements KeyListener{
     public void paintComponent(Graphics g){
 
     	//g.drawImage(back,1185-p.getBx(),0,null);
-        if ((p.getX() - 850) %  3840 == 0){
+        if (p.getX() >= 1000){
+            p.setScroll(true);
+        }
+        if (p.getX() == 850){
             p.setBx(0);
         }
-        if ((p.getX() - 2770) % 3840 == 0){
+        if (p.getX() == 2770){
             p.setBx2(0);
         }
+        System.out.println(p.getX());
 		g.drawImage(back,1185-p.getBx2(),0,null);
         if (p.getX() >= 850){
             g.drawImage(back,1185-p.getBx(),0,null);
         }
-    	g.drawImage(p.getImage(),70/*p.getX()*/,p.getY(),null);
+    	g.drawImage(p.getImage(),400/*p.getX()*/,p.getY(),null);
 
     	//hi hi
     	
