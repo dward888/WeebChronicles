@@ -51,15 +51,15 @@ public class GamePanel extends JPanel implements KeyListener{
     		
     	}*/
     	g.drawImage(back,1185-p.getBx(),0,null);
-    	if ((p.getX() - 830) % 3840 == 0){
+    	if ((p.getX() - 840) % 3840 == 0){
     		p.setBx2(0);
     	}
-    	if ((p.getX() - 2750) % 3840 == 0){ /*(830 + the length of the background png*/
+    	if (p.getX() - 2760 % 3840 == 0){ /*(830 + the length of the background png*/
     		p.setBx(0);
     	}
     	
-    	if (p.getX() >= 830){
-    		g.drawImage(back,1185-p.getBx(),0,null);
+    	if (p.getX() >= 840){
+    		g.drawImage(back,1185-p.getBx2(),0,null);
     	}
     	System.out.println(p.getX());
     	/*if (p.getX() >= 1000){
@@ -67,7 +67,7 @@ public class GamePanel extends JPanel implements KeyListener{
     	}*/
     	g.drawImage(player,120/*p.getX()*/,p.getY(),null);
     	
-    	
+    	//hi
     	
     }
     
