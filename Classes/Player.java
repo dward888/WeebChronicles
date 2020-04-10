@@ -7,15 +7,22 @@ import javax.imageio.*;
 import javax.sound.midi.*;
 import java.applet.*;
 
-public class Player {
-	private int x,y,bx,bx2,hp,sp;
+public class Player extends JPanel implements KeyListener{
+	private int x,y,bx,bx2,dx,hp,sp;
+	private Image player;
+	private boolean []keys;
 
     public Player() {
+		keys = new boolean[KeyEvent.KEY_LAST+1];
+		addKeyListener(this);
+		player = new ImageIcon("Pictures/player.jpg").getImage();
     	x = 120;
 		y = 400;
 		bx = 1185;//variable for scrolling background 
 		bx2 = 0;
+
     }
+
     public int getX(){
 		return x;
 	}
@@ -38,6 +45,7 @@ public class Player {
 	public int getHP(){
 		return hp;
 	}
+
     public void moveX(int num){
     	x += num;
     	bx += num;
@@ -46,8 +54,19 @@ public class Player {
     public void moveY(int num){
     	y += num;
     }
-    
-    
-    
+
+    public Image getImage(){
+    	return player;
+	}
+	public void keyTyped(KeyEvent e){
+	}
+	public void keyPressed(KeyEvent e){
+		keys[e.getKeyCode()] = true;
+	}
+	public void keyReleased(KeyEvent e){
+		keys[e.getKeyCode()] = false;
+	}
+
+
     
 }
