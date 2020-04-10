@@ -7,6 +7,8 @@ import javax.imageio.*;
 import javax.sound.midi.*;
 import java.applet.*;
 
+//yo
+
 public class WeebChronicles extends JFrame implements ActionListener {
 	Timer myTimer;
 	GamePanel game;
