@@ -17,7 +17,7 @@ public class GamePanel extends JPanel implements KeyListener{
 	private int left;
 	private int direction;
 	private int frame;
-	private boolean midAir;
+	private boolean midAir;//this boolean will make sure the user can't double jump
 
 	//images//
 	private Image back;

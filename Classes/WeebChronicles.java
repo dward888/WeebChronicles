@@ -1,3 +1,5 @@
+//Edward Yang and Jim Ji Final Project
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
