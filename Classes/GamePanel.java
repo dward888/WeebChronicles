@@ -86,7 +86,7 @@ public class GamePanel extends JPanel implements KeyListener{
     public void paintComponent(Graphics g){
 
 
-        //background
+        //background yo
         g.drawImage(back, 0, 0, null);
 
 

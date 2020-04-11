@@ -16,7 +16,7 @@ public class Player{
 	private Character weeb;
 	private int currentF;
 
-	//Direction
+	//Direction pen
 	private int still;
 	private int right;
 	private int left;

@@ -36,7 +36,7 @@ public class WeebChronicles extends JFrame implements ActionListener {
 		
 		if(source==myTimer){//if the game is running
 			myTimer.start();
-		    game.requestFocus();
+		    game.requestFocus(); //uo
 		    game.move();
 			game.playerUpdate();
 
