@@ -66,12 +66,12 @@ public class Player{
 	public void setSy(int n){
 		sy = n;
 	}
-	public boolean checkScroll(){
+	/*public boolean checkScroll(){
     	return scroll;
 	}
 	public void setScroll(boolean n){
 		scroll = n;
-	}
+	}*/
 	public int getHP(){
 		return hp;
 	}
@@ -143,7 +143,7 @@ public class Player{
 	public void move(double xDelta, double yDelta){
 		x += xDelta;
 		y += yDelta;
-		//do collision detection here, if collide set the speeds to 0
+		//do collision detection here, if collide, set the speeds to 0
 	}
 
 	public void accelerate(double accelX, double accelY){
@@ -164,33 +164,30 @@ public class Player{
 		if (direct == jumpUp){
 			direct = fallDown;
 		}
-		//if (y > 500){
-		//	sy = 0;
-		//	y = 500;
-		//}
+
 		return direct;
 	}
 
-	public void update2(){
+	public void update2(){//code below applies some physics to character, this method is called in the timer loop to constantly update
 		move(sx,sy);
-		sx *= FRICTION;
+		sx *= FRICTION;//applying friction to the characters velocity
 		//sy *= FRICTION;
-		accelerate(0, GRAVITY);
-		System.out.println(sy);
-		if (y > 500){
-			sy = 0;
+		accelerate(0, GRAVITY);//aplying gravity
+		//System.out.println(sy);
+		if (y > 500){//temporary if so the character doesn't fall into the void
+			sy = 0;//keeps the character on the "ground"
 
 			y = 500;
 		}
 	}
 
-	public void runR(){
+	public void runR(){//character moving to the right
 		move(SPEED, 0);
 	}
-	public void runL(){
+	public void runL(){//character moving to the left
 		move(-SPEED, 0);
 	}
-	public void jump(){
+	public void jump(){//character jumping
 		accelerate(0,JUMPSTRENGTH);
 	}
 

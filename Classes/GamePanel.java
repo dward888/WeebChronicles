@@ -66,8 +66,7 @@ public class GamePanel extends JPanel implements KeyListener{
     }
     public void keyPressed(KeyEvent e){
         if (e.getKeyCode() == KeyEvent.VK_UP && !keys[e.getKeyCode()]){
-           p.jump();//hi
-
+           p.jump();
         }
         keys[e.getKeyCode()] = true;
     }
@@ -98,12 +97,9 @@ public class GamePanel extends JPanel implements KeyListener{
             g.drawImage(p.getFrame(still), p.getX(), p.getY(), null);
         }
         if(direction == right){
-            if (p.checkScroll()){
-                g.drawImage(p.getFrame(right), 850, p.getY(), null);
-            }
-            else if (!p.checkScroll()){
-                g.drawImage(p.getFrame(right), p.getX()-10, p.getY(), null);
-            }
+
+            g.drawImage(p.getFrame(right), p.getX()-10, p.getY(), null);
+
         }
         if(direction == left){
             g.drawImage(p.getFrame(left), p.getX()-10, p.getY(), null);
@@ -120,16 +116,15 @@ public class GamePanel extends JPanel implements KeyListener{
         frame ++;
     }
 
-    //user moving the character f
+    //user moving the character
     public void move(){
         if (keys[KeyEvent.VK_RIGHT]) {
-            p.update(right);
+            //p.update(right);
             p.runR();
             direction = right;
         }
         if (keys[KeyEvent.VK_LEFT]) {
-            p.update(left);
-//pen
+            //p.update(left);
             p.runL();
             direction = left;
         }
@@ -148,7 +143,6 @@ public class GamePanel extends JPanel implements KeyListener{
 
 
     }
-
     public void playerUpdate(){
         p.update2();
     }
