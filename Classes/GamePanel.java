@@ -15,12 +15,6 @@ public class GamePanel extends JPanel implements KeyListener{
 	private int still;
 	private int right;
 	private int left;
-	private int fallRight;
-	private int fallLeft;
-	private int fallDown;
-	private int jumpRight;
-	private int jumpLeft;
-	private int jumpUp;
 	private int direction;
 	private int frame;
 
@@ -39,12 +33,6 @@ public class GamePanel extends JPanel implements KeyListener{
         still = 0;
         left = 1;
         right = 2;
-        jumpLeft= 3;
-        jumpRight = 4;
-        jumpUp = 5;
-        fallLeft = 6;
-        fallRight = 7;
-        fallDown = 8;
         direction = still;
 
         frame = 0;
@@ -80,7 +68,7 @@ public class GamePanel extends JPanel implements KeyListener{
     }
 
     public void loadCharacters(){
-        Character itachi = new Character("Itachi", 100, 100, 100 );
+        Character itachi = new Character("Itachi", 100, 100, 100, 6 , 6);
         chars[0] = itachi;
     }
 
@@ -108,15 +96,6 @@ public class GamePanel extends JPanel implements KeyListener{
         if(direction == left){
             g.drawImage(p.getFrame(left), p.getX()-10, p.getY(), null);
         }
-        if(direction == jumpUp){
-            g.drawImage(p.getFrame(jumpUp), p.getX()-10, p.getY(), null);
-        }
-        if(direction == jumpLeft){
-            g.drawImage(p.getFrame(jumpLeft), p.getX()-10, p.getY(), null);
-        }
-        if(direction == jumpRight){
-            g.drawImage(p.getFrame(jumpRight), p.getX()-10, p.getY(), null);
-        }
         frame ++;
     }
 
@@ -129,7 +108,6 @@ public class GamePanel extends JPanel implements KeyListener{
         }
         if (keys[KeyEvent.VK_LEFT]) {
             p.update(left);
-//pen
             p.runL();
             direction = left;
         }
@@ -137,16 +115,7 @@ public class GamePanel extends JPanel implements KeyListener{
             //p.jump();
             //direction = jumpUp;
             //direction = p.update(jumpUp);
-
         }
-        if(keys[KeyEvent.VK_RIGHT] && keys[KeyEvent.VK_UP]){
-            direction = jumpRight;
-        }
-        if(keys[KeyEvent.VK_LEFT] && keys[KeyEvent.VK_UP]){
-            direction = jumpLeft;
-        }
-
-
     }
 
     public void playerUpdate(){

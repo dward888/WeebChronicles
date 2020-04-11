@@ -20,12 +20,6 @@ public class Player{
 	private int still;
 	private int right;
 	private int left;
-	private int fallRight;
-	private int fallLeft;
-	private int fallDown;
-	private int jumpRight;
-	private int jumpLeft;
-	private int jumpUp;
 
 	public static final double FRICTION = 0.99;
 	public static final double GRAVITY = 0.4;
@@ -44,12 +38,6 @@ public class Player{
 		still = 0;
 		left = 1;
 		right = 2;
-		jumpLeft= 3;
-		jumpRight = 4;
-		jumpUp = 5;
-		fallLeft = 6;
-		fallRight = 7;
-		fallDown = 8;
     }
 
     public int getX(){
@@ -97,42 +85,6 @@ public class Player{
 			}
 			return weeb.getRunRight()[currentF];
 		}
-		if(motion == fallLeft){
-			currentF ++;
-			if(currentF < 5){
-				return weeb.getFallStartLeft();
-			}
-			else{
-				return weeb.getFallLeft();
-			}
-		}
-		if(motion == fallRight || motion == fallDown){
-			currentF ++;
-			if(currentF < 8){
-				return weeb.getFallStartRight();
-			}
-			else{
-				return weeb.getFallRight();
-			}
-		}
-		if(motion == jumpLeft){
-			currentF ++;
-			if(currentF < 8){
-				return weeb.getJumpStartLeft();
-			}
-			else{
-				return weeb.getJumpLeft();
-			}
-		}
-		if(motion == jumpRight || motion == jumpUp){
-			currentF ++;
-			if(currentF < 8){
-				return weeb.getJumpStartRight();
-			}
-			else{
-				return weeb.getJumpRight();
-			}
-		}
 		//motion == still
 		else{
 			currentF = 0;
@@ -155,15 +107,6 @@ public class Player{
 		//sx *= FRICTION;
 		//sy *= FRICTION;
 		//accelerate(0, GRAVITY);
-		if (direct == jumpLeft){
-			direct = fallLeft;
-		}
-		if (direct == jumpRight){
-			direct = fallRight;
-		}
-		if (direct == jumpUp){
-			direct = fallDown;
-		}
 		//if (y > 500){
 		//	sy = 0;
 		//	y = 500;
