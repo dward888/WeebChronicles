@@ -17,6 +17,7 @@ public class GamePanel extends JPanel implements KeyListener{
 	private int left;
 	private int direction;
 	private int frame;
+	private boolean midAir;
 
 	//images//
 	private Image back;
@@ -28,6 +29,7 @@ public class GamePanel extends JPanel implements KeyListener{
 		chars = new Character[10];
 		loadCharacters();
         p = new Player(chars[0]);
+        midAir = false;
 
         //Direction
         still = 0;
@@ -54,17 +56,19 @@ public class GamePanel extends JPanel implements KeyListener{
     }
     public void keyPressed(KeyEvent e){
         if (e.getKeyCode() == KeyEvent.VK_UP && !keys[e.getKeyCode()]){
-           p.jump();//hi
-
+           if(!midAir){
+               p.jump();
+               midAir = true;
+           }
         }
         keys[e.getKeyCode()] = true;
     }
     public void keyReleased(KeyEvent e){
         keys[e.getKeyCode()] = false;
-
-        direction = still;
-
-        p.resetCurrentF();
+        if(!midAir){
+            direction = still;
+            p.resetCurrentF();
+        }
     }
 
     public void loadCharacters(){
@@ -73,19 +77,14 @@ public class GamePanel extends JPanel implements KeyListener{
     }
 
     public void paintComponent(Graphics g){
-
-
         //background
         g.drawImage(back, 0, 0, null);
 
-
-
-
         //drawing the sprites for their respective direction
-        if(direction == still){
+        if(direction == still && !midAir){
             g.drawImage(p.getFrame(still), p.getX(), p.getY(), null);
         }
-        if(direction == right){
+        if(direction == right && !midAir){
             if (p.checkScroll()){
                 g.drawImage(p.getFrame(right), 850, p.getY(), null);
             }
@@ -93,8 +92,41 @@ public class GamePanel extends JPanel implements KeyListener{
                 g.drawImage(p.getFrame(right), p.getX()-10, p.getY(), null);
             }
         }
-        if(direction == left){
+        if(direction == left && !midAir){
             g.drawImage(p.getFrame(left), p.getX()-10, p.getY(), null);
+        }
+        if(midAir){
+            if(direction == left){
+                //Going Up
+                if(p.getSy() < 0) {
+                    if (p.getCurrentF() > 5) {
+                        g.drawImage(p.getJumpL()[0], p.getX() - 10, p.getY(), null);
+                    } else {
+                        g.drawImage(p.getJumpL()[1], p.getX() - 10, p.getY(), null);
+                    }
+                    p.addCurrentF();
+                }
+                //Going Down
+                if(p.getSy() > 0){
+                    g.drawImage(p.getFallL()[0], p.getX()-10, p.getY(), null);
+                }
+            }
+            if(direction == right){
+                //Going Up
+                if(p.getSy() < 0){
+                    if (p.getCurrentF() > 5) {
+                        g.drawImage(p.getJumpR()[0], p.getX() - 10, p.getY(), null);
+                    }
+                    else {
+                        g.drawImage(p.getJumpR()[1], p.getX() - 10, p.getY(), null);
+                    }
+                    p.addCurrentF();
+                }
+                //Going Down
+                if(p.getSy() > 0){
+                    g.drawImage(p.getFallR()[0], p.getX()-10, p.getY(), null);
+                }
+            }
         }
         frame ++;
     }
@@ -120,7 +152,9 @@ public class GamePanel extends JPanel implements KeyListener{
 
     public void playerUpdate(){
         p.update2();
+        if(p.getSy() == 0){
+            midAir = false;
+            p.resetCurrentF();
+        }
     }
-
-
 }

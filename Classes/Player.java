@@ -46,12 +46,16 @@ public class Player{
 	public int getY(){
 		return y;
 	}
-
-
-	public void setSx(int n){
+	public double getSy(){
+    	return sy;
+	}
+	public double getSx(){
+    	return sx;
+	}
+	public void setSx(double n){
     	sx = n;
 	}
-	public void setSy(int n){
+	public void setSy(double n){
 		sy = n;
 	}
 	public boolean checkScroll(){
@@ -63,7 +67,6 @@ public class Player{
 	public int getHP(){
 		return hp;
 	}
-
 
 	public Image getFrame(int motion){
     	//System.out.println(currentF);
@@ -91,7 +94,18 @@ public class Player{
 			return weeb.getStanding();
 		}
 	}
-
+	public Image[]getJumpR(){
+    	return weeb.getJumpRight();
+	}
+	public Image[]getJumpL(){
+    	return weeb.getJumpLeft();
+	}
+	public Image[]getFallL(){
+		return weeb.getFallLeft();
+	}
+	public Image[]getFallR(){
+		return weeb.getFallRight();
+	}
 	public void move(double xDelta, double yDelta){
 		x += xDelta;
 		y += yDelta;
@@ -119,10 +133,8 @@ public class Player{
 		sx *= FRICTION;
 		//sy *= FRICTION;
 		accelerate(0, GRAVITY);
-		System.out.println(sy);
 		if (y > 500){
 			sy = 0;
-
 			y = 500;
 		}
 	}
@@ -136,11 +148,15 @@ public class Player{
 	public void jump(){
 		accelerate(0,JUMPSTRENGTH);
 	}
-
     public void resetCurrentF(){
     	currentF = 0;
 	}
-
+	public int getCurrentF(){
+    	return currentF;
+	}
+	public void addCurrentF(){
+    	currentF ++;
+	}
 }
 
     
