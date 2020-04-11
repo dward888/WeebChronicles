@@ -7,8 +7,8 @@ import javax.imageio.*;
 import javax.sound.midi.*;
 import java.applet.*;
 
-public class Player extends JPanel{
-	private int x,y,bx,bx2,dx,hp,sp;
+public class Player{
+	private int x,y,sx,sy,hp,sp;
 	private Image player;
 	private boolean scroll;
 	private Character weeb;
@@ -25,13 +25,16 @@ public class Player extends JPanel{
 	private int jumpLeft;
 	private int jumpUp;
 
+	public static final double FRICTION = 0.99;
+	public static final double GRAVITY = 0.01;
+	public static final double SPEED = 5;
+	public static final double JUMPSTRENGTH = 5;
+
     public Player(Character w) {
 		weeb = w;
     	x = 120;
 		y = 400;
-		bx2 = 1185;//variable for scrolling background
-		bx = 0;
-		dx = 0;
+
 		scroll = false;
 		currentF = 0;
 
@@ -53,20 +56,13 @@ public class Player extends JPanel{
 	public int getY(){
 		return y;
 	}
-	public int getBx(){
-		return bx;
+
+
+	public void setSx(int n){
+    	sx = n;
 	}
-	public void setBx(int n){
-		bx = n;
-	}
-	public int getBx2(){
-		return bx2;
-	}
-	public void setBx2(int n){
-		bx2 = n;
-	}
-	public void setDx(int n){
-    	dx = n;
+	public void setSy(int n){
+		sy = n;
 	}
 	public boolean checkScroll(){
     	return scroll;
@@ -78,15 +74,7 @@ public class Player extends JPanel{
 		return hp;
 	}
 
-	public void moveX(){
-    	if (scroll){
-			bx += dx;
-			bx2 += dx;
-		}
-    	else{
-    		x += dx;
-		}
-	}
+
 	public Image getFrame(int motion){
     	System.out.println(currentF);
 		if(motion == left){
@@ -149,9 +137,34 @@ public class Player extends JPanel{
 			return weeb.getStanding();
 		}
 	}
-    public void moveY(int num){
-    	y += num;
-    }
+
+	public void move(double xDelta, double yDelta){
+		x += xDelta;
+		y += yDelta;
+		//do collision detection here, if collide set the speeds to 0
+	}
+
+	public void accelerate(double accelX, double accelY){
+		sx += accelX;
+		sy += accelY;
+	}
+	public void update(){
+		move(sx,sy);
+		sx *= FRICTION;
+		sy *= FRICTION;
+		accelerate(0, -GRAVITY);
+	}
+	public void runR(){
+		move(SPEED, 0);
+	}
+	public void runL(){
+		move(-SPEED, 0);
+	}
+	public void jump(){
+		move(0,-20);
+		accelerate(0,JUMPSTRENGTH);
+	}
+
     public void resetCurrentF(){
     	currentF = 0;
 	}

@@ -80,47 +80,11 @@ public class GamePanel extends JPanel implements KeyListener{
     public void paintComponent(Graphics g){
 
 
-        //attempt at infinite scrolling background (w.i.p.)
-        if ((p.getX() - 850) %  3840 == 0){
-            p.setBx(0);
-        }
-        if ((p.getX() - 2770) % 3840 == 0){
-            p.setBx2(0);
-        }
-		g.drawImage(back,1185-p.getBx2(),0,null);
-        if (p.getX() >= 850){
-            g.drawImage(back,1185-p.getBx(),0,null);
-        }
-    	//g.drawImage(p.getImage(),70p.getX()*p.getY(),null);*/
+        //background
+        g.drawImage(back, 0, 0, null);
 
-        //the code below allows the player to side scroll past a certain point and only past that point
-        if (p.getX() >= 850) {
-            if (direction == right) {
-                //scrollX2 = p.getX();
-                p.setScroll(true);
-                g.drawImage(back, 1185 - p.getBx2(), 0, null);
-                //g.drawImage(p.getImage(), 850, p.getY(), null);
-                System.out.println(p.getX());
-            }
-            else if(direction == left || direction == still){
-                p.setScroll(false);
-                g.drawImage(back, 1185 - p.getBx2(), 0, null);
-                //g.drawImage(p.getImage(), p.getX(), p.getY(), null);
-                System.out.println(p.getX());
 
-            }
-        }
-        //if (p.getX() <= 850){
-            //p.setScroll(false);
 
-            //g.drawImage(p.getImage(),p.getX(),p.getY(),null);
-
-        //}
-        else if (p.getX() < 850){
-            p.setScroll(false);
-            g.drawImage(back, 0, 0,null);
-            //g.drawImage(p.getImage(),p.getX(),p.getY(),null);
-        }
 
         //drawing the sprites for their respective direction
         if(direction == still){
@@ -152,16 +116,19 @@ public class GamePanel extends JPanel implements KeyListener{
     //user moving the character f
     public void move(){
         if (keys[KeyEvent.VK_RIGHT]) {
-            p.setDx(10);
-            p.moveX();
+            p.update();
+            p.runR();
             direction = right;
         }
         if (keys[KeyEvent.VK_LEFT]) {
-            p.setDx(-10);
-            p.moveX();
+            p.update();
+
+            p.runL();
             direction = left;
         }
         if(keys[KeyEvent.VK_UP]){
+            p.jump();
+            p.update();
             direction = jumpUp;
         }
         if(keys[KeyEvent.VK_RIGHT] && keys[KeyEvent.VK_UP]){
@@ -170,6 +137,9 @@ public class GamePanel extends JPanel implements KeyListener{
         if(keys[KeyEvent.VK_LEFT] && keys[KeyEvent.VK_UP]){
             direction = jumpLeft;
         }
+
+
     }
-    
+
+
 }
