@@ -13,6 +13,15 @@ public class Player extends JPanel{
 	private boolean scroll;
 	private Character weeb;
 	private int currentF;
+	private int still;
+	private int right;
+	private int left;
+	private int fallRight;
+	private int fallLeft;
+	private int fallDown;
+	private int jumpRight;
+	private int jumpLeft;
+	private int jumpUp;
 
     public Player(Character w) {
 		weeb = w;
@@ -23,6 +32,17 @@ public class Player extends JPanel{
 		dx = 0;
 		scroll = false;
 		currentF = 0;
+
+		//Direction
+		still = 0;
+		left = 1;
+		right = 2;
+		jumpLeft= 3;
+		jumpRight = 4;
+		jumpUp = 5;
+		fallLeft = 6;
+		fallRight = 7;
+		fallDown = 8;
     }
 
     public int getX(){
@@ -65,8 +85,9 @@ public class Player extends JPanel{
     		x += dx;
 		}
 	}
-	public Image getFrame(String motion){
-		if(motion.equals("run left")){
+	public Image getFrame(int motion){
+    	System.out.println(currentF);
+		if(motion == left){
 			if(currentF + 1 == weeb.getRunLeft().length){
 				currentF = 0;
 			}
@@ -75,7 +96,7 @@ public class Player extends JPanel{
 			}
 			return weeb.getRunLeft()[currentF];
 		}
-		if(motion.equals("run right")){
+		if(motion == right){
 			if(currentF + 1 == weeb.getRunRight().length){
 				currentF = 0;
 			}
@@ -84,12 +105,46 @@ public class Player extends JPanel{
 			}
 			return weeb.getRunRight()[currentF];
 		}
-		if(motion.equals("standing")){
+		if(motion == fallLeft){
+			currentF ++;
+			if(currentF < 5){
+				return weeb.getFallStartLeft();
+			}
+			else{
+				return weeb.getFallLeft();
+			}
+		}
+		if(motion == fallRight || motion == fallDown){
+			currentF ++;
+			if(currentF < 8){
+				return weeb.getFallStartRight();
+			}
+			else{
+				return weeb.getFallRight();
+			}
+		}
+		if(motion == jumpLeft){
+			currentF ++;
+			if(currentF < 8){
+				return weeb.getJumpStartLeft();
+			}
+			else{
+				return weeb.getJumpLeft();
+			}
+		}
+		if(motion == jumpRight || motion == jumpUp){
+			currentF ++;
+			if(currentF < 8){
+				return weeb.getJumpStartRight();
+			}
+			else{
+				return weeb.getJumpRight();
+			}
+		}
+		//motion == still
+		else{
 			currentF = 0;
 			return weeb.getStanding();
-		}
-		else{
-			return null;
 		}
 	}
     public void moveY(int num){

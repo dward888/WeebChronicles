@@ -12,7 +12,16 @@ public class GamePanel extends JPanel implements KeyListener{
 	private WeebChronicles mainFrame;
 	private Player p;
 	private Character[]chars;
-	private String direction;
+	private int still;
+	private int right;
+	private int left;
+	private int fallRight;
+	private int fallLeft;
+	private int fallDown;
+	private int jumpRight;
+	private int jumpLeft;
+	private int jumpUp;
+	private int direction;
 	private int frame;
 	//images//
 	private Image back;
@@ -24,9 +33,20 @@ public class GamePanel extends JPanel implements KeyListener{
 		chars = new Character[10];
 		loadCharacters();
         p = new Player(chars[0]);
-        direction = "still";
-        frame = 0;
 
+        //Direction
+        still = 0;
+        left = 1;
+        right = 2;
+        jumpLeft= 3;
+        jumpRight = 4;
+        jumpUp = 5;
+        fallLeft = 6;
+        fallRight = 7;
+        fallDown = 8;
+        direction = still;
+
+        frame = 0;
 
 		addKeyListener(this);
 
@@ -48,7 +68,8 @@ public class GamePanel extends JPanel implements KeyListener{
     }
     public void keyReleased(KeyEvent e){
         keys[e.getKeyCode()] = false;
-        direction = "still";
+        direction = still;
+        p.resetCurrentF();
     }
 
     public void loadCharacters(){
@@ -72,19 +93,16 @@ public class GamePanel extends JPanel implements KeyListener{
         }
     	//g.drawImage(p.getImage(),70p.getX()*p.getY(),null);*/
 
-
-
-
         //the code below allows the player to side scroll past a certain point and only past that point
         if (p.getX() >= 850) {
-            if (direction.equals("right")) {
+            if (direction == right) {
                 //scrollX2 = p.getX();
                 p.setScroll(true);
                 g.drawImage(back, 1185 - p.getBx2(), 0, null);
                 //g.drawImage(p.getImage(), 850, p.getY(), null);
                 System.out.println(p.getX());
             }
-            else if(direction.equals("left") || direction.equals("still")){
+            else if(direction == left || direction == still){
                 p.setScroll(false);
                 g.drawImage(back, 1185 - p.getBx2(), 0, null);
                 //g.drawImage(p.getImage(), p.getX(), p.getY(), null);
@@ -105,21 +123,29 @@ public class GamePanel extends JPanel implements KeyListener{
         }
 
         //drawing the sprites for their respective direction
-        if(direction.equals("still")){
-            g.drawImage(p.getFrame("standing"), p.getX(), p.getY(), null);
+        if(direction == still){
+            g.drawImage(p.getFrame(still), p.getX(), p.getY(), null);
         }
-        if(direction.equals("right")){
+        if(direction == right){
             if (p.checkScroll()){
-                g.drawImage(p.getFrame("run right"), 850, p.getY(), null);
+                g.drawImage(p.getFrame(right), 850, p.getY(), null);
             }
             else if (!p.checkScroll()){
-                g.drawImage(p.getFrame("run right"), p.getX()-10, p.getY(), null);
+                g.drawImage(p.getFrame(right), p.getX()-10, p.getY(), null);
             }
         }
-        if(direction.equals("left")){
-            g.drawImage(p.getFrame("run left"), p.getX()-10, p.getY(), null);
+        if(direction == left){
+            g.drawImage(p.getFrame(left), p.getX()-10, p.getY(), null);
         }
-
+        if(direction == jumpUp){
+            g.drawImage(p.getFrame(jumpUp), p.getX()-10, p.getY(), null);
+        }
+        if(direction == jumpLeft){
+            g.drawImage(p.getFrame(jumpLeft), p.getX()-10, p.getY(), null);
+        }
+        if(direction == jumpRight){
+            g.drawImage(p.getFrame(jumpRight), p.getX()-10, p.getY(), null);
+        }
         frame ++;
     }
 
@@ -128,12 +154,21 @@ public class GamePanel extends JPanel implements KeyListener{
         if (keys[KeyEvent.VK_RIGHT]) {
             p.setDx(10);
             p.moveX();
-            direction = "right";
+            direction = right;
         }
         if (keys[KeyEvent.VK_LEFT]) {
             p.setDx(-10);
             p.moveX();
-            direction = "left";
+            direction = left;
+        }
+        if(keys[KeyEvent.VK_UP]){
+            direction = jumpUp;
+        }
+        if(keys[KeyEvent.VK_RIGHT] && keys[KeyEvent.VK_UP]){
+            direction = jumpRight;
+        }
+        if(keys[KeyEvent.VK_LEFT] && keys[KeyEvent.VK_UP]){
+            direction = jumpLeft;
         }
     }
     
