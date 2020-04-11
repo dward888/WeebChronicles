@@ -23,9 +23,10 @@ public class GamePanel extends JPanel implements KeyListener{
 	private int jumpUp;
 	private int direction;
 	private int frame;
+
 	//images//
 	private Image back;
-	//private Image player;
+
 
     public GamePanel(WeebChronicles m) {
     	keys = new boolean[KeyEvent.KEY_LAST+1];
@@ -86,7 +87,7 @@ public class GamePanel extends JPanel implements KeyListener{
     public void paintComponent(Graphics g){
 
 
-        //background yo
+        //background
         g.drawImage(back, 0, 0, null);
 
 
@@ -149,7 +150,7 @@ public class GamePanel extends JPanel implements KeyListener{
     }
 
     public void playerUpdate(){
-        p.penis();
+        p.update2();
     }
 
 

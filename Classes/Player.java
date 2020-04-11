@@ -171,7 +171,7 @@ public class Player{
 		return direct;
 	}
 
-	public void penis(){
+	public void update2(){
 		move(sx,sy);
 		sx *= FRICTION;
 		//sy *= FRICTION;
