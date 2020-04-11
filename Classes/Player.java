@@ -14,7 +14,7 @@ public class Player extends JPanel{
 	private Character weeb;
 	private int currentF;
 
-	//Directions
+	//Direction
 	private int still;
 	private int right;
 	private int left;

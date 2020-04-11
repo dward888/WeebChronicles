@@ -149,7 +149,7 @@ public class GamePanel extends JPanel implements KeyListener{
         frame ++;
     }
 
-    //user moving the character
+    //user moving the character f
     public void move(){
         if (keys[KeyEvent.VK_RIGHT]) {
             p.setDx(10);
