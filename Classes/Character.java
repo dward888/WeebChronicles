@@ -4,6 +4,7 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.imageio.*;
 import javax.swing.*;
 
@@ -12,38 +13,35 @@ public class Character {
     private String name;
     private int attack, defense, speed;
 
-    //Direction
+    //Frame Arrays
     private Image[]runRight;
     private Image[]runLeft;
     private Image standing;
-    private Image jumpStartLeft;
-    private Image jumpStartRight;
-    private Image jumpLeft;
-    private Image jumpRight;
-    private Image fallStartLeft;
-    private Image fallStartRight;
-    private Image fallLeft;
-    private Image fallRight;
+    private Image[]jumpRight;
+    private Image[]jumpLeft;
+    private Image[]fallRight;
+    private Image[]fallLeft;
 
-    public Character(String n, int a,  int d, int s){
+
+
+    public Character(String n, int a,  int d, int s, int rightSize, int leftSize){
         name = n;
         attack = a;
         defense = d;
         speed = s;
-        runRight  = new Image[6];
-        runLeft = new Image[6];
+        runRight  = new Image[rightSize];
+        runLeft = new Image[leftSize];
+        jumpRight = new Image[2];
+        jumpLeft = new Image[2];
+        fallRight = new Image[2];
+        fallLeft = new Image[2];
+
         loadSprite();
     }
     public void loadSprite(){
             loadSprite(runRight, runLeft, "run", name + "/run/", ".gif");
-            jumpStartRight = new ImageIcon(name + "/jump/jump1.png").getImage();
-            jumpStartLeft = flipImage(jumpStartRight);
-            jumpRight = new ImageIcon(name + "/jump/jump2.png").getImage();
-            jumpLeft = flipImage(jumpRight);
-            fallStartRight = new ImageIcon(name + "/fall/fall1.png").getImage();
-            fallStartLeft = flipImage(fallStartRight);
-            fallRight = new ImageIcon(name + "/fall/fall2.png").getImage();
-            fallLeft = flipImage(fallRight);
+            loadSprite(jumpRight, jumpLeft, "jump", name + "/jump/", ".png");
+            loadSprite(fallRight, fallLeft, "fall", name + "/fall/", ".png");
             standing = new ImageIcon(name + "/standing.gif").getImage();
     }
     public void loadSprite(Image[]actionRight, Image[]actionLeft, String motion, String directory, String type){
@@ -73,12 +71,8 @@ public class Character {
     public Image getStanding(){return standing;}
     public Image[] getRunLeft(){ return runLeft;}
     public Image[] getRunRight(){return runRight;}
-    public Image getJumpLeft() {return jumpLeft;}
-    public Image getJumpRight(){return jumpRight;}
-    public Image getJumpStartLeft() {return jumpStartLeft;}
-    public Image getJumpStartRight(){return jumpStartRight;}
-    public Image getFallLeft(){return fallLeft;}
-    public Image getFallRight(){return fallRight;}
-    public Image getFallStartLeft(){return fallStartLeft;}
-    public Image getFallStartRight(){return fallStartRight;}
+    public Image[] getJumpLeft() {return jumpLeft;}
+    public Image[] getJumpRight(){return jumpRight;}
+    public Image[] getFallLeft(){return fallLeft;}
+    public Image[] getFallRight(){return fallRight;}
 }
