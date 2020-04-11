@@ -15,14 +15,9 @@ public class GamePanel extends JPanel implements KeyListener{
 	private int still;
 	private int right;
 	private int left;
-	private int fallRight;
-	private int fallLeft;
-	private int fallDown;
-	private int jumpRight;
-	private int jumpLeft;
-	private int jumpUp;
 	private int direction;
 	private int frame;
+	private boolean midAir;
 
 	//images//
 	private Image back;
@@ -34,17 +29,12 @@ public class GamePanel extends JPanel implements KeyListener{
 		chars = new Character[10];
 		loadCharacters();
         p = new Player(chars[0]);
+        midAir = false;
 
         //Direction
         still = 0;
         left = 1;
         right = 2;
-        jumpLeft= 3;
-        jumpRight = 4;
-        jumpUp = 5;
-        fallLeft = 6;
-        fallRight = 7;
-        fallDown = 8;
         direction = still;
 
         frame = 0;
@@ -66,65 +56,90 @@ public class GamePanel extends JPanel implements KeyListener{
     }
     public void keyPressed(KeyEvent e){
         if (e.getKeyCode() == KeyEvent.VK_UP && !keys[e.getKeyCode()]){
-           p.jump();
+           if(!midAir){
+               p.jump();
+               midAir = true;
+           }
         }
         keys[e.getKeyCode()] = true;
     }
     public void keyReleased(KeyEvent e){
         keys[e.getKeyCode()] = false;
-
-        direction = still;
-
-        p.resetCurrentF();
+        if(!midAir){
+            direction = still;
+            p.resetCurrentF();
+        }
     }
 
     public void loadCharacters(){
-        Character itachi = new Character("Itachi", 100, 100, 100 );
+        Character itachi = new Character("Itachi", 100, 100, 100, 6 , 6);
         chars[0] = itachi;
     }
 
     public void paintComponent(Graphics g){
-
-
         //background
         g.drawImage(back, 0, 0, null);
 
-
-
-
         //drawing the sprites for their respective direction
-        if(direction == still){
+        if(direction == still && !midAir){
             g.drawImage(p.getFrame(still), p.getX(), p.getY(), null);
         }
-        if(direction == right){
-
-            g.drawImage(p.getFrame(right), p.getX()-10, p.getY(), null);
-
+        if(direction == right && !midAir){
+            if (p.checkScroll()){
+                g.drawImage(p.getFrame(right), 850, p.getY(), null);
+            }
+            else if (!p.checkScroll()){
+                g.drawImage(p.getFrame(right), p.getX()-10, p.getY(), null);
+            }
         }
-        if(direction == left){
+        if(direction == left && !midAir){
             g.drawImage(p.getFrame(left), p.getX()-10, p.getY(), null);
         }
-        if(direction == jumpUp){
-            g.drawImage(p.getFrame(jumpUp), p.getX()-10, p.getY(), null);
-        }
-        if(direction == jumpLeft){
-            g.drawImage(p.getFrame(jumpLeft), p.getX()-10, p.getY(), null);
-        }
-        if(direction == jumpRight){
-            g.drawImage(p.getFrame(jumpRight), p.getX()-10, p.getY(), null);
+        if(midAir){
+            if(direction == left){
+                //Going Up
+                if(p.getSy() < 0) {
+                    if (p.getCurrentF() > 5) {
+                        g.drawImage(p.getJumpL()[0], p.getX() - 10, p.getY(), null);
+                    } else {
+                        g.drawImage(p.getJumpL()[1], p.getX() - 10, p.getY(), null);
+                    }
+                    p.addCurrentF();
+                }
+                //Going Down
+                if(p.getSy() > 0){
+                    g.drawImage(p.getFallL()[0], p.getX()-10, p.getY(), null);
+                }
+            }
+            if(direction == right){
+                //Going Up
+                if(p.getSy() < 0){
+                    if (p.getCurrentF() > 5) {
+                        g.drawImage(p.getJumpR()[0], p.getX() - 10, p.getY(), null);
+                    }
+                    else {
+                        g.drawImage(p.getJumpR()[1], p.getX() - 10, p.getY(), null);
+                    }
+                    p.addCurrentF();
+                }
+                //Going Down
+                if(p.getSy() > 0){
+                    g.drawImage(p.getFallR()[0], p.getX()-10, p.getY(), null);
+                }
+            }
         }
         frame ++;
     }
 
-    //user moving the character
+    //user moving the character f
     public void move(){
         if (keys[KeyEvent.VK_RIGHT]) {
-            //p.update(right);
+            p.update(right);
             p.runR();
             direction = right;
         }
         if (keys[KeyEvent.VK_LEFT]) {
-            //p.update(left);
+            p.update(left);
             p.runL();
             direction = left;
         }
@@ -132,20 +147,14 @@ public class GamePanel extends JPanel implements KeyListener{
             //p.jump();
             //direction = jumpUp;
             //direction = p.update(jumpUp);
-
         }
-        if(keys[KeyEvent.VK_RIGHT] && keys[KeyEvent.VK_UP]){
-            direction = jumpRight;
-        }
-        if(keys[KeyEvent.VK_LEFT] && keys[KeyEvent.VK_UP]){
-            direction = jumpLeft;
-        }
-
-
     }
+
     public void playerUpdate(){
         p.update2();
+        if(p.getSy() == 0){
+            midAir = false;
+            p.resetCurrentF();
+        }
     }
-
-
 }

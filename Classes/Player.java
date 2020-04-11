@@ -20,12 +20,6 @@ public class Player{
 	private int still;
 	private int right;
 	private int left;
-	private int fallRight;
-	private int fallLeft;
-	private int fallDown;
-	private int jumpRight;
-	private int jumpLeft;
-	private int jumpUp;
 
 	public static final double FRICTION = 0.99;
 	public static final double GRAVITY = 0.4;
@@ -44,12 +38,6 @@ public class Player{
 		still = 0;
 		left = 1;
 		right = 2;
-		jumpLeft= 3;
-		jumpRight = 4;
-		jumpUp = 5;
-		fallLeft = 6;
-		fallRight = 7;
-		fallDown = 8;
     }
 
     public int getX(){
@@ -58,24 +46,27 @@ public class Player{
 	public int getY(){
 		return y;
 	}
-
-
-	public void setSx(int n){
+	public double getSy(){
+    	return sy;
+	}
+	public double getSx(){
+    	return sx;
+	}
+	public void setSx(double n){
     	sx = n;
 	}
-	public void setSy(int n){
+	public void setSy(double n){
 		sy = n;
 	}
-	/*public boolean checkScroll(){
+	public boolean checkScroll(){
     	return scroll;
 	}
 	public void setScroll(boolean n){
 		scroll = n;
-	}*/
+	}
 	public int getHP(){
 		return hp;
 	}
-
 
 	public Image getFrame(int motion){
     	//System.out.println(currentF);
@@ -97,53 +88,28 @@ public class Player{
 			}
 			return weeb.getRunRight()[currentF];
 		}
-		if(motion == fallLeft){
-			currentF ++;
-			if(currentF < 5){
-				return weeb.getFallStartLeft();
-			}
-			else{
-				return weeb.getFallLeft();
-			}
-		}
-		if(motion == fallRight || motion == fallDown){
-			currentF ++;
-			if(currentF < 8){
-				return weeb.getFallStartRight();
-			}
-			else{
-				return weeb.getFallRight();
-			}
-		}
-		if(motion == jumpLeft){
-			currentF ++;
-			if(currentF < 8){
-				return weeb.getJumpStartLeft();
-			}
-			else{
-				return weeb.getJumpLeft();
-			}
-		}
-		if(motion == jumpRight || motion == jumpUp){
-			currentF ++;
-			if(currentF < 8){
-				return weeb.getJumpStartRight();
-			}
-			else{
-				return weeb.getJumpRight();
-			}
-		}
 		//motion == still
 		else{
 			currentF = 0;
 			return weeb.getStanding();
 		}
 	}
-
+	public Image[]getJumpR(){
+    	return weeb.getJumpRight();
+	}
+	public Image[]getJumpL(){
+    	return weeb.getJumpLeft();
+	}
+	public Image[]getFallL(){
+		return weeb.getFallLeft();
+	}
+	public Image[]getFallR(){
+		return weeb.getFallRight();
+	}
 	public void move(double xDelta, double yDelta){
 		x += xDelta;
 		y += yDelta;
-		//do collision detection here, if collide, set the speeds to 0
+		//do collision detection here, if collide set the speeds to 0
 	}
 
 	public void accelerate(double accelX, double accelY){
@@ -155,46 +121,42 @@ public class Player{
 		//sx *= FRICTION;
 		//sy *= FRICTION;
 		//accelerate(0, GRAVITY);
-		if (direct == jumpLeft){
-			direct = fallLeft;
-		}
-		if (direct == jumpRight){
-			direct = fallRight;
-		}
-		if (direct == jumpUp){
-			direct = fallDown;
-		}
-
+		//if (y > 500){
+		//	sy = 0;
+		//	y = 500;
+		//}
 		return direct;
 	}
 
-	public void update2(){//code below applies some physics to character, this method is called in the timer loop to constantly update
+	public void update2(){
 		move(sx,sy);
-		sx *= FRICTION;//applying friction to the characters velocity
+		sx *= FRICTION;
 		//sy *= FRICTION;
-		accelerate(0, GRAVITY);//aplying gravity
-		//System.out.println(sy);
-		if (y > 500){//temporary if so the character doesn't fall into the void
-			sy = 0;//keeps the character on the "ground"
-
+		accelerate(0, GRAVITY);
+		if (y > 500){
+			sy = 0;
 			y = 500;
 		}
 	}
 
-	public void runR(){//character moving to the right
+	public void runR(){
 		move(SPEED, 0);
 	}
-	public void runL(){//character moving to the left
+	public void runL(){
 		move(-SPEED, 0);
 	}
-	public void jump(){//character jumping
+	public void jump(){
 		accelerate(0,JUMPSTRENGTH);
 	}
-
     public void resetCurrentF(){
     	currentF = 0;
 	}
-
+	public int getCurrentF(){
+    	return currentF;
+	}
+	public void addCurrentF(){
+    	currentF ++;
+	}
 }
 
     
