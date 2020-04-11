@@ -11,6 +11,8 @@ import javax.swing.*;
 public class Character {
     private String name;
     private int attack, defense, speed;
+
+    //Direction
     private Image[]runRight;
     private Image[]runLeft;
     private Image standing;

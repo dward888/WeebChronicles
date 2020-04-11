@@ -13,6 +13,8 @@ public class Player extends JPanel{
 	private boolean scroll;
 	private Character weeb;
 	private int currentF;
+
+	//Directions
 	private int still;
 	private int right;
 	private int left;
