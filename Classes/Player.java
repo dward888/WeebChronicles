@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.io.*;
 import javax.imageio.*;
@@ -8,7 +9,8 @@ import javax.sound.midi.*;
 import java.applet.*;
 
 public class Player{
-	private int x,y,sx,sy,hp,sp;
+	private int x,y,hp,sp;
+	private double sy,sx;
 	private Image player;
 	private boolean scroll;
 	private Character weeb;
@@ -26,9 +28,9 @@ public class Player{
 	private int jumpUp;
 
 	public static final double FRICTION = 0.99;
-	public static final double GRAVITY = 0.01;
+	public static final double GRAVITY = 0.4;
 	public static final double SPEED = 5;
-	public static final double JUMPSTRENGTH = 5;
+	public static final double JUMPSTRENGTH = -10;
 
     public Player(Character w) {
 		weeb = w;
@@ -76,7 +78,7 @@ public class Player{
 
 
 	public Image getFrame(int motion){
-    	System.out.println(currentF);
+    	//System.out.println(currentF);
 		if(motion == left){
 			if(currentF + 1 == weeb.getRunLeft().length){
 				currentF = 0;
@@ -148,12 +150,40 @@ public class Player{
 		sx += accelX;
 		sy += accelY;
 	}
-	public void update(){
+	public int update(int direct){
+		//ove(sx,sy);
+		//sx *= FRICTION;
+		//sy *= FRICTION;
+		//accelerate(0, GRAVITY);
+		if (direct == jumpLeft){
+			direct = fallLeft;
+		}
+		if (direct == jumpRight){
+			direct = fallRight;
+		}
+		if (direct == jumpUp){
+			direct = fallDown;
+		}
+		//if (y > 500){
+		//	sy = 0;
+		//	y = 500;
+		//}
+		return direct;
+	}
+
+	public void penis(){
 		move(sx,sy);
 		sx *= FRICTION;
-		sy *= FRICTION;
-		accelerate(0, -GRAVITY);
+		//sy *= FRICTION;
+		accelerate(0, GRAVITY);
+		System.out.println(sy);
+		if (y > 500){
+			sy = 0;
+
+			y = 500;
+		}
 	}
+
 	public void runR(){
 		move(SPEED, 0);
 	}
@@ -161,7 +191,6 @@ public class Player{
 		move(-SPEED, 0);
 	}
 	public void jump(){
-		move(0,-20);
 		accelerate(0,JUMPSTRENGTH);
 	}
 

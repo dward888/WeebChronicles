@@ -64,11 +64,17 @@ public class GamePanel extends JPanel implements KeyListener{
     public void keyTyped(KeyEvent e){
     }
     public void keyPressed(KeyEvent e){
+        if (e.getKeyCode() == KeyEvent.VK_UP && !keys[e.getKeyCode()]){
+           p.jump();
+
+        }
         keys[e.getKeyCode()] = true;
     }
     public void keyReleased(KeyEvent e){
         keys[e.getKeyCode()] = false;
+
         direction = still;
+
         p.resetCurrentF();
     }
 
@@ -116,20 +122,21 @@ public class GamePanel extends JPanel implements KeyListener{
     //user moving the character f
     public void move(){
         if (keys[KeyEvent.VK_RIGHT]) {
-            p.update();
+            p.update(right);
             p.runR();
             direction = right;
         }
         if (keys[KeyEvent.VK_LEFT]) {
-            p.update();
+            p.update(left);
 
             p.runL();
             direction = left;
         }
         if(keys[KeyEvent.VK_UP]){
-            p.jump();
-            p.update();
-            direction = jumpUp;
+            //p.jump();
+            //direction = jumpUp;
+            //direction = p.update(jumpUp);
+
         }
         if(keys[KeyEvent.VK_RIGHT] && keys[KeyEvent.VK_UP]){
             direction = jumpRight;
@@ -139,6 +146,10 @@ public class GamePanel extends JPanel implements KeyListener{
         }
 
 
+    }
+
+    public void playerUpdate(){
+        p.penis();
     }
 
 

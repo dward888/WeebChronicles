@@ -38,7 +38,7 @@ public class WeebChronicles extends JFrame implements ActionListener {
 			myTimer.start();
 		    game.requestFocus();
 		    game.move();
-
+			game.playerUpdate();
 
 		    game.repaint();
 		}
