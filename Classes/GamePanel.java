@@ -66,7 +66,7 @@ public class GamePanel extends JPanel implements KeyListener{
     }
     public void keyPressed(KeyEvent e){
         if (e.getKeyCode() == KeyEvent.VK_UP && !keys[e.getKeyCode()]){
-           p.jump();
+           p.jump();//hi
 
         }
         keys[e.getKeyCode()] = true;
