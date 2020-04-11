@@ -129,7 +129,7 @@ public class GamePanel extends JPanel implements KeyListener{
         }
         if (keys[KeyEvent.VK_LEFT]) {
             p.update(left);
-
+//pen
             p.runL();
             direction = left;
         }
