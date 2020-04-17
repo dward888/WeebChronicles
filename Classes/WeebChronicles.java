@@ -41,6 +41,7 @@ public class WeebChronicles extends JFrame implements ActionListener {
 		    game.requestFocus();
 		    game.move();
 			game.playerUpdate();//applying physics
+			game.checkCollisions();
 
 		    game.repaint();
 		}

@@ -30,6 +30,7 @@ public class GamePanel extends JPanel implements KeyListener{
 		chars = new Character[10];
 		loadCharacters();
         p = new Player(chars[0]);
+        Rectangle pRect = new Rectangle(p.getX(), p.getY()+8, 40, 60);
         midAir = false;
 
         //Direction
@@ -86,12 +87,9 @@ public class GamePanel extends JPanel implements KeyListener{
             g.drawImage(p.getFrame(still), p.getX(), p.getY(), null);
         }
         if(direction == right && !midAir){
-            if (p.checkScroll()){
-                g.drawImage(p.getFrame(right), 850, p.getY(), null);
-            }
-            else if (!p.checkScroll()){
-                g.drawImage(p.getFrame(right), p.getX()-10, p.getY(), null);
-            }
+
+            g.drawImage(p.getFrame(right), p.getX()-10, p.getY(), null);
+
         }
         if(direction == left && !midAir){
             g.drawImage(p.getFrame(left), p.getX()-10, p.getY(), null);
@@ -128,8 +126,13 @@ public class GamePanel extends JPanel implements KeyListener{
                     g.drawImage(p.getFallR()[0], p.getX()-10, p.getY(), null);
                 }
             }
+
         }
         frame ++;
+        g.setColor(Color.blue);
+        g.drawRect(p.getX(), p.getY()+8, 40, 60);
+        g.drawRect(500, 500, 1920,40);
+
     }
 
     //user moving the character f
@@ -158,4 +161,20 @@ public class GamePanel extends JPanel implements KeyListener{
             p.resetCurrentF();
         }
     }
+    public void checkCollisions(){
+        Rectangle player = new Rectangle(p.getX(),p.getY()+8,40,60);
+        Rectangle test = new Rectangle(500,500,1000,40);
+        if (player.intersects(test)){
+            System.out.println("hi");
+            p.setSy(0);
+            p.setY(440);
+            midAir = false;
+            p.resetCurrentF();
+        }
+
+    }
+    /*public void playerCheckC(){
+        p.checkCollisions();
+    }*/
+
 }

@@ -9,7 +9,8 @@ import javax.sound.midi.*;
 import java.applet.*;
 
 public class Player{
-	private int x,y,hp,sp;
+	private int x,y,width,height,hp,sp;
+	private int bx,bx2;
 	private double sy,sx;
 	private Image player;
 	private boolean scroll;
@@ -30,9 +31,11 @@ public class Player{
 		weeb = w;
     	x = 120;
 		y = 400;
-
+		width = 40;
+		height = 40;
 		scroll = false;
 		currentF = 0;
+		bx2 = 1185;
 
 		//Direction
 		still = 0;
@@ -58,7 +61,16 @@ public class Player{
 	public void setSy(double n){
 		sy = n;
 	}
+	public int getBx() {
+		return bx;
+	}
+	public int getBx2(){
+    	return bx2;
+	}
 	public boolean checkScroll(){
+    	if (x >= 650){
+    		scroll = true;
+		}
     	return scroll;
 	}
 	public void setScroll(boolean n){
@@ -66,6 +78,9 @@ public class Player{
 	}
 	public int getHP(){
 		return hp;
+	}
+	public void setY(int n){
+    	y = n;
 	}
 
 	public Image getFrame(int motion){
@@ -109,7 +124,7 @@ public class Player{
 	public void move(double xDelta, double yDelta){
 		x += xDelta;
 		y += yDelta;
-		//do collision detection here, if collide set the speeds to 0
+
 	}
 
 	public void accelerate(double accelX, double accelY){
@@ -157,6 +172,11 @@ public class Player{
 	public void addCurrentF(){
     	currentF ++;
 	}
+	public Rectangle getRect(){
+    	return new Rectangle(x,y+8,40,60);
+	}
+
+
 }
 
     
