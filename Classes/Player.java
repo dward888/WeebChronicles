@@ -41,7 +41,7 @@ public class Player{
 		still = 0;
 		left = 1;
 		right = 2;
-    }
+    }//uooyo
 
     public int getX(){
 		return x;

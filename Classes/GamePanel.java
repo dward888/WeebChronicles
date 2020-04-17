@@ -185,7 +185,7 @@ public class GamePanel extends JPanel implements KeyListener{
                 p.resetCurrentF();
             }
         }
-
+//yoo
     }
     /*public void playerCheckC(){
         p.checkCollisions();

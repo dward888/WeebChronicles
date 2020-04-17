@@ -33,7 +33,7 @@ public class Character {
         runLeft = new Image[leftSize];
         jumpRight = new Image[2];
         jumpLeft = new Image[2];
-        fallRight = new Image[2];
+        fallRight = new Image[2];//oy0oa
         fallLeft = new Image[2];
 
         loadSprite();
