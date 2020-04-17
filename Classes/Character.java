@@ -37,6 +37,7 @@ public class Character {
         fallLeft = new Image[2];
 
         loadSprite();
+        //hi
     }
     public void loadSprite(){
             loadSprite(runRight, runLeft, "run", name + "/run/", ".gif");
