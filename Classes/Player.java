@@ -145,7 +145,7 @@ public class Player{
 
 	public void update2(){
 		move(sx,sy);
-		sx *= FRICTION;
+		//sx *= FRICTION;
 		//sy *= FRICTION;
 		accelerate(0, GRAVITY);
 		if (y > 500){

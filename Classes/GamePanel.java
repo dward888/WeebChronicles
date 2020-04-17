@@ -131,7 +131,8 @@ public class GamePanel extends JPanel implements KeyListener{
         frame ++;
         g.setColor(Color.blue);
         g.drawRect(p.getX(), p.getY()+8, 40, 60);
-        g.drawRect(500, 500, 1920,40);
+        g.fillRect(500,500,1000,40);
+        //g.drawRect(500, 500, 1920,40);
 
     }
 
