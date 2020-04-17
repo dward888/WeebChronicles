@@ -18,6 +18,7 @@ public class GamePanel extends JPanel implements KeyListener{
 	private int direction;
 	private int frame;
 	private boolean midAir;//this boolean will make sure the user can't double jump
+    private ArrayList<Rectangle>plats = new ArrayList<Rectangle>();
 
 
 	//images//
@@ -30,9 +31,9 @@ public class GamePanel extends JPanel implements KeyListener{
 		chars = new Character[10];
 		loadCharacters();
         p = new Player(chars[0]);
-        Rectangle pRect = new Rectangle(p.getX(), p.getY()+8, 40, 60);
-        midAir = false;
 
+
+        midAir = false;
         //Direction
         still = 0;
         left = 1;
@@ -45,6 +46,10 @@ public class GamePanel extends JPanel implements KeyListener{
 
 		//loading images//
 		back = new ImageIcon("Pictures/back.jpg").getImage();
+
+        Rectangle pRect = new Rectangle(p.getX(), p.getY()+8, 40, 60);
+        Rectangle plat1 = new Rectangle(500,500,1000,40);
+        plats.add(plat1);
 
     }
     
@@ -164,13 +169,21 @@ public class GamePanel extends JPanel implements KeyListener{
     }
     public void checkCollisions(){
         Rectangle player = new Rectangle(p.getX(),p.getY()+8,40,60);
-        Rectangle test = new Rectangle(500,500,1000,40);
-        if (player.intersects(test)){
+        //Rectangle test = new Rectangle(500,500,1000,40);
+        /*if (player.intersects(test)){
             System.out.println("hi");
             p.setSy(0);
             p.setY(440);
             midAir = false;
             p.resetCurrentF();
+        }*/
+        for(Rectangle plat : plats){
+            if (player.intersects(plat)){
+                p.setSy(0);
+                p.setY(plat.y-60);
+                midAir = false;
+                p.resetCurrentF();
+            }
         }
 
     }
