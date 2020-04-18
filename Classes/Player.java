@@ -157,7 +157,7 @@ public class Player{
 		if (y > 500){
 			sy = 0;
 			y = 500;
-		}
+		}//yo
 	}
 
 	public void runR(){

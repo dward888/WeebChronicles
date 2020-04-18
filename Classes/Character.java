@@ -67,7 +67,7 @@ public class Character {
         mirror.translate(-bImg.getWidth(null),0);
         AffineTransformOp mirrorOp = new AffineTransformOp(mirror, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
         bImg = mirrorOp.filter(bImg, null);
-        return bImg;
+        return bImg;//yo
     }
 
     //GET METHODS

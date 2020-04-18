@@ -23,7 +23,7 @@ public class WeebChronicles extends JFrame implements ActionListener {
 
 		setResizable(false);
 		setVisible(true);
-    }
+    }//yop
     public void start(){
 		myTimer.start();
 	}

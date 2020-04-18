@@ -172,7 +172,7 @@ public class GamePanel extends JPanel implements KeyListener{
         if(keys[KeyEvent.VK_UP]){
             //p.jump();
             //direction = jumpUp;
-            //direction = p.update(jumpUp);
+            //direction = p.update(jumpUp); yo
         }
     }
 
