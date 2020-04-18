@@ -17,7 +17,7 @@ public class Player{
 	private Character weeb;
 	private int currentF;
 
-	//Direction pen
+	//Direction
 	private int still;
 	private int right;
 	private int left;
@@ -41,7 +41,7 @@ public class Player{
 		still = 0;
 		left = 1;
 		right = 2;
-    }//uooyo
+    }
 
     public int getX(){
 		return x;
@@ -172,7 +172,7 @@ public class Player{
 	public void addCurrentF(){
     	currentF ++;
 	}
-	public Rectangle getRect(){
+	public Rectangle getRect(){//returns the players coordinates as a rect for collision
     	return new Rectangle(x,y+8,40,60);
 	}
 
