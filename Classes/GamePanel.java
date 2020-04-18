@@ -96,17 +96,11 @@ public class GamePanel extends JPanel implements KeyListener{
 
         //drawing the sprites for their respective direction
         if(direction == right && !midAir){
-
             if(!walking){//Standing Right
-
                 g.drawImage(p.getFrame(stillRight), p.getX()-offset, p.getY(), null);
-
             }
             else{
-
-
                 g.drawImage(p.getFrame(right), p.getX()-offset, p.getY(), null);
-
             }
         }
         if(direction == left && !midAir){
@@ -114,9 +108,7 @@ public class GamePanel extends JPanel implements KeyListener{
                 g.drawImage(p.getFrame(stillLeft), p.getX()-offset, p.getY(), null);
 
                 }
-
             else{ //Run Left
-
                 g.drawImage(p.getFrame(left), (p.getX())-offset, p.getY(), null);
 
             }
@@ -127,48 +119,34 @@ public class GamePanel extends JPanel implements KeyListener{
                 //Going Up
                 if(p.getSy() < 0) {
                     if (p.getCurrentF() > 5) {
-
                         g.drawImage(p.getJumpL()[0], p.getX()-offset, p.getY(), null);
-
                     }
                     else {
-
                         g.drawImage(p.getJumpL()[1], p.getX()-offset, p.getY(), null);
-
                     }
                     p.addCurrentF();
                 }
                 //Going Down
                 if(p.getSy() > 0){
                     g.drawImage(p.getFallL()[0], p.getX()-offset, p.getY(), null);
-
                 }
             }
             if(direction == right){
                 //Going Up
                 if(p.getSy() < 0){
                     if (p.getCurrentF() > 5) {
-
                         g.drawImage(p.getJumpR()[0], p.getX() - offset, p.getY(), null);
-
                     }
                     else {
-
                         g.drawImage(p.getJumpR()[1], p.getX() - offset, p.getY(), null);
-
-
                     }
                     p.addCurrentF();
                 }
                 //Going Down
                 if(p.getSy() > 0){
-
                     g.drawImage(p.getFallR()[0], p.getX()-offset, p.getY(), null);
-
-
                 }
             }
-
         }
         frame ++;
 
@@ -226,7 +204,6 @@ public class GamePanel extends JPanel implements KeyListener{
                 p.setSy(0);//because the player is on a platform, the speed in the y component is zero
                 p.setY(plat.y-60);
                 midAir = false;
-                p.resetCurrentF();
             }
         }
     }
