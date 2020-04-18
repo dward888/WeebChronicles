@@ -49,7 +49,7 @@ public class GamePanel extends JPanel implements KeyListener{
 		//loading images//
 		back = new ImageIcon("Pictures/back.jpg").getImage();
 
-        Rectangle pRect = new Rectangle(p.getX(), p.getY()+8, 40, 60);
+        //initilizing the platforms as rects
         Rectangle plat1 = new Rectangle(500,500,1000,40);
         plats.add(plat1);
 
@@ -146,6 +146,8 @@ public class GamePanel extends JPanel implements KeyListener{
 
         }
         frame ++;
+
+        //drawing the rects
         g.setColor(Color.blue);
         g.drawRect(p.getX(), p.getY()+8, 40, 60);
         g.fillRect(500,500,1000,40);
@@ -182,7 +184,7 @@ public class GamePanel extends JPanel implements KeyListener{
         }
     }
     public void checkCollisions(){
-        Rectangle player = new Rectangle(p.getX(),p.getY()+8,40,60);
+        Rectangle player = p.getRect();//the players rect to check collision
         //Rectangle test = new Rectangle(500,500,1000,40);
         /*if (player.intersects(test)){
             System.out.println("hi");
@@ -191,18 +193,14 @@ public class GamePanel extends JPanel implements KeyListener{
             midAir = false;
             p.resetCurrentF();
         }*/
-        for(Rectangle plat : plats){
+        for(Rectangle plat : plats){//checking collision for each platform in the arraylist
             if (player.intersects(plat)){
-                p.setSy(0);
+                p.setSy(0);//because the player is on a platform, the speed in the y component is zero
                 p.setY(plat.y-60);
                 midAir = false;
                 p.resetCurrentF();
             }
         }
-//yoo
     }
-    /*public void playerCheckC(){
-        p.checkCollisions();
-    }*/
 
 }
