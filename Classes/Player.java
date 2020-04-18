@@ -18,9 +18,10 @@ public class Player{
 	private int currentF;
 
 	//Direction pen
-	private int still;
+	private int stillRight;
 	private int right;
 	private int left;
+	private int stillLeft;
 
 	public static final double FRICTION = 0.99;
 	public static final double GRAVITY = 0.4;
@@ -38,10 +39,11 @@ public class Player{
 		bx2 = 1185;
 
 		//Direction
-		still = 0;
+		stillRight = 0;
 		left = 1;
 		right = 2;
-    }//uooyo
+		stillLeft = 3;
+    }
 
     public int getX(){
 		return x;
@@ -103,10 +105,14 @@ public class Player{
 			}
 			return weeb.getRunRight()[currentF];
 		}
-		//motion == still
+		if(motion == stillLeft){
+			currentF = 0;
+			return weeb.getStandingLeft();
+		}
+		//motion == stillRight
 		else{
 			currentF = 0;
-			return weeb.getStanding();
+			return weeb.getStandingRight();
 		}
 	}
 	public Image[]getJumpR(){

@@ -16,7 +16,8 @@ public class Character {
     //Frame Arrays
     private Image[]runRight;
     private Image[]runLeft;
-    private Image standing;
+    private Image standingRight;
+    private Image standingLeft;
     private Image[]jumpRight;
     private Image[]jumpLeft;
     private Image[]fallRight;
@@ -43,7 +44,8 @@ public class Character {
             loadSprite(runRight, runLeft, "run", name + "/run/", ".gif");
             loadSprite(jumpRight, jumpLeft, "jump", name + "/jump/", ".png");
             loadSprite(fallRight, fallLeft, "fall", name + "/fall/", ".png");
-            standing = new ImageIcon(name + "/standing.gif").getImage();
+            standingRight = new ImageIcon(name + "/standing.gif").getImage();
+            standingLeft = new ImageIcon(name + "/standing left.gif").getImage();
     }
     public void loadSprite(Image[]actionRight, Image[]actionLeft, String motion, String directory, String type){
         try{
@@ -69,7 +71,8 @@ public class Character {
     }
 
     //GET METHODS
-    public Image getStanding(){return standing;}
+    public Image getStandingRight(){return standingRight;}
+    public Image getStandingLeft(){return standingLeft;}
     public Image[] getRunLeft(){ return runLeft;}
     public Image[] getRunRight(){return runRight;}
     public Image[] getJumpLeft() {return jumpLeft;}
