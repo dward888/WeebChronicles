@@ -28,6 +28,8 @@ public class Player{
 	public static final double SPEED = 5;
 	public static final double JUMPSTRENGTH = -10;
 
+
+
     public Player(Character w) {
 		weeb = w;
     	x = 120;
@@ -43,6 +45,7 @@ public class Player{
 		left = 1;
 		right = 2;
 		stillLeft = 3;
+
     }
 
     public int getX(){
@@ -80,6 +83,9 @@ public class Player{
 	}
 	public int getHP(){
 		return hp;
+	}
+	public void setX(int n){
+    	x = n;
 	}
 	public void setY(int n){
     	y = n;
@@ -157,7 +163,7 @@ public class Player{
 		if (y > 500){
 			sy = 0;
 			y = 500;
-		}//yo
+		}
 	}
 
 	public void runR(){

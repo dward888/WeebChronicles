@@ -22,9 +22,10 @@ public class GamePanel extends JPanel implements KeyListener{
 	private boolean midAir;//this boolean will make sure the user can't double jump
     private ArrayList<Rectangle>plats = new ArrayList<Rectangle>();
 
-
+    private int offset;
 	//images//
 	private Image back;
+
 
 
     public GamePanel(WeebChronicles m) {
@@ -41,8 +42,9 @@ public class GamePanel extends JPanel implements KeyListener{
         stillLeft = 3;
         direction = right;
         walking = false;
-
+        offset = 0;
         frame = 0;
+
 
 		addKeyListener(this);
 
@@ -94,19 +96,29 @@ public class GamePanel extends JPanel implements KeyListener{
 
         //drawing the sprites for their respective direction
         if(direction == right && !midAir){
+
             if(!walking){//Standing Right
-                g.drawImage(p.getFrame(stillRight), p.getX(), p.getY(), null);
+
+                g.drawImage(p.getFrame(stillRight), p.getX()-offset, p.getY(), null);
+
             }
-            else{ //Run Right
-                g.drawImage(p.getFrame(right), p.getX()-10, p.getY(), null);
+            else{
+
+
+                g.drawImage(p.getFrame(right), p.getX()-offset, p.getY(), null);
+
             }
         }
         if(direction == left && !midAir){
             if(!walking){ //Standing Left
-                g.drawImage(p.getFrame(stillLeft), p.getX(), p.getY(), null);
-            }
+                g.drawImage(p.getFrame(stillLeft), p.getX()-offset, p.getY(), null);
+
+                }
+
             else{ //Run Left
-                g.drawImage(p.getFrame(left), p.getX()-10, p.getY(), null);
+
+                g.drawImage(p.getFrame(left), (p.getX())-offset, p.getY(), null);
+
             }
         }
 
@@ -115,32 +127,45 @@ public class GamePanel extends JPanel implements KeyListener{
                 //Going Up
                 if(p.getSy() < 0) {
                     if (p.getCurrentF() > 5) {
-                        g.drawImage(p.getJumpL()[0], p.getX() - 10, p.getY(), null);
+
+                        g.drawImage(p.getJumpL()[0], p.getX()-offset, p.getY(), null);
+
                     }
                     else {
-                        g.drawImage(p.getJumpL()[1], p.getX() - 10, p.getY(), null);
+
+                        g.drawImage(p.getJumpL()[1], p.getX()-offset, p.getY(), null);
+
                     }
                     p.addCurrentF();
                 }
                 //Going Down
                 if(p.getSy() > 0){
-                    g.drawImage(p.getFallL()[0], p.getX()-10, p.getY(), null);
+                    g.drawImage(p.getFallL()[0], p.getX()-offset, p.getY(), null);
+
                 }
             }
             if(direction == right){
                 //Going Up
                 if(p.getSy() < 0){
                     if (p.getCurrentF() > 5) {
-                        g.drawImage(p.getJumpR()[0], p.getX() - 10, p.getY(), null);
+
+                        g.drawImage(p.getJumpR()[0], p.getX() - offset, p.getY(), null);
+
                     }
                     else {
-                        g.drawImage(p.getJumpR()[1], p.getX() - 10, p.getY(), null);
+
+                        g.drawImage(p.getJumpR()[1], p.getX() - offset, p.getY(), null);
+
+
                     }
                     p.addCurrentF();
                 }
                 //Going Down
                 if(p.getSy() > 0){
-                    g.drawImage(p.getFallR()[0], p.getX()-10, p.getY(), null);
+
+                    g.drawImage(p.getFallR()[0], p.getX()-offset, p.getY(), null);
+
+
                 }
             }
 
@@ -149,15 +174,18 @@ public class GamePanel extends JPanel implements KeyListener{
 
         //drawing the rects
         g.setColor(Color.blue);
-        g.drawRect(p.getX(), p.getY()+8, 40, 60);
-        g.fillRect(500,500,1000,40);
+        //g.drawRect(p.getX(), p.getY()+8, 40, 60);
+        g.fillRect(500-offset,500,1000,40);
         //g.drawRect(500, 500, 1920,40);
 
     }
 
     //user moving the character f
     public void move(){
-        if (keys[KeyEvent.VK_RIGHT]) {
+        if (keys[KeyEvent.VK_RIGHT]){
+            if (p.getX() >= 500 + offset){
+                offset += p.SPEED;
+            }
             p.update(right);
             p.runR();
             direction = right;
