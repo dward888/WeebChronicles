@@ -103,7 +103,7 @@ public class Player{
 			return weeb.getRunLeft()[currentF];
 		}
 		if(motion == right){
-			if(currentF + 1 == weeb.getRunRight().length){
+			if(currentF + 1 >= weeb.getRunRight().length){
 				currentF = 0;
 			}
 			else{

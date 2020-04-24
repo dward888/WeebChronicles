@@ -21,10 +21,13 @@ public class GamePanel extends JPanel implements KeyListener{
 	private int frame;
 	private boolean midAir;//this boolean will make sure the user can't double jump
     private ArrayList<Rectangle>plats = new ArrayList<Rectangle>();
+    private ArrayList<Bullet>bList = new ArrayList<Bullet>(); //array list for the projectiles (bullets)
+    private ArrayList<Bullet>bRemove = new ArrayList<Bullet>(); //Records all the bullets that have hit an object
 
     private int offset;
 	//images//
 	private Image back;
+	private Image star;
 
 
 
@@ -50,6 +53,7 @@ public class GamePanel extends JPanel implements KeyListener{
 
 		//loading images//
 		back = new ImageIcon("Pictures/back.jpg").getImage();
+		star = new ImageIcon("Pictures/star.png").getImage();
 
         //initilizing the platforms as rects
         Rectangle plat1 = new Rectangle(500,500,1000,40);
@@ -88,6 +92,12 @@ public class GamePanel extends JPanel implements KeyListener{
     public void loadCharacters(){
         Character itachi = new Character("Itachi", 100, 100, 100, 6 , 6);
         chars[0] = itachi;
+    }
+
+    public void deleteBullets(){
+        for(int i= 0; i < bRemove.size(); i++){
+            bList.remove(bRemove.get(i));
+        }
     }
 
     public void paintComponent(Graphics g){
@@ -148,6 +158,14 @@ public class GamePanel extends JPanel implements KeyListener{
                 }
             }
         }
+
+        for(int i = 0; i < bList.size(); i++){
+
+            g.drawImage(star,bList.get(i).getX(),bList.get(i).getY(),null);
+
+            bList.get(i).move(direction);
+            //Removing when out of bounds
+        }
         frame ++;
 
         //drawing the rects
@@ -179,6 +197,10 @@ public class GamePanel extends JPanel implements KeyListener{
             //p.jump();
             //direction = jumpUp;
             //direction = p.update(jumpUp); yo
+        }
+        if(keys[KeyEvent.VK_SPACE]){
+            Bullet b = new Bullet(p.getX(), p.getY());
+            bList.add(b);
         }
     }
 
