@@ -13,6 +13,11 @@ import java.applet.*;
 public class WeebChronicles extends JFrame implements ActionListener {
 	Timer myTimer;
 	GamePanel game;
+
+	JPanel cards;
+	CardLayout cLayout = new CardLayout();
+
+	JButton playBtn = new JButton("Play");
     public WeebChronicles(){
     	super("The Weeb Chronicles");
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -23,6 +28,22 @@ public class WeebChronicles extends JFrame implements ActionListener {
 
 		setResizable(false);
 		setVisible(true);
+		//JPanel start = new JPanel();
+		//ImageIcon startBack = new ImageIcon("Pictures/leaf.jpg");
+
+		//JLayered Panes
+		JLayeredPane start = new JLayeredPane();
+		start.setLayout(null);
+		//adding cards
+		cards = new JPanel(cLayout);
+		cards.add(start, "start");
+		cards.add(game, "game");
+		add(cards);
+
+		//play button
+		playBtn.setSize(100,30);
+		playBtn.setLocation(350,450);
+		start.add(playBtn,2);
     }//yop
     public void start(){
 		myTimer.start();
@@ -30,14 +51,14 @@ public class WeebChronicles extends JFrame implements ActionListener {
 	
 	public void actionPerformed(ActionEvent evt){
 		Object source = evt.getSource();
-		/*if(source==playBtn){ //if the play button is clicked, the game starts
+		if(source==playBtn){ //if the play button is clicked, the game starts
 		    cLayout.show(cards,"game");//switch from the start menu card to the game card
 		    myTimer.start();
 		    game.requestFocus();
-		}*/
+		}
 		
 		if(source==myTimer){//if the game is running
-			myTimer.start();
+			//myTimer.start();
 		    game.requestFocus();
 		    game.move();
 			game.playerUpdate();//applying physics
