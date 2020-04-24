@@ -22,6 +22,8 @@ public class Player{
 	private int right;
 	private int left;
 	private int stillLeft;
+	private int bulletRight;
+	private int bulletLeft;
 
 	public static final double FRICTION = 0.99;
 	public static final double GRAVITY = 0.4;
@@ -39,6 +41,8 @@ public class Player{
 		scroll = false;
 		currentF = 0;
 		bx2 = 1185;
+		bulletLeft = 4;
+		bulletRight = 5;
 
 		//Direction
 		stillRight = 0;
@@ -94,7 +98,7 @@ public class Player{
 	public Image getFrame(int motion){
     	//System.out.println(currentF);
 		if(motion == left){
-			if(currentF + 1 == weeb.getRunLeft().length){
+			if(currentF + 1 >= weeb.getRunLeft().length){
 				currentF = 0;
 			}
 			else{
@@ -114,6 +118,24 @@ public class Player{
 		if(motion == stillLeft){
 			currentF = 0;
 			return weeb.getStandingLeft();
+		}
+		if(motion == bulletLeft){
+			if(currentF + 1 >= weeb.getSpALeft().length){
+				currentF= 0;
+			}
+			else{
+				currentF ++;
+			}
+			return weeb.getSpALeft()[currentF];
+		}
+		if(motion == bulletRight){
+			if(currentF + 1 >= weeb.getSpARight().length){
+				currentF = 0;
+			}
+			else{
+				currentF ++;
+			}
+			return weeb.getSpARight()[currentF];
 		}
 		//motion == stillRight
 		else{
@@ -138,7 +160,6 @@ public class Player{
 		y += yDelta;
 
 	}
-
 	public void accelerate(double accelX, double accelY){
 		sx += accelX;
 		sy += accelY;
@@ -154,7 +175,6 @@ public class Player{
 		//}
 		return direct;
 	}
-
 	public void update2(){
 		move(sx,sy);
 		//sx *= FRICTION;
@@ -165,7 +185,6 @@ public class Player{
 			y = 500;
 		}
 	}
-
 	public void runR(){
 		move(SPEED, 0);
 	}
@@ -187,8 +206,6 @@ public class Player{
 	public Rectangle getRect(){
     	return new Rectangle(x,y+8,40,60);
 	}
-
-
 }
 
     

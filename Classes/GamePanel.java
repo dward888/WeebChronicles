@@ -18,6 +18,8 @@ public class GamePanel extends JPanel implements KeyListener{
 	private int right;
 	private int left;
 	private int direction;
+	private int bulletRight;
+	private int bulletLeft;
 	private int frame;
 	private boolean midAir;//this boolean will make sure the user can't double jump
     private ArrayList<Rectangle>plats = new ArrayList<Rectangle>();
@@ -47,6 +49,8 @@ public class GamePanel extends JPanel implements KeyListener{
         walking = false;
         offset = 0;
         frame = 0;
+        bulletLeft = 4;
+        bulletRight = 5;
 
 
 		addKeyListener(this);
@@ -76,6 +80,10 @@ public class GamePanel extends JPanel implements KeyListener{
                midAir = true;
            }
         }
+        if(keys[KeyEvent.VK_SPACE]){
+            Bullet b = new Bullet(p.getX(), p.getY());
+            bList.add(b);
+        }
         keys[e.getKeyCode()] = true;
     }
     public void keyReleased(KeyEvent e){
@@ -90,7 +98,7 @@ public class GamePanel extends JPanel implements KeyListener{
     }
 
     public void loadCharacters(){
-        Character itachi = new Character("Itachi", 100, 100, 100, 6 , 6);
+        Character itachi = new Character("Itachi", 100, 100, 100, 6 , 6, 5);
         chars[0] = itachi;
     }
 
@@ -158,22 +166,21 @@ public class GamePanel extends JPanel implements KeyListener{
                 }
             }
         }
+        if(bList.size() > 0) {
+            for (int i = 0; i < bList.size(); i++) {
+                g.drawImage(p.getFrame(bulletRight), bList.get(i).getX(), bList.get(i).getY(), null);
 
-        for(int i = 0; i < bList.size(); i++){
-
-            g.drawImage(star,bList.get(i).getX(),bList.get(i).getY(),null);
-
-            bList.get(i).move(direction);
-            //Removing when out of bounds
+                bList.get(i).move(direction);
+                //Removing when out of bounds
+            }
         }
-        frame ++;
+        frame++;
 
         //drawing the rects
         g.setColor(Color.blue);
         //g.drawRect(p.getX(), p.getY()+8, 40, 60);
-        g.fillRect(500-offset,500,1000,40);
+        g.fillRect(500 - offset, 500, 1000, 40);
         //g.drawRect(500, 500, 1920,40);
-
     }
 
     //user moving the character f
@@ -197,10 +204,6 @@ public class GamePanel extends JPanel implements KeyListener{
             //p.jump();
             //direction = jumpUp;
             //direction = p.update(jumpUp); yo
-        }
-        if(keys[KeyEvent.VK_SPACE]){
-            Bullet b = new Bullet(p.getX(), p.getY());
-            bList.add(b);
         }
     }
 
@@ -229,5 +232,4 @@ public class GamePanel extends JPanel implements KeyListener{
             }
         }
     }
-
 }
