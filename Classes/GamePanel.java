@@ -80,7 +80,7 @@ public class GamePanel extends JPanel implements KeyListener{
                midAir = true;
            }
         }
-        if(keys[KeyEvent.VK_SPACE]){
+        if(e.getKeyCode() == KeyEvent.VK_SPACE && !keys[e.getKeyCode()]){
             Bullet b = new Bullet(p.getX(), p.getY());
             bList.add(b);
         }

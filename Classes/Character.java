@@ -46,7 +46,7 @@ public class Character {
             loadSprite(runRight, runLeft, "run", name + "/run/", ".gif");
             loadSprite(jumpRight, jumpLeft, "jump", name + "/jump/", ".png");
             loadSprite(fallRight, fallLeft, "fall", name + "/fall/", ".png");
-            loadSprite(spAttackRight, spAttackLeft, "SpecialAttack", name + "/Special Attack/", "png");
+            loadSprite(spAttackRight, spAttackLeft, "SpecialAttack", name + "/Special Attack/", ".png");
             standingRight = new ImageIcon(name + "/standing.gif").getImage();
             standingLeft = new ImageIcon(name + "/standing left.gif").getImage();
     }
