@@ -46,13 +46,14 @@ public class Character {
             loadSprite(runRight, runLeft, "run", name + "/run/", ".gif");
             loadSprite(jumpRight, jumpLeft, "jump", name + "/jump/", ".png");
             loadSprite(fallRight, fallLeft, "fall", name + "/fall/", ".png");
-            loadSprite(spAttackRight, spAttackLeft, "SpecialAttack", name + "/Special Attack/", ".png");
+            loadSprite(spAttackRight, spAttackLeft, "Special Attack", name + "/Special Attack/", ".png");
             standingRight = new ImageIcon(name + "/standing.gif").getImage();
             standingLeft = new ImageIcon(name + "/standing left.gif").getImage();
     }
     public void loadSprite(Image[]actionRight, Image[]actionLeft, String motion, String directory, String type){
         try{
             for(int i = 1; i < actionRight.length + 1; i++) {
+                System.out.println(directory + motion + i + type);
                 Image img = ImageIO.read(new File(directory + motion + i + type));
                 actionRight[i-1] = img;
                 actionLeft[i-1] = flipImage(img);
