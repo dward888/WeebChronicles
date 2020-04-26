@@ -103,7 +103,7 @@ public class GamePanel extends JPanel implements KeyListener{
     }
 
     public void deleteBullets(){
-        for(int i= 0; i < bRemove.size(); i++){
+        for(int i= 0; i < bRemove.size(); i++){//yo
             bList.remove(bRemove.get(i));
         }
     }

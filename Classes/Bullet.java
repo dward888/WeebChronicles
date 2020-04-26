@@ -27,7 +27,7 @@ public class Bullet {
         if (n == left){
             x -= 5;
         }
-        else if (n == right){
+        else if (n == right){//yo
             x += 5;
         }
 

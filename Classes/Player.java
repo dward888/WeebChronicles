@@ -140,7 +140,7 @@ public class Player{
 		//motion == stillRight
 		else{
 			currentF = 0;
-			return weeb.getStandingRight();
+			return weeb.getStandingRight();//yo
 		}
 	}
 	public Image[]getJumpR(){

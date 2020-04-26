@@ -33,7 +33,7 @@ public class Character {
         runRight  = new Image[rightSize];
         runLeft = new Image[leftSize];
         spAttackRight = new Image[spAttackSize];
-        spAttackLeft = new Image[spAttackSize];
+        spAttackLeft = new Image[spAttackSize];//yo
         jumpRight = new Image[2];
         jumpLeft = new Image[2];
         fallRight = new Image[2];//oy0oa
