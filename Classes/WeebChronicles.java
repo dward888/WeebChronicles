@@ -25,25 +25,37 @@ public class WeebChronicles extends JFrame implements ActionListener {
 		myTimer = new Timer(15, this);	 // trigger every 10 ms
 		game = new GamePanel(this);
 		add(game);
+		playBtn.addActionListener(this);
 
+
+		ImageIcon startBack = new ImageIcon("Pictures/leaf.jpg");
+		JLabel backLabel = new JLabel(startBack);
+		JLayeredPane start = new JLayeredPane();
 		setResizable(false);
 		setVisible(true);
 		//JPanel start = new JPanel();
-		//ImageIcon startBack = new ImageIcon("Pictures/leaf.jpg");
+
 
 		//JLayered Panes
-		JLayeredPane start = new JLayeredPane();
+		//JLayeredPane start = new JLayeredPane();
+
 		start.setLayout(null);
+		backLabel.setSize(800,600);
+		backLabel.setLocation(0,0);
 		//adding cards
+		start.add(backLabel,1);
 		cards = new JPanel(cLayout);
 		cards.add(start, "start");
 		cards.add(game, "game");
 		add(cards);
 
 		//play button
+		playBtn.addActionListener(this);
 		playBtn.setSize(100,30);
 		playBtn.setLocation(350,450);
 		start.add(playBtn,2);
+
+
     }//yop
     public void start(){
 		myTimer.start();
