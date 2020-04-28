@@ -194,17 +194,17 @@ public class Player{
 	public void jump(){
 		accelerate(0,JUMPSTRENGTH);
 	}
-    public void resetCurrentF(){
-    	currentF = 0;
+	public void resetCurrentF(){
+		currentF = 0;
 	}
 	public int getCurrentF(){
-    	return currentF;
+		return currentF;
 	}
 	public void addCurrentF(){
-    	currentF ++;
+		currentF ++;
 	}
 	public Rectangle getRect(){
-    	return new Rectangle(x,y+8,40,60);
+		return new Rectangle(x,y+8,40,60);
 	}
 }
 
