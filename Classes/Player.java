@@ -30,8 +30,6 @@ public class Player{
 	public static final double SPEED = 5;
 	public static final double JUMPSTRENGTH = -10;
 
-
-
     public Player(Character w) {
 		weeb = w;
     	x = 120;
@@ -119,28 +117,32 @@ public class Player{
 			currentF = 0;
 			return weeb.getStandingLeft();
 		}
-		if(motion == bulletLeft){
-			if(currentF + 1 >= weeb.getSpALeft().length){
-				currentF= 0;
-			}
-			else{
-				currentF ++;
-			}
-			return weeb.getSpALeft()[currentF];
-		}
-		if(motion == bulletRight){
-			if(currentF + 1 >= weeb.getSpARight().length){
-				currentF = 0;
-			}
-			else{
-				currentF ++;
-			}
-			return weeb.getSpARight()[currentF];
-		}
 		//motion == stillRight
 		else{
 			currentF = 0;
 			return weeb.getStandingRight();//yo
+		}
+	}
+
+	public Image getBulFrame(Bullet b){
+    	if(b.getDirection() == right){
+    		if(b.getFrame() + 1 >= weeb.getSpARight().length){
+    			b.resetF();
+			}
+    		else{
+    			b.nextFrame();
+			}
+    		return weeb.getSpARight()[b.getFrame()];
+		}
+    	//b.getDirection() == left
+		else{
+			if(b.getFrame() + 1 >= weeb.getSpALeft().length){
+				b.resetF();
+			}
+			else{
+				b.nextFrame();
+			}
+			return weeb.getSpALeft()[b.getFrame()];
 		}
 	}
 	public Image[]getJumpR(){
@@ -158,7 +160,6 @@ public class Player{
 	public void move(double xDelta, double yDelta){
 		x += xDelta;
 		y += yDelta;
-
 	}
 	public void accelerate(double accelX, double accelY){
 		sx += accelX;

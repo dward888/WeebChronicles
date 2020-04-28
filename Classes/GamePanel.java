@@ -31,8 +31,6 @@ public class GamePanel extends JPanel implements KeyListener{
 	private Image back;
 	private Image star;
 
-
-
     public GamePanel(WeebChronicles m) {
     	keys = new boolean[KeyEvent.KEY_LAST+1];
 		mainFrame = m;
@@ -52,7 +50,6 @@ public class GamePanel extends JPanel implements KeyListener{
         bulletLeft = 4;
         bulletRight = 5;
 
-
 		addKeyListener(this);
 
 		//loading images//
@@ -62,9 +59,7 @@ public class GamePanel extends JPanel implements KeyListener{
         //initilizing the platforms as rects
         Rectangle plat1 = new Rectangle(500,500,1000,40);
         plats.add(plat1);
-
     }
-    
     public void addNotify() {
         super.addNotify();
         requestFocus();
@@ -82,6 +77,7 @@ public class GamePanel extends JPanel implements KeyListener{
         }
         if(e.getKeyCode() == KeyEvent.VK_SPACE && !keys[e.getKeyCode()]){
             Bullet b = new Bullet(p.getX(), p.getY());
+            b.setDirection(direction);
             bList.add(b);
         }
         keys[e.getKeyCode()] = true;
@@ -91,7 +87,6 @@ public class GamePanel extends JPanel implements KeyListener{
         if(e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_LEFT){
             walking = false;
         }
-
         if(!keys[e.getKeyCode()] && !midAir){
             p.resetCurrentF();
         }
@@ -112,6 +107,20 @@ public class GamePanel extends JPanel implements KeyListener{
         //background
         g.drawImage(back, 0, 0, null);
 
+        //bullets
+        if(bList.size() > 0) {
+            for (int i = 0; i < bList.size(); i++) {
+                //if(bList.get(i).getDirection() == right){
+                    //g.drawImage(p.getFrame(bulletRight), bList.get(i).getX(), bList.get(i).getY(), null);
+                //}
+                //if(bList.get(i).getDirection() == left){
+                    //g.drawImage(p.getFrame(bulletLeft), bList.get(i).getX(), bList.get(i).getY(), null);
+                //}
+                g.drawImage(p.getBulFrame(bList.get(i)), bList.get(i).getX(), bList.get(i).getY(),null);
+                bList.get(i).move();
+                //Removing when out of bounds
+            }
+        }
         //drawing the sprites for their respective direction
         if(direction == right && !midAir){
             if(!walking){//Standing Right
@@ -166,14 +175,7 @@ public class GamePanel extends JPanel implements KeyListener{
                 }
             }
         }
-        if(bList.size() > 0) {
-            for (int i = 0; i < bList.size(); i++) {
-                g.drawImage(p.getFrame(bulletRight), bList.get(i).getX(), bList.get(i).getY(), null);
 
-                bList.get(i).move(direction);
-                //Removing when out of bounds
-            }
-        }
         frame++;
 
         //drawing the rects

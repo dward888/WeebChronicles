@@ -10,26 +10,33 @@ public class Bullet {
     private int x,y;
     private int right;
     private int left;
+    private int direction;
+    private int frame;
 
     public Bullet(int gx, int gy){
         x = gx;
         y = gy;
         left = 1;
         right = 2;
+        frame = 0;
     }
+    public void setDirection(int n){direction = n;}
+    public int getDirection(){return direction;}
+    public int getFrame(){return frame;}
+    public void nextFrame(){frame++;}
+    public void resetF(){frame = 0;}
     public int getX(){
         return x;
     }
     public int getY(){
         return y;
     }
-    public void move(int n){
-        if (n == left){
-            x -= 5;
+    public void move(){
+        if (direction == left){
+            x -= 3;
         }
-        else if (n == right){//yo
-            x += 5;
+        else if (direction == right){
+            x += 3;
         }
-
     }
 }

@@ -53,7 +53,6 @@ public class Character {
     public void loadSprite(Image[]actionRight, Image[]actionLeft, String motion, String directory, String type){
         try{
             for(int i = 1; i < actionRight.length + 1; i++) {
-                System.out.println(directory + motion + i + type);
                 Image img = ImageIO.read(new File(directory + motion + i + type));
                 actionRight[i-1] = img;
                 actionLeft[i-1] = flipImage(img);
