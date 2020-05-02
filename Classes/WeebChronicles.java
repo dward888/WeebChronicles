@@ -51,8 +51,8 @@ public class WeebChronicles extends JFrame implements ActionListener {
 
 		//play button
 		playBtn.addActionListener(this);
-		playBtn.setSize(100,30);
-		playBtn.setLocation(350,450);
+		playBtn.setSize(205,60);
+		playBtn.setLocation(500,450);
 		start.add(playBtn,2);
 //yo
 
