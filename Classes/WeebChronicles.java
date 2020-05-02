@@ -28,7 +28,7 @@ public class WeebChronicles extends JFrame implements ActionListener {
 		playBtn.addActionListener(this);
 
 
-		ImageIcon startBack = new ImageIcon("Pictures/leaf.jpg");
+		ImageIcon startBack = new ImageIcon("Pictures/title.png");
 		JLabel backLabel = new JLabel(startBack);
 		JLayeredPane start = new JLayeredPane();
 		setResizable(false);
@@ -40,7 +40,7 @@ public class WeebChronicles extends JFrame implements ActionListener {
 		//JLayeredPane start = new JLayeredPane();
 
 		start.setLayout(null);
-		backLabel.setSize(800,600);
+		backLabel.setSize(1200,650);
 		backLabel.setLocation(0,0);
 		//adding cards
 		start.add(backLabel,1);
