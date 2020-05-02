@@ -43,12 +43,12 @@ public class Character {
         //hi
     }
     public void loadSprite(){
-            loadSprite(runRight, runLeft, "run", name + "/run/", ".gif");
-            loadSprite(jumpRight, jumpLeft, "jump", name + "/jump/", ".png");
-            loadSprite(fallRight, fallLeft, "fall", name + "/fall/", ".png");
-            loadSprite(spAttackRight, spAttackLeft, "Special Attack", name + "/Special Attack/", ".png");
-            standingRight = new ImageIcon(name + "/standing.gif").getImage();
-            standingLeft = new ImageIcon(name + "/standing left.gif").getImage();
+        loadSprite(runRight, runLeft, "run", name + "/run/", ".gif");
+        loadSprite(jumpRight, jumpLeft, "jump", name + "/jump/", ".png");
+        loadSprite(fallRight, fallLeft, "fall", name + "/fall/", ".png");
+        loadSprite(spAttackRight, spAttackLeft, "Special Attack", name + "/Special Attack/", ".png");
+        standingRight = new ImageIcon(name + "/standing.gif").getImage();
+        standingLeft = new ImageIcon(name + "/standing left.gif").getImage();
     }
     public void loadSprite(Image[]actionRight, Image[]actionLeft, String motion, String directory, String type){
         try{
