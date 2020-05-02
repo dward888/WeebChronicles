@@ -30,7 +30,7 @@ public class selectScreen extends JPanel{
         try{
             for(int i = 0; i < 145; i++) {
                 System.out.println(i);
-                Image img = ImageIO.read(new File("SelectScreen Back Frames/frame" + i + ".gif"));
+                Image img = ImageIO.read(new File("SelectScreen Back Frames1/frame" + i + ".png"));
                 b[i] = img;
             }
         }

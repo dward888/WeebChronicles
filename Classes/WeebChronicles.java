@@ -67,9 +67,11 @@ public class WeebChronicles extends JFrame implements ActionListener {
 		start.add(playBtn,2);
 
 		confirmBtn.addActionListener(this);
+
 		playBtn.setSize(205,60);
 		playBtn.setLocation(500,450);
 		select.add(confirmBtn,0);
+		confirmBtn.setLocation(600,300);
 //yo
 
     }//yop
@@ -84,6 +86,7 @@ public class WeebChronicles extends JFrame implements ActionListener {
 		Object source = evt.getSource();
 		if(source==playBtn){ //if the play button is clicked, the game starts
 		    cLayout.show(cards,"select");//switch from the start menu card to the game card
+			select.requestFocus();
 
 		}
 		if (source == confirmBtn){
