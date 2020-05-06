@@ -18,10 +18,17 @@ public class selectScreen extends JPanel{
         background = loadSprite();
         frame = 0;
     }
-
+    public void addNotify() {
+        super.addNotify();
+        requestFocus();
+    }
     public void paintComponent(Graphics g){
         g.drawImage(background[frame], 0,0,null);
         frame++;
+        System.out.println(frame);
+        if(frame == 144){
+            frame = 0;
+        }
     }
 
     public Image[] loadSprite(){
@@ -33,7 +40,6 @@ public class selectScreen extends JPanel{
             }
         }
         catch(IOException e ){
-
             e.printStackTrace();
         }
         return b;
@@ -41,9 +47,4 @@ public class selectScreen extends JPanel{
     public boolean checkSelect(){
         return characterSelected;
     }
-
-
-
-
-
 }

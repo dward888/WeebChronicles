@@ -25,7 +25,7 @@ public class GamePanel extends JPanel implements KeyListener{
     private ArrayList<Rectangle>plats = new ArrayList<Rectangle>();
     private ArrayList<Bullet>bList = new ArrayList<Bullet>(); //array list for the projectiles (bullets)
     private ArrayList<Bullet>bRemove = new ArrayList<Bullet>(); //Records all the bullets that have hit an object
-
+    private int f = 0;
     private int offset;
 	//images//
 	private Image back;
@@ -106,6 +106,9 @@ public class GamePanel extends JPanel implements KeyListener{
     public void paintComponent(Graphics g){
         //background
         g.drawImage(back, 0, 0, null);
+        f++;
+        System.out.println(f);
+
 
         //bullets
         if(bList.size() > 0) {
