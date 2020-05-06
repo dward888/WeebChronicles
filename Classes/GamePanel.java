@@ -30,6 +30,7 @@ public class GamePanel extends JPanel implements KeyListener{
 	//images//
 	private Image back;
 	private Image star;
+	private Image platPic;
 
     public GamePanel(WeebChronicles m) {
     	keys = new boolean[KeyEvent.KEY_LAST+1];
@@ -55,9 +56,10 @@ public class GamePanel extends JPanel implements KeyListener{
 		//loading images//
 		back = new ImageIcon("Pictures/back.jpg").getImage();
 		star = new ImageIcon("Pictures/star.png").getImage();
+		platPic = new ImageIcon("Pictures/plat pic.png").getImage();
 
         //initilizing the platforms as rects
-        Rectangle plat1 = new Rectangle(500,500,1000,40);
+        Rectangle plat1 = new Rectangle(500,525,1000,40);
         plats.add(plat1);
     }
     public void addNotify() {
@@ -76,7 +78,7 @@ public class GamePanel extends JPanel implements KeyListener{
            }
         }
         if(e.getKeyCode() == KeyEvent.VK_SPACE && !keys[e.getKeyCode()]){
-            Bullet b = new Bullet(p.getX(), p.getY());
+            Bullet b = new Bullet(p.getX()-offset, p.getY());
             b.setDirection(direction);
             bList.add(b);
         }
@@ -184,14 +186,15 @@ public class GamePanel extends JPanel implements KeyListener{
         //drawing the rects
         g.setColor(Color.blue);
         //g.drawRect(p.getX(), p.getY()+8, 40, 60);
-        g.fillRect(500 - offset, 500, 1000, 40);
+        g.drawImage(platPic,500-offset,500,null);
+        //g.fillRect(500 - offset, 510, 1000, 40);
         //g.drawRect(500, 500, 1920,40);
     }
 
     //user moving the character f
     public void move(){
         if (keys[KeyEvent.VK_RIGHT]){
-            if (p.getX() >= 500 + offset){
+            if (p.getX() >= 600 + offset){
                 offset += p.SPEED;
             }
             p.update(right);

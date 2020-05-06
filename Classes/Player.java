@@ -74,12 +74,6 @@ public class Player{
 	public int getBx2(){
     	return bx2;
 	}
-	public boolean checkScroll(){
-    	if (x >= 650){
-    		scroll = true;
-		}
-    	return scroll;
-	}
 	public void setScroll(boolean n){
 		scroll = n;
 	}
