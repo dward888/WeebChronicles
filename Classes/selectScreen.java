@@ -17,7 +17,6 @@ public class selectScreen extends JPanel{
         mainFrame = m;
         background = loadSprite();
         frame = 0;
-
     }
 
     public void paintComponent(Graphics g){
@@ -29,7 +28,6 @@ public class selectScreen extends JPanel{
         Image[]b = new Image[145];
         try{
             for(int i = 0; i < 145; i++) {
-                System.out.println(i);
                 Image img = ImageIO.read(new File("SelectScreen Back Frames/frame" + i + ".png"));
                 b[i] = img;
             }
