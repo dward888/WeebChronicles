@@ -1,12 +1,4 @@
 import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import java.sql.SQLOutput;
-import java.util.ArrayList;
-import java.io.*;
-import javax.imageio.*;
-import javax.sound.midi.*;
-import java.applet.*;
 
 public class Player{
 	private int x,y,width,height,hp,sp;

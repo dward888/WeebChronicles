@@ -3,11 +3,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import java.util.ArrayList;
 import java.io.*;
-import javax.imageio.*;
-import javax.sound.midi.*;
-import java.applet.*;
 
 public class WeebChronicles extends JFrame implements ActionListener {
 	Timer myTimer;
@@ -29,7 +25,7 @@ public class WeebChronicles extends JFrame implements ActionListener {
 	JButton playBtn = new JButton("Play");
 	JButton confirmBtn = new JButton("Confirm");
 
-	public WeebChronicles(){
+	public WeebChronicles() throws IOException, FontFormatException {
 		super("The Weeb Chronicles");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(1200,650);
@@ -96,7 +92,7 @@ public class WeebChronicles extends JFrame implements ActionListener {
 			game.repaint();
 		}
 	}
-	public static void main(String[] arguments) {
+	public static void main(String[] arguments) throws IOException, FontFormatException {
 		WeebChronicles frame = new WeebChronicles(); //starting the entire game
     }
 }
