@@ -22,7 +22,7 @@ public class WeebChronicles extends JFrame implements ActionListener {
 	JPanel cards;
 	CardLayout cLayout = new CardLayout();
 
-	JButton playBtn = new JButton("Play");
+
 	JButton confirmBtn = new JButton("Confirm");
 
 	public WeebChronicles() throws IOException, FontFormatException {
@@ -49,11 +49,6 @@ public class WeebChronicles extends JFrame implements ActionListener {
 		level4 = 4;
 		status = startScreen;
 
-		playBtn.addActionListener(this);
-		playBtn.setSize(205,60);
-		playBtn.setLocation(500,450);
-		start.add(playBtn);
-
 		confirmBtn.addActionListener(this);
 		confirmBtn.setLocation(600,300);
 		confirmBtn.setLocation(600,300);
@@ -67,7 +62,7 @@ public class WeebChronicles extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent evt) {
 		//Following code moves the player to the next stage of the game
 		Object source = evt.getSource();
-		if(source == playBtn){
+		if(start.getLoaded()){
 			cLayout.show(cards,"select");
 			status = selectScreen;
 		}
