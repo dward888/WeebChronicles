@@ -31,7 +31,7 @@ public class startScreen extends JPanel implements MouseListener{
         start = false;
         loaded = false;
         click = false;
-        rect = new Rectangle(910, 500, 200, 86);
+        rect = new Rectangle(910, 525, 200, 86);
         load = loadSprite("loading/loading", 48);
         fastCity = loadSprite("city going fast/city", 30);
         redStart = new ImageIcon("Pictures/start_red.png").getImage();
