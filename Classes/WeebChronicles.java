@@ -22,9 +22,6 @@ public class WeebChronicles extends JFrame implements ActionListener {
 	JPanel cards;
 	CardLayout cLayout = new CardLayout();
 
-
-	JButton confirmBtn = new JButton("Confirm");
-
 	public WeebChronicles() throws IOException, FontFormatException {
 		super("The Weeb Chronicles");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -49,11 +46,6 @@ public class WeebChronicles extends JFrame implements ActionListener {
 		level4 = 4;
 		status = startScreen;
 
-		confirmBtn.addActionListener(this);
-		confirmBtn.setLocation(600,300);
-		confirmBtn.setLocation(600,300);
-		select.add(confirmBtn);
-
 		setVisible(true);
 	}
 	public void start(){
@@ -61,12 +53,11 @@ public class WeebChronicles extends JFrame implements ActionListener {
 	}
 	public void actionPerformed(ActionEvent evt) {
 		//Following code moves the player to the next stage of the game
-		Object source = evt.getSource();
 		if(start.getLoaded()){
 			cLayout.show(cards,"select");
 			status = selectScreen;
 		}
-		else if(source == confirmBtn){
+		if(select.checkSelect()){
 			cLayout.show(cards,"game");
 			status = level1;
 		}

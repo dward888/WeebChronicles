@@ -68,14 +68,12 @@ public class startScreen extends JPanel implements MouseListener{
             if(rect.contains(mousePos)){
                 g.drawImage(redStart, 910, 500, null);
                 if(click){
-                    frame = 0;
                     start = true;
                 }
             }
             g.setColor(Color.white);
             g.setFont(title);
             g.drawString("The Weeb Chronicles", 225,70);
-            //g.drawString("Chronicles",30, 100);
             g.setFont(littleFont);
             g.drawString(" Created By the Vincent Massey Anime Association",30,600);
 
