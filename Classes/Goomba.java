@@ -1,19 +1,24 @@
 import java.awt.*;
 
-public class badGuy {
+public class Goomba {
     private int x,y,dist;
     private double sy,sx;
     private Image badGuy;
+    private int maxR, maxL;
+
+    private int direction;
+    private int left = 1;
+    private int right = 2;
 
     public static final double FRICTION = 0.99;
     public static final double GRAVITY = 0.4;
     public static final double SPEED = 5;
 
-    public badGuy(){
+    public Goomba(int maxR, int maxL){
         x = 120;
         y = 400;
         dist = 0;
-
+        direction = right;
     }
 
     public int getX(){
@@ -46,10 +51,23 @@ public class badGuy {
     public void setY(int n){
         y = n;
     }
+    public int getDirection(){
+        return direction;
+    }
+    public void setDirection(int n){
+        direction = n;
+    }
+    public int getMaxR(){
+        return maxR;
+    }
+    public int getMaxL(){
+        return maxL;
+    }
 
     public void move(double xDelta, double yDelta){
         x += xDelta;
         y += yDelta;
+
     }
     public void accelerate(double accelX, double accelY){
         sx += accelX;
@@ -58,15 +76,15 @@ public class badGuy {
     public void update(){
         move(sx,sy);
         accelerate(0, GRAVITY);
-        /*if (y > 500){
+        if (y > 500){
             sy = 0;
             y = 500;
-        }*/
+        }
     }
-    public void runR(){
+    public void moveR(){
         move(SPEED, 0);
     }
-    public void runL(){
+    public void moveL(){
         move(-SPEED, 0);
     }
     public Rectangle getRect(){

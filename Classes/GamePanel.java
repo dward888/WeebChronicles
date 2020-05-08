@@ -7,7 +7,7 @@ public class GamePanel extends JPanel implements KeyListener{
 	private boolean []keys;
 	private WeebChronicles mainFrame;
 	private Player p;
-	private badGuy b;
+	private Goomba b;
 	private Character[]chars;
 	private boolean walking;
 	private int stillRight;
@@ -35,7 +35,7 @@ public class GamePanel extends JPanel implements KeyListener{
 		chars = new Character[10];
 		loadCharacters();
         p = new Player(chars[0]);
-        b = new badGuy();
+        b = new Goomba(500,600);
 
         //Direction
         stillRight = 0;
@@ -183,7 +183,7 @@ public class GamePanel extends JPanel implements KeyListener{
 
         //drawing the rects
         g.setColor(Color.blue);
-        g.drawRect(b.getX(), b.getY()+8, 40, 60);
+        g.drawRect(b.getX(), b.getY()+8, 20, 20);
         g.drawImage(platPic,500-offset,500,null);
 
         //g.fillRect(500 - offset, 510, 1000, 40);
@@ -214,6 +214,21 @@ public class GamePanel extends JPanel implements KeyListener{
         }
     }
 
+    public void badMove(){
+        if (b.getX() == b.getMaxL()){
+            b.setDirection(right);
+        }
+        if (b.getX() == b.getMaxR() + 20){
+            b.setDirection(left);
+        }
+        if (b.getDirection() == right){
+            b.moveR();
+        }
+        if (b.getDirection() == left){
+            b.moveL();
+        }
+    }
+
     public void playerUpdate(){
         p.update2();
         if(p.getSy() == 0){
@@ -221,6 +236,12 @@ public class GamePanel extends JPanel implements KeyListener{
             p.resetCurrentF();
         }
     }
+
+    public void badUpdate(){
+        b.update();
+
+    }
+
     public void checkCollisions(){
         Rectangle player = p.getRect();//the players rect to check collision
         //Rectangle test = new Rectangle(500,500,1000,40);
