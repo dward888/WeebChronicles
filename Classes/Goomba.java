@@ -14,9 +14,11 @@ public class Goomba {
     public static final double GRAVITY = 0.4;
     public static final double SPEED = 5;
 
-    public Goomba(int maxR, int maxL){
-        x = 120;
-        y = 400;
+    public Goomba(int x1, int y1, int maxLeft, int maxRight){
+        x = x1;
+        y = y1;
+        maxL = maxLeft;
+        maxR = maxRight;
         dist = 0;
         direction = right;
     }

@@ -35,7 +35,7 @@ public class GamePanel extends JPanel implements KeyListener{
 		chars = new Character[10];
 		loadCharacters();
         p = new Player(chars[0]);
-        b = new Goomba(500,600);
+        b = new Goomba(500, 400,500,600);
 
         //Direction
         stillRight = 0;
