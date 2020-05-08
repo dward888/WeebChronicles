@@ -7,6 +7,7 @@ public class GamePanel extends JPanel implements KeyListener{
 	private boolean []keys;
 	private WeebChronicles mainFrame;
 	private Player p;
+	private badGuy b;
 	private Character[]chars;
 	private boolean walking;
 	private int stillRight;
@@ -34,6 +35,7 @@ public class GamePanel extends JPanel implements KeyListener{
 		chars = new Character[10];
 		loadCharacters();
         p = new Player(chars[0]);
+        b = new badGuy();
 
         //Direction
         stillRight = 0;
@@ -181,8 +183,9 @@ public class GamePanel extends JPanel implements KeyListener{
 
         //drawing the rects
         g.setColor(Color.blue);
-        //g.drawRect(p.getX(), p.getY()+8, 40, 60);
+        g.drawRect(b.getX(), b.getY()+8, 40, 60);
         g.drawImage(platPic,500-offset,500,null);
+
         //g.fillRect(500 - offset, 510, 1000, 40);
         //g.drawRect(500, 500, 1920,40);
     }

@@ -24,7 +24,7 @@ public class Player{
 
     public Player(Character w) {
 		weeb = w;
-    	x = 120;
+		x = 120;
 		y = 400;
 		width = 40;
 		height = 40;
@@ -40,7 +40,7 @@ public class Player{
 		right = 2;
 		stillLeft = 3;
 
-    }
+	}
 
     public int getX(){
 		return x;
