@@ -1,7 +1,11 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class GamePanel extends JPanel implements KeyListener{
 	private boolean []keys;
@@ -97,6 +101,14 @@ public class GamePanel extends JPanel implements KeyListener{
         chars[0] = itachi;
     }
 
+    public void loadPlats() throws IOException{
+        Scanner inFile = new Scanner (new BufferedReader(new FileReader("plats.txt")));
+        while (inFile.hasNext()){//while there are lines to be read
+            String line = inFile.nextLine();
+            //int[][] data = line.split(" ");//splitting up each value to be able to keep track of the x,y, emotion values, etc
+        }
+    }
+
     public void deleteBullets(){
         for(int i= 0; i < bRemove.size(); i++){//yo
             bList.remove(bRemove.get(i));
@@ -183,7 +195,7 @@ public class GamePanel extends JPanel implements KeyListener{
 
         //drawing the rects
         g.setColor(Color.blue);
-        g.drawRect(b.getX(), b.getY()+8, 20, 20);
+        g.drawRect(b.getX()-offset, b.getY()+8, 20, 20);
         g.drawImage(platPic,500-offset,500,null);
 
         //g.fillRect(500 - offset, 510, 1000, 40);

@@ -44,8 +44,8 @@ public class WeebChronicles extends JFrame implements ActionListener {
 		level2 = 2;
 		level3 = 3;
 		level4 = 4;
-		//status = startScreen;
-		status = level1;
+		status = startScreen;
+		//status = level1;
 
 		setVisible(true);
 	}
