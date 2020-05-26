@@ -38,6 +38,9 @@ public class GamePanel extends JPanel implements KeyListener{
 	private Image platPic;
 	private Image longPlat;
 
+    private int mx;
+    private int my;
+
     public GamePanel(WeebChronicles m) {
     	keys = new boolean[KeyEvent.KEY_LAST+1];
 		mainFrame = m;
@@ -60,11 +63,12 @@ public class GamePanel extends JPanel implements KeyListener{
 		addKeyListener(this);
 
 		//loading images//
-		back = new ImageIcon("Pictures/back.jpg").getImage();
+		back = new ImageIcon("Pictures/back.png").getImage();
 		star = new ImageIcon("Pictures/star.png").getImage();
 		platPic = new ImageIcon("Pictures/plat pic.png").getImage();
 		longPlat =  new ImageIcon("platPics/longPlat.png").getImage();
 
+        //addMouseListener(this);
         //initilizing the platforms as rects
         //Rectangle plat1 = new Rectangle(500,525,1000,40);
         //plats1.add(plat1);
@@ -138,9 +142,12 @@ public class GamePanel extends JPanel implements KeyListener{
 
     public void paintComponent(Graphics g){
         //background
+        Point mousePos = getMousePosition();
+        mx = (int) mousePos.getX();
+        my = (int) mousePos.getY();
         g.drawImage(back, 0, 0, null);
         f++;
-        System.out.println(f);
+        System.out.println(mx+","+ my);
 
 
         //bullets
