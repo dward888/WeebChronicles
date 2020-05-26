@@ -259,9 +259,12 @@ public class Player{
 		//sx *= FRICTION;
 		//sy *= FRICTION;
 		accelerate(0, GRAVITY);
-		if (y > 500){
+		if (y > 590){
 			sy = 0;
-			y = 500;
+			y = 590;
+		}
+		if (x < 20){
+			x = 20;
 		}
 	}
 	public void runR(){
@@ -283,7 +286,7 @@ public class Player{
 		currentF ++;
 	}
 	public Rectangle getRect(){
-		return new Rectangle(x,y+8,40,60);
+		return new Rectangle(x+5,y+8,40,55);
 	}
 }
 

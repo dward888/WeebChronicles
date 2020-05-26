@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -35,8 +36,9 @@ public class GamePanel extends JPanel implements KeyListener{
 	//images//
 	private Image back;
 	private Image star;
-	private Image platPic;
+	//private Image platPic;
 	private Image longPlat;
+	private Image airPlat;
 
     private int mx;
     private int my;
@@ -65,8 +67,9 @@ public class GamePanel extends JPanel implements KeyListener{
 		//loading images//
 		back = new ImageIcon("Pictures/back.png").getImage();
 		star = new ImageIcon("Pictures/star.png").getImage();
-		platPic = new ImageIcon("Pictures/plat pic.png").getImage();
+		//platPic = new ImageIcon("Pictures/plat pic.png").getImage();
 		longPlat =  new ImageIcon("platPics/longPlat.png").getImage();
+		airPlat = new ImageIcon("platPics/airPlat.png").getImage();
 
         //addMouseListener(this);
         //initilizing the platforms as rects
@@ -147,7 +150,10 @@ public class GamePanel extends JPanel implements KeyListener{
         my = (int) mousePos.getY();
         g.drawImage(back, 0, 0, null);
         f++;
+        //System.out.println(p.getY());
+        //System.out.println(my);
         System.out.println(mx+","+ my);
+
 
 
         //bullets
@@ -213,6 +219,7 @@ public class GamePanel extends JPanel implements KeyListener{
 
         //drawing the rects
         g.setColor(Color.blue);
+        g.drawRect(p.getX()+5-offset, p.getY()+8,40,55);
         g.drawRect(b.getX()-offset, b.getY()+8, 20, 20);
         for (Platform p : plats1){
             g.drawImage(p.getImage(),p.getX() - offset,p.getY(),null);

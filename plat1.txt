@@ -1,1 +1,6 @@
-500 525 longPlat
+0 570 longPlat
+250 570 longPlat
+500 570 longPlat
+750 570 longPlat
+1000 570 longPlat
+500 450 airPlat
