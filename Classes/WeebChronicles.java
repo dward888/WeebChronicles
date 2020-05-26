@@ -46,12 +46,19 @@ public class WeebChronicles extends JFrame implements ActionListener {
 		status = startScreen;
 		//status = level1;
 
+		try {
+			game.loadPlats("plat1.txt",1);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		setVisible(true);
 	}
 	public void start(){
 		myTimer.start();
 	}
 	public void actionPerformed(ActionEvent evt) {
+
 		//Following code moves the player to the next stage of the game
 		if(start.getLoaded()){
 			cLayout.show(cards,"game");
@@ -76,11 +83,7 @@ public class WeebChronicles extends JFrame implements ActionListener {
 			game.move();
 			game.playerUpdate();//applying physics
 			game.badMove();
-            try {
-                game.loadPlats("plat1.txt",1);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
             game.badUpdate();
 			game.checkCollisions();
 			game.repaint();

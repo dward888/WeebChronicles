@@ -120,17 +120,21 @@ public class GamePanel extends JPanel implements KeyListener{
             //int h = Integer.parseInt(data[3]);
             Platform tmp = new Platform(x,y,p);
             if (lvl == 1){
-                plats1.add(tmp);
+                //plats1.add(tmp);
                 plats.add(tmp);
                 rects.add(tmp.getRect());
             }
             if (lvl == 2){
-                plats2.add(tmp);
+                //plats2.add(tmp);
+                plats = new ArrayList<Platform>();
+                rects = new ArrayList<Rectangle>();
                 plats.add(tmp);
                 rects.add(tmp.getRect());
             }
             if (lvl == 3){
-                plats3.add(tmp);
+                //plats3.add(tmp);
+                plats = new ArrayList<Platform>();
+                rects = new ArrayList<Rectangle>();
                 plats.add(tmp);
                 rects.add(tmp.getRect());
             }
@@ -221,7 +225,7 @@ public class GamePanel extends JPanel implements KeyListener{
         g.setColor(Color.blue);
         g.drawRect(p.getX()+5-offset, p.getY()+8,40,55);
         g.drawRect(b.getX()-offset, b.getY()+8, 20, 20);
-        for (Platform p : plats1){
+        for (Platform p : plats){
             g.drawImage(p.getImage(),p.getX() - offset,p.getY(),null);
         }
         //g.drawImage(platPic,500-offset,500,null);+
