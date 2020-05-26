@@ -41,9 +41,7 @@ public class GamePanel extends JPanel implements KeyListener{
     public GamePanel(WeebChronicles m) {
     	keys = new boolean[KeyEvent.KEY_LAST+1];
 		mainFrame = m;
-		chars = new Character[10];
-		loadCharacters();
-        p = new Player(chars[0]);
+        p = new Player();
         b = new Goomba(500, 400,500,600);
 
         //Direction
@@ -51,6 +49,7 @@ public class GamePanel extends JPanel implements KeyListener{
         left = 1;
         right = 2;
         stillLeft = 3;
+
         direction = right;
         walking = false;
         offset = 0;
@@ -102,11 +101,6 @@ public class GamePanel extends JPanel implements KeyListener{
         }
     }
 
-    public void loadCharacters(){
-        Character itachi = new Character("Itachi", 100, 100, 100, 6 , 6, 5);
-        chars[0] = itachi;
-    }
-
     public void loadPlats(String file, int lvl) throws IOException{
         Scanner inFile = new Scanner (new BufferedReader(new FileReader(file)));
         while (inFile.hasNext()){//while there are lines to be read
@@ -150,7 +144,7 @@ public class GamePanel extends JPanel implements KeyListener{
 
 
         //bullets
-        if(bList.size() > 0) {
+        /*if(bList.size() > 0) {
             for (int i = 0; i < bList.size(); i++) {
                 //if(bList.get(i).getDirection() == right){
                     //g.drawImage(p.getFrame(bulletRight), bList.get(i).getX(), bList.get(i).getY(), null);
@@ -162,7 +156,8 @@ public class GamePanel extends JPanel implements KeyListener{
                 bList.get(i).move();
                 //Removing when out of bounds
             }
-        }
+        }*/
+
         //drawing the sprites for their respective direction
         if(direction == right && !midAir){
             if(!walking){//Standing Right
@@ -185,35 +180,24 @@ public class GamePanel extends JPanel implements KeyListener{
 
         if(midAir){
             if(direction == left){
-                //Going Up
-                if(p.getSy() < 0) {
-                    if (p.getCurrentF() > 5) {
-                        g.drawImage(p.getJumpL()[0], p.getX()-offset, p.getY(), null);
-                    }
-                    else {
-                        g.drawImage(p.getJumpL()[1], p.getX()-offset, p.getY(), null);
-                    }
+                if(p.getSy() < 0){
+                    g.drawImage(p.getJumpL(), p.getX()-offset, p.getY(), null);
                     p.addCurrentF();
                 }
-                //Going Down
                 if(p.getSy() > 0){
-                    g.drawImage(p.getFallL()[0], p.getX()-offset, p.getY(), null);
+                    g.drawImage(p.getJumpL(), p.getX()-offset, p.getY(), null);
+                    p.addCurrentF();
                 }
+
             }
             if(direction == right){
-                //Going Up
                 if(p.getSy() < 0){
-                    if (p.getCurrentF() > 5) {
-                        g.drawImage(p.getJumpR()[0], p.getX() - offset, p.getY(), null);
-                    }
-                    else {
-                        g.drawImage(p.getJumpR()[1], p.getX() - offset, p.getY(), null);
-                    }
+                    g.drawImage(p.getJumpR(), p.getX() - offset, p.getY(), null);
                     p.addCurrentF();
                 }
-                //Going Down
                 if(p.getSy() > 0){
-                    g.drawImage(p.getFallR()[0], p.getX()-offset, p.getY(), null);
+                    g.drawImage(p.getJumpR(), p.getX() - offset, p.getY(), null);
+                    p.addCurrentF();
                 }
             }
         }

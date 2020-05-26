@@ -19,40 +19,40 @@ public class Character {
     private Image standingLeft;
     private Image[]jumpRight;
     private Image[]jumpLeft;
-    private Image[]fallRight;
-    private Image[]fallLeft;
-    private Image[]spAttackRight;
-    private Image[]spAttackLeft;
+    //private Image[]fallRight;
+    //private Image[]fallLeft;
+    //private Image[]spAttackRight;
+    //private Image[]spAttackLeft;
 
-    public Character(String n, int a,  int d, int s, int rightSize, int leftSize, int spAttackSize){
-        name = n;
-        attack = a;
-        defense = d;
-        speed = s;
-        runRight  = new Image[rightSize];
-        runLeft = new Image[leftSize];
-        spAttackRight = new Image[spAttackSize];
-        spAttackLeft = new Image[spAttackSize];//yo
-        jumpRight = new Image[2];
-        jumpLeft = new Image[2];
-        fallRight = new Image[2];//oy0oa
-        fallLeft = new Image[2];
+    public Character(){
+        //name = n;
+        //attack = a;
+        //defense = d;
+        //speed = s;
+        runRight  = new Image[10];
+        runLeft = new Image[10];
+        //spAttackRight = new Image[spAttackSize];
+        //spAttackLeft = new Image[spAttackSize];//yo
+        jumpRight = new Image[3];
+        jumpLeft = new Image[3];
+        //fallRight = new Image[2];//oy0oa
+        //fallLeft = new Image[2];
 
         loadSprite();
         //hi
     }
     public void loadSprite(){
-        loadSprite(runRight, runLeft, "run", name + "/run/", ".gif");
-        loadSprite(jumpRight, jumpLeft, "jump", name + "/jump/", ".png");
-        loadSprite(fallRight, fallLeft, "fall", name + "/fall/", ".png");
-        loadSprite(spAttackRight, spAttackLeft, "Special Attack", name + "/Special Attack/", ".png");
+        loadSprite(runRight, runLeft, "run", "Ryan Funyanjiwan/Run/run");
+        loadSprite(jumpRight, jumpLeft, "jump", "Ryan Funyanjiwan/Jump/jump");
+        //loadSprite(fallRight, fallLeft, "fall", name + "/fall/", ".png");
+        //loadSprite(spAttackRight, spAttackLeft, "Special Attack", name + "/Special Attack/", ".png");
         standingRight = new ImageIcon(name + "/standing.gif").getImage();
         standingLeft = new ImageIcon(name + "/standing left.gif").getImage();
     }
-    public void loadSprite(Image[]actionRight, Image[]actionLeft, String motion, String directory, String type){
+    public void loadSprite(Image[]actionRight, Image[]actionLeft, String motion, String directory){
         try{
             for(int i = 1; i < actionRight.length + 1; i++) {
-                Image img = ImageIO.read(new File(directory + motion + i + type));
+                Image img = ImageIO.read(new File(directory +  i + ".png"));
                 actionRight[i-1] = img;
                 actionLeft[i-1] = flipImage(img);
             }
@@ -79,8 +79,8 @@ public class Character {
     public Image[] getRunRight(){return runRight;}
     public Image[] getJumpLeft() {return jumpLeft;}
     public Image[] getJumpRight(){return jumpRight;}
-    public Image[] getFallLeft(){return fallLeft;}
-    public Image[] getFallRight(){return fallRight;}
-    public Image[] getSpALeft(){return spAttackLeft;}
-    public Image[] getSpARight(){return spAttackRight;}
+    //public Image[] getFallLeft(){return fallLeft;}
+    //public Image[] getFallRight(){return fallRight;}
+    //public Image[] getSpALeft(){return spAttackLeft;}
+    //public Image[] getSpARight(){return spAttackRight;}
 }

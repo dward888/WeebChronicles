@@ -29,17 +29,16 @@ public class WeebChronicles extends JFrame implements ActionListener {
 		myTimer = new Timer(15, this);	 // trigger every 10 ms
 		setResizable(false);
 		game = new GamePanel(this);
-		select = new selectScreen(this);
+		//select = new selectScreen(this);
 		start = new startScreen(this);
 		cards = new JPanel(cLayout);
 		cards.add(start, "start");
-		cards.add(select, "select");
 		cards.add(game, "game");
 
 		add(cards);
 
 		startScreen = -1;
-		selectScreen = 0;
+		//selectScreen = 0;
 		level1 = 1;
 		level2 = 2;
 		level3 = 3;
@@ -55,13 +54,14 @@ public class WeebChronicles extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent evt) {
 		//Following code moves the player to the next stage of the game
 		if(start.getLoaded()){
-			cLayout.show(cards,"select");
-			status = selectScreen;
-		}
-		if(select.checkSelect()){
 			cLayout.show(cards,"game");
 			status = level1;
 		}
+		/*if(select.checkSelect()){
+			cLayout.show(cards,"game");
+			status = level1;
+		}*/
+
 		//Following code draws the elements of each stage
 		if(status == startScreen){
 			start.requestFocus();

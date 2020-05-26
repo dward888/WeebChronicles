@@ -56,8 +56,12 @@ public class startScreen extends JPanel implements MouseListener{
         return b;
     }
     public void paintComponent(Graphics g){
-        PointerInfo point = MouseInfo.getPointerInfo();
-        Point mousePos = point.getLocation();
+        //PointerInfo point = MouseInfo.getPointerInfo();
+
+        Point mousePos = getMousePosition();
+        if(mousePos == null){
+            mousePos = new Point(0,0);
+        }
         mx = (int) mousePos.getX();
         my = (int) mousePos.getY();
         if(!start) {
