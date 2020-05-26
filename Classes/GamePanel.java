@@ -23,7 +23,11 @@ public class GamePanel extends JPanel implements KeyListener{
 	private int bulletLeft;
 	private int frame;
 	private boolean midAir;//this boolean will make sure the user can't double jump
-    private ArrayList<Rectangle>plats = new ArrayList<Rectangle>();
+    private ArrayList<Rectangle>rects = new ArrayList<Rectangle>();
+    private ArrayList<Platform>plats = new ArrayList<Platform>();
+    private ArrayList<Platform>plats1 = new ArrayList<Platform>();
+    private ArrayList<Platform>plats2 = new ArrayList<Platform>();
+    private ArrayList<Platform>plats3 = new ArrayList<Platform>();
     private ArrayList<Bullet>bList = new ArrayList<Bullet>(); //array list for the projectiles (bullets)
     private ArrayList<Bullet>bRemove = new ArrayList<Bullet>(); //Records all the bullets that have hit an object
     private int f = 0;
@@ -32,6 +36,7 @@ public class GamePanel extends JPanel implements KeyListener{
 	private Image back;
 	private Image star;
 	private Image platPic;
+	private Image longPlat;
 
     public GamePanel(WeebChronicles m) {
     	keys = new boolean[KeyEvent.KEY_LAST+1];
@@ -59,10 +64,11 @@ public class GamePanel extends JPanel implements KeyListener{
 		back = new ImageIcon("Pictures/back.jpg").getImage();
 		star = new ImageIcon("Pictures/star.png").getImage();
 		platPic = new ImageIcon("Pictures/plat pic.png").getImage();
+		longPlat =  new ImageIcon("platPics/longPlat.png").getImage();
 
         //initilizing the platforms as rects
-        Rectangle plat1 = new Rectangle(500,525,1000,40);
-        plats.add(plat1);
+        //Rectangle plat1 = new Rectangle(500,525,1000,40);
+        //plats1.add(plat1);
     }
     public void addNotify() {
         super.addNotify();
@@ -101,11 +107,32 @@ public class GamePanel extends JPanel implements KeyListener{
         chars[0] = itachi;
     }
 
-    public void loadPlats() throws IOException{
-        Scanner inFile = new Scanner (new BufferedReader(new FileReader("plats.txt")));
+    public void loadPlats(String file, int lvl) throws IOException{
+        Scanner inFile = new Scanner (new BufferedReader(new FileReader(file)));
         while (inFile.hasNext()){//while there are lines to be read
             String line = inFile.nextLine();
-            //int[][] data = line.split(" ");//splitting up each value to be able to keep track of the x,y, emotion values, etc
+            String[]data = line.split(" ");//splitting up each value to be able to keep track of the x,y, width, height
+            int x = Integer.parseInt(data[0]);
+            int y = Integer.parseInt(data[1]);
+            String p = data[2];
+            //int w = Integer.parseInt(data[2]);
+            //int h = Integer.parseInt(data[3]);
+            Platform tmp = new Platform(x,y,p);
+            if (lvl == 1){
+                plats1.add(tmp);
+                plats.add(tmp);
+                rects.add(tmp.getRect());
+            }
+            if (lvl == 2){
+                plats2.add(tmp);
+                plats.add(tmp);
+                rects.add(tmp.getRect());
+            }
+            if (lvl == 3){
+                plats3.add(tmp);
+                plats.add(tmp);
+                rects.add(tmp.getRect());
+            }
         }
     }
 
@@ -196,7 +223,10 @@ public class GamePanel extends JPanel implements KeyListener{
         //drawing the rects
         g.setColor(Color.blue);
         g.drawRect(b.getX()-offset, b.getY()+8, 20, 20);
-        g.drawImage(platPic,500-offset,500,null);
+        for (Platform p : plats1){
+            g.drawImage(p.getImage(),p.getX() - offset,p.getY(),null);
+        }
+        //g.drawImage(platPic,500-offset,500,null);+
 
         //g.fillRect(500 - offset, 510, 1000, 40);
         //g.drawRect(500, 500, 1920,40);
@@ -264,7 +294,7 @@ public class GamePanel extends JPanel implements KeyListener{
             midAir = false;
             p.resetCurrentF();
         }*/
-        for(Rectangle plat : plats){//checking collision for each platform in the arraylist
+        for(Rectangle plat : rects){//checking collision for each platform in the arraylist
             if (player.intersects(plat)){
                 p.setSy(0);//because the player is on a platform, the speed in the y component is zero
                 p.setY(plat.y-60);

@@ -76,9 +76,15 @@ public class WeebChronicles extends JFrame implements ActionListener {
 			game.move();
 			game.playerUpdate();//applying physics
 			game.badMove();
-			game.badUpdate();
+            try {
+                game.loadPlats("plat1.txt",1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            game.badUpdate();
 			game.checkCollisions();
 			game.repaint();
+
 		}
 	}
 	public static void main(String[] arguments) throws IOException, FontFormatException {
