@@ -33,7 +33,7 @@ public class GamePanel extends JPanel implements KeyListener{
     //private ArrayList<Platform>plats1 = new ArrayList<Platform>();
     //private ArrayList<Platform>plats2 = new ArrayList<Platform>();
     //private ArrayList<Platform>plats3 = new ArrayList<Platform>();
-
+    //yo
     private ArrayList<Goomba>goombs = new ArrayList<Goomba>();
 
     private ArrayList<Bullet>bList = new ArrayList<Bullet>(); //array list for the projectiles (bullets)

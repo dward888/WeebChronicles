@@ -6,16 +6,7 @@ public class Player{
 	private double sy,sx;
 	private String name;
 	private boolean scroll;
-	//private Character weeb;
 	private int currentF;
-
-	//Direction pen
-	private int stillRight;
-	private int right;
-	private int left;
-	private int stillLeft;
-	private int bulletRight;
-	private int bulletLeft;
 
 	public static final double FRICTION = 0.99;
 	public static final double GRAVITY = 0.4;
@@ -31,15 +22,6 @@ public class Player{
 		scroll = false;
 		currentF = 0;
 		bx2 = 1185;
-		bulletLeft = 4;
-		bulletRight = 5;
-
-		//Direction
-		stillRight = 0;
-		left = 1;
-		right = 2;
-		stillLeft = 3;
-
 	}
 
 	public int getX(){
