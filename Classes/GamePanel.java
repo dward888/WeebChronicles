@@ -256,7 +256,7 @@ public class GamePanel extends JPanel implements KeyListener{
         }
         for (Goomba b : goombs){
             g.drawImage(b.getImage(), b.getX()-offset, b.getY(),null);
-            g.drawRect(b.getX()-offset,b.getY(),40,40);
+            g.drawRect(b.getX()-offset,b.getY(),32,32);
         }
 
 
@@ -347,7 +347,7 @@ public class GamePanel extends JPanel implements KeyListener{
             for (Goomba bad : goombs){
                 if (plat.getRect().intersects(bad.getRect())){
                     bad.setSy(0);
-                    bad.setY(plat.getRect().y-45);
+                    bad.setY(plat.getRect().y-30);
                 }
             }
         }

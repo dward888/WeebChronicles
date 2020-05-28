@@ -25,7 +25,7 @@ public class Goomba {
         dist = 0;
         direction = right;
         pic =  new ImageIcon("badPics/" + f + ".png").getImage();
-        rect = new Rectangle(x1,y1,pic.getWidth(null)-40,pic.getHeight(null)-40);//pic.getWidth(null), pic.getHeight(null));
+        rect = new Rectangle(x1,y1,pic.getWidth(null),pic.getHeight(null));//pic.getWidth(null), pic.getHeight(null));
     }
 
     public int getX(){
