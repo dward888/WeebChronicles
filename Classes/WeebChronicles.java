@@ -52,6 +52,12 @@ public class WeebChronicles extends JFrame implements ActionListener {
 			e.printStackTrace();
 		}
 
+		try {
+			game.loadGoombs("goomba1.txt",1);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		setVisible(true);
 	}
 	public void start(){

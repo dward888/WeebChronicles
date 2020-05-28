@@ -1,26 +1,31 @@
+import javax.swing.*;
 import java.awt.*;
 
 public class Goomba {
     private int x,y,dist;
     private double sy,sx;
-    private Image badGuy;
+    private Image pic;
     private int maxR, maxL;
 
     private int direction;
     private int left = 1;
     private int right = 2;
 
+    private Rectangle rect;
+
     public static final double FRICTION = 0.99;
     public static final double GRAVITY = 0.4;
-    public static final double SPEED = 5;
+    public static final double SPEED = 2;
 
-    public Goomba(int x1, int y1, int maxLeft, int maxRight){
+    public Goomba(int x1, int y1, int maxLeft, int maxRight, String f){
         x = x1;
         y = y1;
         maxL = maxLeft;
         maxR = maxRight;
         dist = 0;
         direction = right;
+        pic =  new ImageIcon("badPics/" + f + ".png").getImage();
+        rect = new Rectangle(x1,y1,pic.getWidth(null)-40,pic.getHeight(null)-40);//pic.getWidth(null), pic.getHeight(null));
     }
 
     public int getX(){
@@ -78,9 +83,9 @@ public class Goomba {
     public void update(){
         move(sx,sy);
         accelerate(0, GRAVITY);
-        if (y > 500){
+        if (y > 590){
             sy = 0;
-            y = 500;
+            y = 590;
         }
     }
     public void moveR(){
@@ -90,6 +95,9 @@ public class Goomba {
         move(-SPEED, 0);
     }
     public Rectangle getRect(){
-        return new Rectangle(x,y+8,20,20);
+        return rect;
+    }
+    public Image getImage(){
+        return pic;
     }
 }

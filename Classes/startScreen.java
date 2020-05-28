@@ -62,8 +62,8 @@ public class startScreen extends JPanel implements MouseListener{
         if(mousePos == null){
             mousePos = new Point(0,0);
         }
-        mx = (int) mousePos.getX();
-        my = (int) mousePos.getY();
+        //mx = (int) mousePos.getX();
+        //my = (int) mousePos.getY();
         if(!start) {
             if (frame % 3 == 0) {
                 g.drawImage(fastCity[frame / 3], 0, 0, null);
