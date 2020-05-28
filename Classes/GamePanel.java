@@ -214,6 +214,7 @@ public class GamePanel extends JPanel implements KeyListener{
             }
         }*/
 
+        //Following code draws player sprites
         if(direction == right && !midAir){
             if(!walking){ //Standing Right
                 if(currentF >= (idleRight.length - 1) * 8){
