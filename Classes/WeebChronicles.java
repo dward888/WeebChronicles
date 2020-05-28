@@ -10,10 +10,7 @@ public class WeebChronicles extends JFrame implements ActionListener {
 	int status;
 	int startScreen;
 	int selectScreen;
-	int level1;
-	int level2;
-	int level3;
-	int level4;
+	int gPanel;
 
 	startScreen start;
 	selectScreen select;
@@ -29,22 +26,24 @@ public class WeebChronicles extends JFrame implements ActionListener {
 		myTimer = new Timer(15, this);	 // trigger every 10 ms
 		setResizable(false);
 		game = new GamePanel(this);
-		//select = new selectScreen(this);
 		start = new startScreen(this);
 		cards = new JPanel(cLayout);
-		cards.add(start, "start");
+
+
+		//***Following code --> change order so that the start screen appears
+		//cards.add(start, "start");
+		//cards.add(game, "game");
 		cards.add(game, "game");
+		cards.add(start, "start");
+
 
 		add(cards);
 
 		startScreen = -1;
 		//selectScreen = 0;
-		level1 = 1;
-		level2 = 2;
-		level3 = 3;
-		level4 = 4;
-		status = startScreen;
-		//status = level1;
+		gPanel = 1;
+		//status = startScreen;
+		status = gPanel;
 
 		try {
 			game.loadPlats("plat1.txt",1);
@@ -68,12 +67,8 @@ public class WeebChronicles extends JFrame implements ActionListener {
 		//Following code moves the player to the next stage of the game
 		if(start.getLoaded()){
 			cLayout.show(cards,"game");
-			status = level1;
+			status = gPanel;
 		}
-		/*if(select.checkSelect()){
-			cLayout.show(cards,"game");
-			status = level1;
-		}*/
 
 		//Following code draws the elements of each stage
 		if(status == startScreen){
@@ -84,7 +79,7 @@ public class WeebChronicles extends JFrame implements ActionListener {
 			select.requestFocus();
 			select.repaint();
 		}
-		else if(status == level1){
+		else if(status == gPanel){
 			game.requestFocus();
 			game.move();
 			game.playerUpdate();//applying physics
@@ -93,7 +88,6 @@ public class WeebChronicles extends JFrame implements ActionListener {
             game.badUpdate();
 			game.checkCollisions();
 			game.repaint();
-
 		}
 	}
 	public static void main(String[] arguments) throws IOException, FontFormatException {

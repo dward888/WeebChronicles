@@ -1,10 +1,11 @@
 import java.awt.*;
 import java.awt.event.*;
+import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -23,7 +24,7 @@ public class GamePanel extends JPanel implements KeyListener{
 	private int direction;
 	private int bulletRight;
 	private int bulletLeft;
-	private int frame;
+	private int currentF;
 	private boolean midAir;//this boolean will make sure the user can't double jump
     private ArrayList<Rectangle>platRects = new ArrayList<Rectangle>();
     private ArrayList<Rectangle>badRects = new ArrayList<Rectangle>();
@@ -49,6 +50,15 @@ public class GamePanel extends JPanel implements KeyListener{
     private int mx;
     private int my;
 
+    //Frame Arrays
+	private Image[]runRight;
+	private Image[]runLeft;
+	private Image[]idleRight;
+	private Image[]idleLeft;
+
+	private Image jumpRight;
+	private Image jumpLeft;
+
     public GamePanel(WeebChronicles m) {
     	keys = new boolean[KeyEvent.KEY_LAST+1];
 		mainFrame = m;
@@ -64,7 +74,7 @@ public class GamePanel extends JPanel implements KeyListener{
         direction = right;
         walking = false;
         offset = 0;
-        frame = 0;
+        currentF = 0;
         bulletLeft = 4;
         bulletRight = 5;
 
@@ -81,6 +91,14 @@ public class GamePanel extends JPanel implements KeyListener{
         //initilizing the platforms as rects
         //Rectangle plat1 = new Rectangle(500,525,1000,40);
         //plats1.add(plat1);
+
+        //Frame Arrays
+        runRight  = new Image[10];
+        runLeft = new Image[10];
+        idleRight = new Image[8];
+        idleLeft = new Image[8];
+
+        loadSprite();
     }
     public void addNotify() {
         super.addNotify();
@@ -180,11 +198,6 @@ public class GamePanel extends JPanel implements KeyListener{
         my = (int) mousePos.getY();
         g.drawImage(back, 0, 0, null);
         f++;
-        //System.out.println(p.getY());
-        //System.out.println(my);
-        //System.out.println(mx+","+ my);
-
-
 
         //bullets
         /*if(bList.size() > 0) {
@@ -201,51 +214,44 @@ public class GamePanel extends JPanel implements KeyListener{
             }
         }*/
 
-        //drawing the sprites for their respective direction
         if(direction == right && !midAir){
-            if(!walking){//Standing Right
-                g.drawImage(p.getFrame(stillRight), p.getX()-offset, p.getY(), null);
+            if(!walking){ //Standing Right
+                if(currentF >= (idleRight.length - 1) * 8){
+                    currentF = 0;
+                }
+                g.drawImage(idleRight[currentF/8], p.getX()-offset, p.getY(), null);
             }
             else{
-                g.drawImage(p.getFrame(right), p.getX()-offset, p.getY(), null);
+                if(currentF >= (runRight.length - 1) * 3){
+                    currentF = 0;
+                }
+                g.drawImage(runRight[currentF/3], p.getX()-offset, p.getY(), null);
             }
         }
         if(direction == left && !midAir){
             if(!walking){ //Standing Left
-                g.drawImage(p.getFrame(stillLeft), p.getX()-offset, p.getY(), null);
-
+                if(currentF >= (idleLeft.length - 1) * 8){
+                    currentF = 0;
                 }
-            else{ //Run Left
-                g.drawImage(p.getFrame(left), (p.getX())-offset, p.getY(), null);
-
+                g.drawImage(idleLeft[currentF/8], p.getX()-offset, p.getY(), null);
+            }
+            else{
+                if(currentF >= (runLeft.length - 1) * 3){
+                    currentF = 0;
+                }
+                g.drawImage(runLeft[currentF/3], p.getX()-offset, p.getY(), null);
             }
         }
-
         if(midAir){
-            if(direction == left){
-                if(p.getSy() < 0){
-                    g.drawImage(p.getJumpL(), p.getX()-offset, p.getY(), null);
-                    p.addCurrentF();
-                }
-                if(p.getSy() > 0){
-                    g.drawImage(p.getJumpL(), p.getX()-offset, p.getY(), null);
-                    p.addCurrentF();
-                }
-
-            }
             if(direction == right){
-                if(p.getSy() < 0){
-                    g.drawImage(p.getJumpR(), p.getX() - offset, p.getY(), null);
-                    p.addCurrentF();
-                }
-                if(p.getSy() > 0){
-                    g.drawImage(p.getJumpR(), p.getX() - offset, p.getY(), null);
-                    p.addCurrentF();
-                }
+                g.drawImage(jumpRight, p.getX()-offset, p.getY(), null);
+            }
+            if(direction == left){
+                g.drawImage(jumpLeft, p.getX()-offset, p.getY(), null);
             }
         }
 
-        frame++;
+        currentF++;
 
         //drawing the rects
         g.setColor(Color.blue);
@@ -352,4 +358,33 @@ public class GamePanel extends JPanel implements KeyListener{
             }
         }
     }
+    public void loadSprite(){
+		loadSprite(runRight, runLeft, "Ryan Funyanjiwan/Run/run");
+		loadSprite(idleRight, idleLeft, "Ryan Funyanjiwan/Idle/idle");
+		jumpRight = new ImageIcon("Ryan Funyanjiwan/jump.png").getImage();
+		jumpLeft = flipImage(jumpRight);
+	}
+
+	public void loadSprite(Image[]actionRight, Image[]actionLeft, String directory){
+		try{
+			for(int i = 0; i < actionRight.length; i++) {
+				Image img = ImageIO.read(new File(directory +  i + ".png"));
+				actionRight[i] = img;
+				actionLeft[i] = flipImage(img);
+			}
+		}
+		catch(IOException e ){
+			e.printStackTrace();
+		}
+	}
+	public Image flipImage(Image image) {
+		BufferedImage bImg = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_4BYTE_ABGR);
+		Graphics2D g = (Graphics2D) bImg.getGraphics();
+		g.drawImage(image, 0, 0, null);
+		AffineTransform mirror = AffineTransform.getScaleInstance(-1, 1);
+		mirror.translate(-bImg.getWidth(null), 0);
+		AffineTransformOp mirrorOp = new AffineTransformOp(mirror, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+		bImg = mirrorOp.filter(bImg, null);
+		return bImg;
+	}
 }
