@@ -345,9 +345,9 @@ public class GamePanel extends JPanel implements KeyListener{
                 midAir = false;
             }
             for (Goomba bad : goombs){
-                if (bad.getRect().intersects(plat.getRect())){
+                if (plat.getRect().intersects(bad.getRect())){
                     bad.setSy(0);
-                    bad.setY(plat.getRect().y-60);
+                    bad.setY(plat.getRect().y-45);
                 }
             }
         }
