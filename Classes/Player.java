@@ -61,6 +61,10 @@ public class Player{
     	y = n;
 	}
 
+	public int getHeight(){
+		return height;
+	}
+
 	public void move(double xDelta, double yDelta){
 		x += xDelta;
 		y += yDelta;

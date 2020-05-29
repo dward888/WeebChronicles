@@ -236,7 +236,8 @@ public class GamePanel extends JPanel implements KeyListener{
         //my = (int) mousePos.getY();
         g.drawImage(back, 0, 0, null);
         f++;
-        System.out.println(p.getX() + "," + p.getY());
+        //System.out.println(p.getX() + "," + p.getY());
+        //System.out.println(midAir);
 
         //bullets
         /*if(bList.size() > 0) {
@@ -254,7 +255,7 @@ public class GamePanel extends JPanel implements KeyListener{
         }*/
         for (Platform p : plats){
             g.drawImage(p.getImage(),p.getX() - offset,p.getY()-p.getAdjust(),null);
-            //g.drawRect(p.getX()-offset,p.getY()-p.getAdjust());
+            g.drawRect(p.getX()-offset,p.getY()-p.getAdjust(),p.getRect().width,p.getRect().height);
         }
         for (Goomba b : goombs){
             g.drawImage(b.getImage(), b.getX()-offset, b.getY()-b.getAdjust(),null);
@@ -391,9 +392,12 @@ public class GamePanel extends JPanel implements KeyListener{
         }*/
         for(Platform plat : plats){//checking collision for each platform in the arraylist
             if (plat.getRect().intersects(p.getRect())){
-                p.setSy(0);//because the player is on a platform, the speed in the y component is zero
-                p.setY(plat.getRect().y-65);
-                midAir = false;
+                System.out.println("hi");
+                if (p.getRect().y-p.getSy()+p.getHeight() <= plat.getY()){
+                    p.setSy(0);//because the player is on a platform, the speed in the y component is zero
+                    p.setY(plat.getRect().y-p.getRect().height);
+                    midAir = false;
+                }
             }
             /*for (Goomba bad : goombs){
                 if (bad.getRect().intersects(plat.getRect())){
