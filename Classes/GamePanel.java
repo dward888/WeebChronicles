@@ -392,10 +392,11 @@ public class GamePanel extends JPanel implements KeyListener{
         }*/
         for(Platform plat : plats){//checking collision for each platform in the arraylist
             if (plat.getRect().intersects(p.getRect())){
-                System.out.println("hi");
-                if (p.getRect().y-p.getSy()+p.getHeight() <= plat.getY()){
+
+                if (p.getRect().y-p.getSy()+p.getHeight() <= plat.getY()){//checking to make sure that the player is above the platform in order to land on it
+                    System.out.println("hi");
                     p.setSy(0);//because the player is on a platform, the speed in the y component is zero
-                    p.setY(plat.getRect().y-p.getRect().height);
+                    p.setY(plat.getRect().y-65);
                     midAir = false;
                 }
             }
