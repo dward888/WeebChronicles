@@ -10,13 +10,13 @@ public class Player{
 
 	public static final double FRICTION = 0.99;
 	public static final double GRAVITY = 0.4;
-	public static final double SPEED = 5;
+	public static final double SPEED = 10;//5;
 	public static final double JUMPSTRENGTH = -10;
 
     public Player() {
 		name = "Ryan Funyanjiwan";
-		x = 120;
-		y = 400;
+		x = 140;
+		y = 340;
 		width = 40;
 		height = 40;
 		scroll = false;
@@ -112,7 +112,7 @@ public class Player{
 		currentF ++;
 	}
 	public Rectangle getRect(){
-		return new Rectangle(x+5,y+8,40,55);
+		return new Rectangle(x+5,y+12,40,55);
 	}
 }
 

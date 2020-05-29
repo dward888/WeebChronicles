@@ -26,8 +26,8 @@ public class GamePanel extends JPanel implements KeyListener{
 	private int bulletLeft;
 	private int currentF;
 	private boolean midAir;//this boolean will make sure the user can't double jump
-    private ArrayList<Rectangle>platRects = new ArrayList<Rectangle>();
-    private ArrayList<Rectangle>badRects = new ArrayList<Rectangle>();
+    //private ArrayList<Rectangle>platRects = new ArrayList<Rectangle>();
+    //private ArrayList<Rectangle>badRects = new ArrayList<Rectangle>();
     private ArrayList<Platform>plats = new ArrayList<Platform>();
 
     //private ArrayList<Platform>plats1 = new ArrayList<Platform>();
@@ -35,6 +35,7 @@ public class GamePanel extends JPanel implements KeyListener{
     //private ArrayList<Platform>plats3 = new ArrayList<Platform>();
     //yo
     private ArrayList<Goomba>goombs = new ArrayList<Goomba>();
+    private ArrayList<Decor>decor = new ArrayList<Decor>();
 
     private ArrayList<Bullet>bList = new ArrayList<Bullet>(); //array list for the projectiles (bullets)
     private ArrayList<Bullet>bRemove = new ArrayList<Bullet>(); //Records all the bullets that have hit an object
@@ -139,28 +140,32 @@ public class GamePanel extends JPanel implements KeyListener{
             String[]data = line.split(" ");//splitting up each value to be able to keep track of the x,y, width, height
             int x = Integer.parseInt(data[0]);
             int y = Integer.parseInt(data[1]);
-            String p = data[2];
             //int w = Integer.parseInt(data[2]);
             //int h = Integer.parseInt(data[3]);
-            Platform tmp = new Platform(x,y,p);
+
+            String p = data[2];
+            int a = Integer.parseInt(data[3]);
+            //int w = Integer.parseInt(data[2]);
+            //int h = Integer.parseInt(data[3]);
+            Platform tmp = new Platform(x,y,p,a);
             if (lvl == 1){
                 //plats1.add(tmp);
                 plats.add(tmp);
-                platRects.add(tmp.getRect());
+                //platRects.add(tmp.getRect());
             }
             if (lvl == 2){
                 //plats2.add(tmp);
                 plats = new ArrayList<Platform>();
-                platRects = new ArrayList<Rectangle>();
+                //platRects = new ArrayList<Rectangle>();
                 plats.add(tmp);
-                platRects.add(tmp.getRect());
+                //platRects.add(tmp.getRect());
             }
             if (lvl == 3){
                 //plats3.add(tmp);
                 plats = new ArrayList<Platform>();
-                platRects = new ArrayList<Rectangle>();
+                //platRects = new ArrayList<Rectangle>();
                 plats.add(tmp);
-                platRects.add(tmp.getRect());
+                //platRects.add(tmp.getRect());
             }
         }
     }
@@ -175,16 +180,49 @@ public class GamePanel extends JPanel implements KeyListener{
             int mL = Integer.parseInt(data[2]);
             int mR = Integer.parseInt(data[3]);
             String b = data[4];
+            int a = Integer.parseInt(data[5]);
 
-            Goomba tmp = new Goomba(x, y, mL, mR, b);
+            Goomba tmp = new Goomba(x, y, mL, mR, b, a);
             if (lvl == 1) {
                 //plats1.add(tmp);
                 goombs.add(tmp);
-                badRects.add(tmp.getRect());
+                //badRects.add(tmp.getRect());
+            }
+            if (lvl == 2){
+                goombs = new ArrayList<Goomba>();
+                goombs.add(tmp);
+            }
+            if (lvl == 3){
+                goombs = new ArrayList<Goomba>();
+                goombs.add(tmp);
             }
         }
     }
 
+    public void loadDecor(String file,int lvl) throws IOException {
+        Scanner inFile = new Scanner(new BufferedReader(new FileReader(file)));
+        while (inFile.hasNext()) {//while there are lines to be read
+            String line = inFile.nextLine();
+            String[] data = line.split(" ");//splitting up each value to be able to keep track of the x,y,max R, max L, and picture
+            int x = Integer.parseInt(data[0]);
+            int y = Integer.parseInt(data[1]);
+            String b = data[2];
+
+            Decor tmp = new Decor(x,y,b);
+
+            if (lvl == 1){
+                decor.add(tmp);
+            }
+            if (lvl == 2){
+                decor = new ArrayList<Decor>();
+                decor.add(tmp);
+            }
+            if (lvl == 3){
+                decor = new ArrayList<Decor>();
+                decor.add(tmp);
+            }
+        }
+    }
     public void deleteBullets(){
         for(int i= 0; i < bRemove.size(); i++){//yo
             bList.remove(bRemove.get(i));
@@ -194,10 +232,11 @@ public class GamePanel extends JPanel implements KeyListener{
     public void paintComponent(Graphics g){
         //background
         Point mousePos = getMousePosition();
-        mx = (int) mousePos.getX();
-        my = (int) mousePos.getY();
+        //mx = (int) mousePos.getX();
+        //my = (int) mousePos.getY();
         g.drawImage(back, 0, 0, null);
         f++;
+        System.out.println(p.getX() + "," + p.getY());
 
         //bullets
         /*if(bList.size() > 0) {
@@ -213,7 +252,18 @@ public class GamePanel extends JPanel implements KeyListener{
                 //Removing when out of bounds
             }
         }*/
-
+        for (Platform p : plats){
+            g.drawImage(p.getImage(),p.getX() - offset,p.getY()-p.getAdjust(),null);
+            //g.drawRect(p.getX()-offset,p.getY()-p.getAdjust());
+        }
+        for (Goomba b : goombs){
+            g.drawImage(b.getImage(), b.getX()-offset, b.getY()-b.getAdjust(),null);
+            //g.drawRect(b.getX()-offset,b.getY(),32,32);
+        }
+        for (Decor d : decor){
+            g.drawImage(d.getImage(), d.getX()-offset, d.getY(),null);
+            //g.drawRect(b.getX()-offset,b.getY(),32,32);
+        }
         //Following code draws player sprites
         if(direction == right && !midAir){
             if(!walking){ //Standing Right
@@ -256,15 +306,9 @@ public class GamePanel extends JPanel implements KeyListener{
 
         //drawing the rects
         g.setColor(Color.blue);
-        g.drawRect(p.getX()+5-offset, p.getY()+8,40,55);
+        g.drawRect(p.getX()+5-offset, p.getY()+12,40,55);
         //g.drawRect(b.getX()-offset, b.getY()+8, 20, 20);
-        for (Platform p : plats){
-            g.drawImage(p.getImage(),p.getX() - offset,p.getY(),null);
-        }
-        for (Goomba b : goombs){
-            g.drawImage(b.getImage(), b.getX()-offset, b.getY(),null);
-            g.drawRect(b.getX()-offset,b.getY(),32,32);
-        }
+
 
 
 
@@ -348,15 +392,15 @@ public class GamePanel extends JPanel implements KeyListener{
         for(Platform plat : plats){//checking collision for each platform in the arraylist
             if (plat.getRect().intersects(p.getRect())){
                 p.setSy(0);//because the player is on a platform, the speed in the y component is zero
-                p.setY(plat.getRect().y-60);
+                p.setY(plat.getRect().y-65);
                 midAir = false;
             }
-            for (Goomba bad : goombs){
-                if (plat.getRect().intersects(bad.getRect())){
+            /*for (Goomba bad : goombs){
+                if (bad.getRect().intersects(plat.getRect())){
                     bad.setSy(0);
                     bad.setY(plat.getRect().y-30);
                 }
-            }
+            }*/
         }
     }
     public void loadSprite(){

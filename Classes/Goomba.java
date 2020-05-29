@@ -10,6 +10,7 @@ public class Goomba {
     private int direction;
     private int left = 1;
     private int right = 2;
+    private int adjustment;
 
     private Rectangle rect;
 
@@ -17,11 +18,12 @@ public class Goomba {
     public static final double GRAVITY = 0.4;
     public static final double SPEED = 2;
 
-    public Goomba(int x1, int y1, int maxLeft, int maxRight, String f){
+    public Goomba(int x1, int y1, int maxLeft, int maxRight, String f, int a){
         x = x1;
         y = y1;
         maxL = maxLeft;
         maxR = maxRight;
+        adjustment = a;
         dist = 0;
         direction = right;
         pic =  new ImageIcon("badPics/" + f + ".png").getImage();
@@ -33,6 +35,9 @@ public class Goomba {
     }
     public int getY(){
         return y;
+    }
+    public int getAdjust(){
+        return adjustment;
     }
     public double getSy(){
         return sy;
@@ -82,7 +87,7 @@ public class Goomba {
     }
     public void update(){
         move(sx,sy);
-        accelerate(0, GRAVITY);
+        //accelerate(0, GRAVITY);
         if (y > 590){
             sy = 0;
             y = 590;

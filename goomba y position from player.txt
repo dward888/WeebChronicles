@@ -1,0 +1,1 @@
+GOOMBA: from players' y, add 40

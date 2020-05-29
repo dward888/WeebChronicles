@@ -1,22 +1,46 @@
-0 570 longPlat
-250 570 longPlat
-500 570 longPlat
-750 570 longPlat
-1000 570 longPlat
-1250 570 longPlat
-1500 570 longPlat
-1750 570 longPlat
-2000 570 longPlat
-2250 570 longPlat
-2500 570 longPlat
-2750 570 longPlat
-3000 570 longPlat
-3250 570 longPlat
-3500 570 longPlat
-3750 570 longPlat
-4000 570 longPlat
-4250 570 longPlat
-4500 570 longPlat
-4750 570 longPlat
-5000 570 longPlat
-500 450 airPlat
+0 575 long 5
+250 575 long 5
+500 575 long 5
+750 575 long 5
+1000 575 long 5
+1250 575 long 5
+1500 575 long 5
+1750 575 long 5
+2000 575 long 5
+2250 575 long 5
+2500 575 long 5
+2750 575 long 5
+3000 575 long 5
+3250 575 long 5
+3500 575 long 5
+3750 575 long 5
+4000 575 long 5
+4250 575 long 5
+4500 575 long 5
+4750 575 long 5
+5000 575 long 5
+5250 575 long 5
+5500 575 long 5
+5750 575 long 5
+6000 575 long 5
+6250 575 long 5
+6500 575 long 5
+6750 575 long 5
+7000 575 long 5
+500 450 air 5
+650 450 air 5
+950 350 air 5
+2200 400 air 5
+1300 350 air 5
+1650 350 bridge 30
+1800 350 bridge 30
+2696 450 airBlock 2
+2875 330 airBlock 2
+3420 310 airBlock 2
+3000 250 longBlock 3
+3090 250 longBlock 3
+3180 250 longBlock 3
+3630 360 longBlock 3
+3720 360 longBlock 3
+3950 440 longerBlock 2
+80 400 doorPlat 15

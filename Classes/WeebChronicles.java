@@ -57,13 +57,19 @@ public class WeebChronicles extends JFrame implements ActionListener {
 			e.printStackTrace();
 		}
 
+		try {
+			game.loadDecor("decor1.txt",1);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		setVisible(true);
 	}
 	public void start(){
 		myTimer.start();
 	}
 	public void actionPerformed(ActionEvent evt) {
-
+		//status = level1;
 		//Following code moves the player to the next stage of the game
 		if(start.getLoaded()){
 			cLayout.show(cards,"game");
