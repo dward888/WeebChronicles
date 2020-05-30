@@ -104,10 +104,10 @@ public class Goomba {
 
 
         if (direction == left) {
-            return rightF[f/10];
+            return rightF[f/12];
         }
         else {
-            return leftF[f/8];
+            return leftF[f/12];
         }
 
     }

@@ -118,7 +118,7 @@ public class Player{
 		currentF ++;
 	}
 	public Rectangle getRect(){
-		return new Rectangle(x+5,y+12,40,55);
+		return new Rectangle(x+5,y+12,40,45);
 	}
 	public int getHealth() {
 		return health;

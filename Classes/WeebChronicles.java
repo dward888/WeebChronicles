@@ -49,11 +49,14 @@ public class WeebChronicles extends JFrame implements ActionListener {
 
 		try {
 			game.loadPlats("plat1.txt",1);
-		} catch (IOException e) {
+			game.loadDecor("decor1.txt",1);
+			game.loadGoombs("goomba1.txt",1);
+			game.loadCoins("coin1.txt",1);
+		}catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		try {
+		/*try {
 			game.loadGoombs("goomba1.txt",1);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -63,7 +66,7 @@ public class WeebChronicles extends JFrame implements ActionListener {
 			game.loadDecor("decor1.txt",1);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 
 		setVisible(true);
 	}

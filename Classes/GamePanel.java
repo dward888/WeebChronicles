@@ -36,9 +36,13 @@ public class GamePanel extends JPanel implements KeyListener{
     //yo
     private ArrayList<Goomba>goombs = new ArrayList<Goomba>();
     private ArrayList<Decor>decor = new ArrayList<Decor>();
+    private ArrayList<Coin>coins = new ArrayList<Coin>();
 
     private ArrayList<Bullet>bList = new ArrayList<Bullet>(); //array list for the projectiles (bullets)
     private ArrayList<Bullet>bRemove = new ArrayList<Bullet>(); //Records all the bullets that have hit an object
+
+    private ArrayList<Coin>cRemove = new ArrayList<Coin>(); //Records all the coins that the player has collected
+
     private int f = 0;
     private int offset;
 	//images//
@@ -209,6 +213,7 @@ public class GamePanel extends JPanel implements KeyListener{
             int y = Integer.parseInt(data[1]);
             String b = data[2];
 
+
             Decor tmp = new Decor(x,y,b);
 
             if (lvl == 1){
@@ -224,6 +229,33 @@ public class GamePanel extends JPanel implements KeyListener{
             }
         }
     }
+
+    public void loadCoins(String file, int lvl)throws IOException{
+        Scanner inFile = new Scanner(new BufferedReader(new FileReader(file)));
+        while (inFile.hasNext()) {//while there are lines to be read
+            String line = inFile.nextLine();
+            String[] data = line.split(" ");//splitting up each value to be able to keep track of the x,y,max R, max L, and picture
+            int x = Integer.parseInt(data[0]);
+            int y = Integer.parseInt(data[1]);
+            String b = data[2];
+            int frames = Integer.parseInt(data[3]);
+
+            Coin tmp = new Coin(x,y,b,frames);
+
+            if (lvl == 1){
+                coins.add(tmp);
+            }
+            if (lvl == 2){
+                coins = new ArrayList<Coin>();
+                coins.add(tmp);
+            }
+            if (lvl == 3){
+                coins = new ArrayList<Coin>();
+                coins.add(tmp);
+            }
+        }
+    }
+
     public void deleteBullets(){
         for(int i= 0; i < bRemove.size(); i++){//yo
             bList.remove(bRemove.get(i));
@@ -255,16 +287,21 @@ public class GamePanel extends JPanel implements KeyListener{
             }
         }*/
         for (Platform p : plats){
-            g.drawImage(p.getImage(),p.getX() - offset,p.getY()-p.getAdjust(),null);
-            g.drawRect(p.getX()-offset,p.getY()-p.getAdjust(),p.getRect().width,p.getRect().height);
+            g.drawImage(p.getImage(),p.getX() - offset,p.getY()+p.getAdjust(),null);
+            g.drawRect(p.getX()-offset,p.getY()+p.getAdjust(),p.getRect().width,p.getRect().height);
         }
         for (Goomba b : goombs){
-            g.drawImage(b.getFrame(), b.getX()-offset, b.getY()-b.getAdjust(),null);
+            g.drawImage(b.getFrame(), b.getX()-offset, b.getY()+b.getAdjust(),null);
             //g.drawRect(b.getX()-offset,b.getY(),32,32);
         }
         for (Decor d : decor){
             g.drawImage(d.getImage(), d.getX()-offset, d.getY(),null);
             //g.drawRect(b.getX()-offset,b.getY(),32,32);
+        }
+        for (Coin c :coins){
+            g.drawImage(c.getFrame(),c.getX()-offset,c.getY(),null);
+            //g.setColor()
+            g.drawRect(c.getX()-offset,c.getY(),c.getRect().width,c.getRect().height);
         }
         //Following code draws player sprites
         if(direction == right && !midAir){
@@ -397,7 +434,7 @@ public class GamePanel extends JPanel implements KeyListener{
                 if (p.getRect().y-p.getSy()+p.getHeight() <= plat.getY()){//checking to make sure that the player is above the platform in order to land on it
                     //System.out.println("hi");
                     p.setSy(0);//because the player is on a platform, the speed in the y component is zero
-                    p.setY(plat.getRect().y-65);
+                    p.setY(plat.getRect().y-55);
                     midAir = false;
                 }
             }
