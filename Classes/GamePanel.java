@@ -75,6 +75,7 @@ public class GamePanel extends JPanel implements KeyListener{
 
     private Sound coinSound;
     private Sound run;
+    private Sound runLeaf;
 
     Font fontLocal=null;
 
@@ -136,7 +137,8 @@ public class GamePanel extends JPanel implements KeyListener{
 
         try {
             coinSound = new Sound("coin.wav",false);
-            run = new Sound("run2.wav",false);
+            run = new Sound("run.wav",false);
+            runLeaf = new Sound("runLeaf.wav",false);
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             e.printStackTrace();
         }
@@ -379,7 +381,7 @@ public class GamePanel extends JPanel implements KeyListener{
             }
         }
 
-        if (footCount % 12 == 0){
+        if (footCount % 15 == 0){
             playRun();
         }
 
@@ -490,12 +492,31 @@ public class GamePanel extends JPanel implements KeyListener{
     }
 
     public void playRun(){
-        if (playRun){
-            run.play();
-            playRun = false;
+        if (playRun) {
+            for (Platform plat : plats) {
+                if (!midAir) {
+                    if (plat.getRect().intersects(p.getRect())) {
+                        if (p.getRect().y - p.getSy() + p.getHeight() <= plat.getY()) {
+                            if (walking && p.getSy() < 1 && !falling && !midAir) {
+                                if (plat.platType().equals("long") || plat.platType().equals("air")) {
+                                    runLeaf.play();
+                                    playRun = false;
+                                } else {
+                                    run.play();
+                                }
+                            }
+                        }
+
+                    }
+
+                }
+                //run.play();
+                //playRun = false;
+            }
         }
         else{
             run.stop();
+            runLeaf.stop();
         }
 
     }

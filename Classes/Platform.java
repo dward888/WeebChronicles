@@ -5,13 +5,15 @@ public class Platform {
     private Rectangle rect;
     private Image pic;
     private int adjustment;
+    private String f;
 
 
 
-    public Platform(int x1,int y1, String f, int a){
-        pic =  new ImageIcon("platPics/" + f + ".png").getImage();
+    public Platform(int x1,int y1, String file, int a){
+        pic =  new ImageIcon("platPics/" + file + ".png").getImage();
         rect = new Rectangle(x1,y1,pic.getWidth(null), pic.getHeight(null));
         adjustment = a;
+        f = file;
     }
 
     public int getX(){
@@ -30,6 +32,10 @@ public class Platform {
 
     public Image getImage(){
         return pic;
+    }
+
+    public String platType(){
+        return f;
     }
 
 }
