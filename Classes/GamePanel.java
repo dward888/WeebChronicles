@@ -27,9 +27,11 @@ public class GamePanel extends JPanel implements KeyListener{
 	private int bulletRight;
 	private int bulletLeft;
 	private int currentF;
+	private int footCount;
 	private boolean midAir;//this boolean will make sure the user can't double jump
     private boolean onPlat;
     private boolean falling;
+    private boolean playRun;
     //private ArrayList<Rectangle>platRects = new ArrayList<Rectangle>();
     //private ArrayList<Rectangle>badRects = new ArrayList<Rectangle>();
     private ArrayList<Platform>plats = new ArrayList<Platform>();
@@ -92,8 +94,12 @@ public class GamePanel extends JPanel implements KeyListener{
         walking = false;
         onPlat = false;
         falling = true;
+
+        playRun = false;
+
         offset = 0;
         currentF = 0;
+        footCount = 0;
         bulletLeft = 4;
         bulletRight = 5;
 
@@ -130,7 +136,7 @@ public class GamePanel extends JPanel implements KeyListener{
 
         try {
             coinSound = new Sound("coin.wav",false);
-            run = new Sound("run.wav",false);
+            run = new Sound("run2.wav",false);
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             e.printStackTrace();
         }
@@ -373,6 +379,12 @@ public class GamePanel extends JPanel implements KeyListener{
             }
         }
 
+        if (footCount % 12 == 0){
+            playRun();
+        }
+
+
+        footCount++;
         currentF++;
 
         //drawing the rects
@@ -463,12 +475,29 @@ public class GamePanel extends JPanel implements KeyListener{
     }
 
     public void checkRun(){
-        if (walking && p.getSy() < 1 && !falling &&!midAir){
+        //int f = 0;
+
+        if (walking && p.getSy() < 1 && !falling && !midAir){
+            //System.out.println("hi");
+            //run.play();
+            playRun = true;
+
+        }
+        else{
+            //un.stop();
+            playRun = false;
+        }
+    }
+
+    public void playRun(){
+        if (playRun){
             run.play();
+            playRun = false;
         }
         else{
             run.stop();
         }
+
     }
 
 

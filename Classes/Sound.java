@@ -42,4 +42,10 @@ public class Sound {
             clip.close();
             sounds.remove(this);
         }
+
+
+
+        public boolean checkPlaying(){
+            return clip.isActive();
+        }
 }
