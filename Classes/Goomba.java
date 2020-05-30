@@ -94,7 +94,7 @@ public class Goomba {
     }
     public Image getFrame() {
 
-        if (f >= (rightF.length-1)*8) {
+        if (f >= (rightF.length-1)*10) {
             f = -1;
 
         }
@@ -103,13 +103,8 @@ public class Goomba {
 
 
 
-
-
-
-
-
         if (direction == left) {
-            return rightF[f/8];
+            return rightF[f/10];
         }
         else {
             return leftF[f/8];
