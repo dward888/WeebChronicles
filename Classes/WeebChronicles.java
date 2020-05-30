@@ -9,12 +9,12 @@ public class WeebChronicles extends JFrame implements ActionListener {
 	Timer myTimer;
 	int status;
 	int startScreen;
-	int selectScreen;
 	int gPanel;
+	int cutScene1;
 
 	startScreen start;
-	selectScreen select;
 	GamePanel game;
+	CutScene1 cScene1;
 
 	JPanel cards;
 	CardLayout cLayout = new CardLayout();
@@ -27,23 +27,25 @@ public class WeebChronicles extends JFrame implements ActionListener {
 		setResizable(false);
 		game = new GamePanel(this);
 		start = new startScreen(this);
+		cScene1 = new CutScene1(this);
 		cards = new JPanel(cLayout);
 
 
 		//***Following code --> change order so that the start screen appears
 		//cards.add(start, "start");
 		//cards.add(game, "game");
-		cards.add(game, "game");
 		cards.add(start, "start");
-
+		cards.add(cScene1, "cutScene1");
+		cards.add(game, "game");
 
 		add(cards);
 
 		startScreen = -1;
-		//selectScreen = 0;
 		gPanel = 1;
-		//status = startScreen;
-		status = gPanel;
+		cutScene1 = 2;
+		status = startScreen;
+		//status = gPanel;
+		//status = cutScene1;
 
 		try {
 			game.loadPlats("plat1.txt",1);
@@ -69,9 +71,12 @@ public class WeebChronicles extends JFrame implements ActionListener {
 		myTimer.start();
 	}
 	public void actionPerformed(ActionEvent evt) {
-		//status = level1;
 		//Following code moves the player to the next stage of the game
 		if(start.getLoaded()){
+			cLayout.show(cards,"cutScene1");
+			status = cutScene1;
+		}
+		if(cScene1.finished()){
 			cLayout.show(cards,"game");
 			status = gPanel;
 		}
@@ -81,9 +86,9 @@ public class WeebChronicles extends JFrame implements ActionListener {
 			start.requestFocus();
 			start.repaint();
 		}
-		else if(status == selectScreen){
-			select.requestFocus();
-			select.repaint();
+		if(status == cutScene1){
+			cScene1.requestFocus();
+			cScene1.repaint();
 		}
 		else if(status == gPanel){
 			game.requestFocus();

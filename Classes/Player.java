@@ -3,6 +3,7 @@ import java.awt.*;
 public class Player{
 	private int x,y,width,height,hp,sp;
 	private int bx,bx2;
+	private int health;
 	private double sy,sx;
 	private String name;
 	private boolean scroll;
@@ -22,6 +23,7 @@ public class Player{
 		scroll = false;
 		currentF = 0;
 		bx2 = 1185;
+		health = 100;
 	}
 
 	public int getX(){
@@ -117,6 +119,9 @@ public class Player{
 	}
 	public Rectangle getRect(){
 		return new Rectangle(x+5,y+12,40,55);
+	}
+	public int getHealth() {
+		return health;
 	}
 }
 
