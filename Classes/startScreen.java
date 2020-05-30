@@ -23,11 +23,16 @@ public class startScreen extends JPanel implements MouseListener{
     private Image grayStart;
 
 
-    public startScreen(WeebChronicles m) throws IOException, FontFormatException{
+    public startScreen(WeebChronicles m){
         mainFrame = m;
-        font = Font.createFont(Font.TRUETYPE_FONT, new File("font/newyorkescape.ttf"));
-        title = new Font(font.getFontName(), Font.PLAIN, 50);
-        littleFont = new Font(font.getFontName(), Font.PLAIN, 10);
+        try {
+            font = Font.createFont(Font.TRUETYPE_FONT, new File("font/newyorkescape.ttf"));
+            title = new Font(font.getFontName(), Font.PLAIN, 50);
+            littleFont = new Font(font.getFontName(), Font.PLAIN, 10);
+        }
+        catch (FontFormatException | IOException e) {
+            e.printStackTrace();
+        }
         frame = 3;
         start = false;
         loaded = false;
