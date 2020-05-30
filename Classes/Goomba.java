@@ -1,5 +1,11 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class Goomba {
     private int x,y,dist;
@@ -16,9 +22,14 @@ public class Goomba {
 
     public static final double FRICTION = 0.99;
     public static final double GRAVITY = 0.4;
-    public static final double SPEED = 2;
+    public static final double SPEED = 1;
 
-    public Goomba(int x1, int y1, int maxLeft, int maxRight, String f, int a){
+    private Image[]rightF;
+    private Image[]leftF;
+    private int f;
+
+    public Goomba(int x1, int y1, int maxLeft, int maxRight, String file, int a, int size){
+
         x = x1;
         y = y1;
         maxL = maxLeft;
@@ -26,8 +37,14 @@ public class Goomba {
         adjustment = a;
         dist = 0;
         direction = right;
-        pic =  new ImageIcon("badPics/" + f + ".png").getImage();
+        pic =  new ImageIcon("badPics/" + file + ".png").getImage();
         rect = new Rectangle(x1,y1,pic.getWidth(null),pic.getHeight(null));//pic.getWidth(null), pic.getHeight(null));
+
+
+        rightF = new Image[size];
+        leftF = new Image[size];
+        loadSprite(rightF,leftF,"badFrames/"+file+"/tile");
+
     }
 
     public int getX(){
@@ -75,7 +92,30 @@ public class Goomba {
     public int getMaxL(){
         return maxL;
     }
+    public Image getFrame() {
 
+        if (f >= (rightF.length-1)*8) {
+            f = -1;
+
+        }
+
+        f ++;
+
+
+
+
+
+
+
+
+        if (direction == left) {
+            return rightF[f/8];
+        }
+        else {
+            return leftF[f/8];
+        }
+
+    }
     public void move(double xDelta, double yDelta){
         x += xDelta;
         y += yDelta;
@@ -105,4 +145,28 @@ public class Goomba {
     public Image getImage(){
         return pic;
     }
+
+    public void loadSprite(Image[]actionRight, Image[]actionLeft, String directory){
+        try{
+            for(int i = 0; i < actionRight.length; i++) {
+                Image img = ImageIO.read(new File(directory +  i + ".png"));
+                actionRight[i] = img;
+                actionLeft[i] = flipImage(img);
+            }
+        }
+        catch(IOException e ){
+            e.printStackTrace();
+        }
+    }
+    public Image flipImage(Image image) {
+        BufferedImage bImg = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_4BYTE_ABGR);
+        Graphics2D g = (Graphics2D) bImg.getGraphics();
+        g.drawImage(image, 0, 0, null);
+        AffineTransform mirror = AffineTransform.getScaleInstance(-1, 1);
+        mirror.translate(-bImg.getWidth(null), 0);
+        AffineTransformOp mirrorOp = new AffineTransformOp(mirror, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+        bImg = mirrorOp.filter(bImg, null);
+        return bImg;
+    }
 }
+

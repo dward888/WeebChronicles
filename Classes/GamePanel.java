@@ -181,8 +181,9 @@ public class GamePanel extends JPanel implements KeyListener{
             int mR = Integer.parseInt(data[3]);
             String b = data[4];
             int a = Integer.parseInt(data[5]);
+            int num = Integer.parseInt(data[6]);
 
-            Goomba tmp = new Goomba(x, y, mL, mR, b, a);
+            Goomba tmp = new Goomba(x, y, mL, mR, b, a, num);
             if (lvl == 1) {
                 //plats1.add(tmp);
                 goombs.add(tmp);
@@ -236,7 +237,7 @@ public class GamePanel extends JPanel implements KeyListener{
         //my = (int) mousePos.getY();
         g.drawImage(back, 0, 0, null);
         f++;
-        //System.out.println(p.getX() + "," + p.getY());
+        System.out.println(p.getX() + "," + p.getY());
         //System.out.println(midAir);
 
         //bullets
@@ -258,7 +259,7 @@ public class GamePanel extends JPanel implements KeyListener{
             g.drawRect(p.getX()-offset,p.getY()-p.getAdjust(),p.getRect().width,p.getRect().height);
         }
         for (Goomba b : goombs){
-            g.drawImage(b.getImage(), b.getX()-offset, b.getY()-b.getAdjust(),null);
+            g.drawImage(b.getFrame(), b.getX()-offset, b.getY()-b.getAdjust(),null);
             //g.drawRect(b.getX()-offset,b.getY(),32,32);
         }
         for (Decor d : decor){
@@ -348,7 +349,7 @@ public class GamePanel extends JPanel implements KeyListener{
             if (b.getX() == b.getMaxL()){
                 b.setDirection(right);
             }
-            if (b.getX() == b.getMaxR() + 80){
+            if (b.getX() == b.getMaxR()){
                 b.setDirection(left);
             }
             if (b.getDirection() == right){
@@ -394,7 +395,7 @@ public class GamePanel extends JPanel implements KeyListener{
             if (plat.getRect().intersects(p.getRect())){
 
                 if (p.getRect().y-p.getSy()+p.getHeight() <= plat.getY()){//checking to make sure that the player is above the platform in order to land on it
-                    System.out.println("hi");
+                    //System.out.println("hi");
                     p.setSy(0);//because the player is on a platform, the speed in the y component is zero
                     p.setY(plat.getRect().y-65);
                     midAir = false;
