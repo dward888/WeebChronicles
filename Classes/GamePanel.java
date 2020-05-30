@@ -28,6 +28,8 @@ public class GamePanel extends JPanel implements KeyListener{
 	private int bulletLeft;
 	private int currentF;
 	private boolean midAir;//this boolean will make sure the user can't double jump
+    private boolean onPlat;
+    private boolean falling;
     //private ArrayList<Rectangle>platRects = new ArrayList<Rectangle>();
     //private ArrayList<Rectangle>badRects = new ArrayList<Rectangle>();
     private ArrayList<Platform>plats = new ArrayList<Platform>();
@@ -70,6 +72,9 @@ public class GamePanel extends JPanel implements KeyListener{
 	private Image jumpLeft;
 
     private Sound coinSound;
+    private Sound run;
+
+    Font fontLocal=null;
 
     public GamePanel(WeebChronicles m) {
     	keys = new boolean[KeyEvent.KEY_LAST+1];
@@ -85,6 +90,8 @@ public class GamePanel extends JPanel implements KeyListener{
 
         direction = right;
         walking = false;
+        onPlat = false;
+        falling = true;
         offset = 0;
         currentF = 0;
         bulletLeft = 4;
@@ -112,13 +119,19 @@ public class GamePanel extends JPanel implements KeyListener{
 
         loadSprite();
 
+        //TEXT
+        //String fName = "font/naruto1.ttf";
         try {
-            coinSound = new Sound("coin.wav");
-        } catch (UnsupportedAudioFileException e) {
+            fontLocal = Font.createFont(Font.TRUETYPE_FONT, new File("font/naruto1.ttf"));
+            fontLocal = fontLocal.deriveFont(30f);
+        } catch (FontFormatException | IOException e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (LineUnavailableException e) {
+        }
+
+        try {
+            coinSound = new Sound("coin.wav",false);
+            run = new Sound("run.wav",false);
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             e.printStackTrace();
         }
     }
@@ -148,6 +161,7 @@ public class GamePanel extends JPanel implements KeyListener{
         keys[e.getKeyCode()] = false;
         if(e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_LEFT){
             walking = false;
+
         }
         if(!keys[e.getKeyCode()] && !midAir){
             p.resetCurrentF();
@@ -286,7 +300,8 @@ public class GamePanel extends JPanel implements KeyListener{
         //my = (int) mousePos.getY();
         g.drawImage(back, 0, 0, null);
         f++;
-        System.out.println(p.getX() + "," + p.getY());
+        //System.out.println(p.getX() + "," + p.getY());
+        //System.out.println(walking + ","+ onPlat +"," + "," +falling + "," + midAir);
         //System.out.println(midAir);
 
         //bullets
@@ -365,7 +380,17 @@ public class GamePanel extends JPanel implements KeyListener{
         g.drawRect(p.getX()+5-offset, p.getY()+12,40,55);
         //g.drawRect(b.getX()-offset, b.getY()+8, 20, 20);
 
+        //TEXT
+        g.setColor(new Color(0,0,00,125));
+        //g.fillRect(1000,0,500,75);
+        g.fillRect(0,0,1500,50);
+        g.setColor(new Color(255,215,0,255));
 
+        //g.setColor(Color.WHITE);
+        g.setFont(fontLocal);
+        g.drawString("SCORE  "+p.getScore(),975,35);
+
+        //g.drawString(""+p.getScore(),500,500);
 
 
         //g.drawImage(platPic,500-offset,500,null);+
@@ -379,17 +404,20 @@ public class GamePanel extends JPanel implements KeyListener{
         if (keys[KeyEvent.VK_RIGHT]){
             if (p.getX() >= 600 + offset){
                 offset += p.SPEED;
+
             }
             p.update(right);
             p.runR();
             direction = right;
             walking = true;
+
         }
         if (keys[KeyEvent.VK_LEFT]) {
             p.update(left);
             p.runL();
             direction = left;
             walking = true;
+
         }
         if(keys[KeyEvent.VK_UP]){
             //p.jump();
@@ -434,6 +462,16 @@ public class GamePanel extends JPanel implements KeyListener{
 
     }
 
+    public void checkRun(){
+        if (walking && p.getSy() < 1 && !falling &&!midAir){
+            run.play();
+        }
+        else{
+            run.stop();
+        }
+    }
+
+
     public void checkCollisions(){
         //Rectangle player = p.getRect();//the players rect to check collision
 
@@ -447,13 +485,21 @@ public class GamePanel extends JPanel implements KeyListener{
         }*/
         for(Platform plat : plats){//checking collision for each platform in the arraylist
             if (plat.getRect().intersects(p.getRect())){
+                falling = false;
                 if (p.getRect().y-p.getSy()+p.getHeight() <= plat.getY()){//checking to make sure that the player is above the platform in order to land on it
+
                     //System.out.println("hi");
                     p.setSy(0);//because the player is on a platform, the speed in the y component is zero
                     p.setY(plat.getRect().y-55);
+
                     midAir = false;
+                    onPlat = true;
 
                 }
+
+            }
+            else{
+                onPlat = false;
             }
             /*for (Goomba bad : goombs){
                 if (bad.getRect().intersects(plat.getRect())){
@@ -464,6 +510,7 @@ public class GamePanel extends JPanel implements KeyListener{
         }
         for (int i=0; i < coins.size(); i++){
             if (coins.get(i).getRect().intersects(p.getRect())){
+                p.addScore(25);
                 coinSound.play();
                 cRemove.add(coins.get(i));
             }

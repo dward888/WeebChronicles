@@ -103,6 +103,7 @@ public class WeebChronicles extends JFrame implements ActionListener {
 			game.checkCollisions();
 			game.repaint();
 			game.removeCoins();
+			game.checkRun();
 		}
 	}
 	public static void main(String[] arguments) throws IOException, FontFormatException {

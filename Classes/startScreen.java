@@ -22,9 +22,10 @@ public class startScreen extends JPanel implements MouseListener{
     private Image redStart;
     private Image grayStart;
 
+
     public startScreen(WeebChronicles m) throws IOException, FontFormatException{
         mainFrame = m;
-        font = Font.createFont(Font.TRUETYPE_FONT, new File("newyorkescape.ttf"));
+        font = Font.createFont(Font.TRUETYPE_FONT, new File("font/newyorkescape.ttf"));
         title = new Font(font.getFontName(), Font.PLAIN, 50);
         littleFont = new Font(font.getFontName(), Font.PLAIN, 10);
         frame = 3;
@@ -36,6 +37,9 @@ public class startScreen extends JPanel implements MouseListener{
         fastCity = loadSprite("city going fast/city", 30);
         redStart = new ImageIcon("Pictures/start_red.png").getImage();
         grayStart = new ImageIcon("Pictures/start_black.png").getImage();
+
+
+
         addMouseListener(this);
     }
     public void addNotify() {

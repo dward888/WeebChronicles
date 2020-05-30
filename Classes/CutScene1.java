@@ -22,13 +22,15 @@ public class CutScene1 extends JPanel {
     private Image[]road;
     private Image[]ryanRun;
 
+
+
     public CutScene1(WeebChronicles m) throws IOException, FontFormatException {
         mainFrame = m;
         frame = 0;
         roadF = 0;
         ryanRunF = 0;
         watched = false;
-        font = Font.createFont(Font.TRUETYPE_FONT, new File("newyorkescape.ttf"));
+        font = Font.createFont(Font.TRUETYPE_FONT, new File("font/newyorkescape.ttf"));
         initialFont = new Font(font.getFontName(), Font.PLAIN, 35);
         weebFont = new Font(font.getFontName(), Font.PLAIN, 90);
         city = new ImageIcon("Pictures/city.jpg").getImage();
@@ -36,6 +38,7 @@ public class CutScene1 extends JPanel {
         ryanRun = new Image[10];
         loadSprite(road, "Road/road");
         loadSprite(ryanRun, "Ryan Funyanjiwan/Run/run");
+
     }
     public void addNotify() {
         super.addNotify();

@@ -45,6 +45,7 @@ public class Coin {
         return rect;
     }
 
+
     public Image getImage(){
         return pic;
     }

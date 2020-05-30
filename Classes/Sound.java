@@ -11,7 +11,7 @@ public class Sound {
     private AudioInputStream audioInputStream;
 
 
-    public Sound(String file) throws UnsupportedAudioFileException, IOException, LineUnavailableException{
+    public Sound(String file, boolean loop) throws UnsupportedAudioFileException, IOException, LineUnavailableException{
         {
             audioInputStream =
                     AudioSystem.getAudioInputStream(new File(file).getAbsoluteFile());
@@ -21,7 +21,9 @@ public class Sound {
 
 
             clip.open(audioInputStream);
-
+            if (loop){
+                clip.loop(Clip.LOOP_CONTINUOUSLY);
+            }
             //clip.loop(Clip.LOOP_CONTINUOUSLY);
         }
     }
