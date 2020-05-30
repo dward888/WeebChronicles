@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.imageio.ImageIO;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
@@ -36,12 +38,15 @@ public class GamePanel extends JPanel implements KeyListener{
     //yo
     private ArrayList<Goomba>goombs = new ArrayList<Goomba>();
     private ArrayList<Decor>decor = new ArrayList<Decor>();
+
     private ArrayList<Coin>coins = new ArrayList<Coin>();
+    private ArrayList<Coin>cRemove = new ArrayList<Coin>(); //Records all the coins that the player has collected
+    //private ArrayList<Coin>cCurrent = new ArrayList<Coin>();
 
     private ArrayList<Bullet>bList = new ArrayList<Bullet>(); //array list for the projectiles (bullets)
     private ArrayList<Bullet>bRemove = new ArrayList<Bullet>(); //Records all the bullets that have hit an object
 
-    private ArrayList<Coin>cRemove = new ArrayList<Coin>(); //Records all the coins that the player has collected
+
 
     private int f = 0;
     private int offset;
@@ -63,6 +68,8 @@ public class GamePanel extends JPanel implements KeyListener{
 
 	private Image jumpRight;
 	private Image jumpLeft;
+
+    private Sound coinSound;
 
     public GamePanel(WeebChronicles m) {
     	keys = new boolean[KeyEvent.KEY_LAST+1];
@@ -104,6 +111,16 @@ public class GamePanel extends JPanel implements KeyListener{
         idleLeft = new Image[8];
 
         loadSprite();
+
+        try {
+            coinSound = new Sound("coin.wav");
+        } catch (UnsupportedAudioFileException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        }
     }
     public void addNotify() {
         super.addNotify();
@@ -298,10 +315,10 @@ public class GamePanel extends JPanel implements KeyListener{
             g.drawImage(d.getImage(), d.getX()-offset, d.getY(),null);
             //g.drawRect(b.getX()-offset,b.getY(),32,32);
         }
-        for (Coin c :coins){
-            g.drawImage(c.getFrame(),c.getX()-offset,c.getY(),null);
+        for(int i = 0; i < coins.size(); i++){
+            g.drawImage(coins.get(i).getFrame(),coins.get(i).getX()-offset,coins.get(i).getY(),null);
             //g.setColor()
-            g.drawRect(c.getX()-offset,c.getY(),c.getRect().width,c.getRect().height);
+            g.drawRect(coins.get(i).getX()-offset,coins.get(i).getY(),coins.get(i).getRect().width,coins.get(i).getRect().height);
         }
         //Following code draws player sprites
         if(direction == right && !midAir){
@@ -430,12 +447,12 @@ public class GamePanel extends JPanel implements KeyListener{
         }*/
         for(Platform plat : plats){//checking collision for each platform in the arraylist
             if (plat.getRect().intersects(p.getRect())){
-
                 if (p.getRect().y-p.getSy()+p.getHeight() <= plat.getY()){//checking to make sure that the player is above the platform in order to land on it
                     //System.out.println("hi");
                     p.setSy(0);//because the player is on a platform, the speed in the y component is zero
                     p.setY(plat.getRect().y-55);
                     midAir = false;
+
                 }
             }
             /*for (Goomba bad : goombs){
@@ -445,7 +462,21 @@ public class GamePanel extends JPanel implements KeyListener{
                 }
             }*/
         }
+        for (int i=0; i < coins.size(); i++){
+            if (coins.get(i).getRect().intersects(p.getRect())){
+                coinSound.play();
+                cRemove.add(coins.get(i));
+            }
+        }
     }
+
+    public void removeCoins(){
+        for (int i = 0; i < cRemove.size(); i++){
+            coins.remove(cRemove.get(i));
+
+        }
+    }
+
     public void loadSprite(){
 		loadSprite(runRight, runLeft, "Ryan Funyanjiwan/Run/run");
 		loadSprite(idleRight, idleLeft, "Ryan Funyanjiwan/Idle/idle");
