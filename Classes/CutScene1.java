@@ -48,10 +48,14 @@ public class CutScene1 extends JPanel {
         watched = false;
         try {
             font = Font.createFont(Font.TRUETYPE_FONT, new File("font/newyorkescape.ttf"));
-            initialFont = new Font(font.getFontName(), Font.PLAIN, 35);
-            weebFont = new Font(font.getFontName(), Font.PLAIN, 90);
-            smallerFont = new Font(font.getFontName(), Font.PLAIN, 20);
-            miniFont = new Font(font.getFontName(), Font.PLAIN, 13);
+            //initialFont = new Font(font.getFontName(), Font.PLAIN, 35);
+            //weebFont = new Font(font.getFontName(), Font.PLAIN, 90);
+            //smallerFont = new Font(font.getFontName(), Font.PLAIN, 20);
+            //miniFont = new Font(font.getFontName(), Font.PLAIN, 13);
+            initialFont = font.deriveFont(35f);
+            weebFont = font.deriveFont(90f);
+            smallerFont = font.deriveFont(20f);
+            miniFont = font.deriveFont(13f);
         }
         catch (FontFormatException | IOException e) {
             e.printStackTrace();

@@ -27,8 +27,10 @@ public class startScreen extends JPanel implements MouseListener{
         mainFrame = m;
         try {
             font = Font.createFont(Font.TRUETYPE_FONT, new File("font/newyorkescape.ttf"));
-            title = new Font(font.getFontName(), Font.PLAIN, 50);
-            littleFont = new Font(font.getFontName(), Font.PLAIN, 10);
+            //title = new Font(font.getFontName(), Font.PLAIN, 50);
+            //littleFont = new Font(font.getFontName(), Font.PLAIN, 10);
+            title = font.deriveFont(50f);
+            littleFont = font.deriveFont(10f);
         }
         catch (FontFormatException | IOException e) {
             e.printStackTrace();
@@ -42,8 +44,6 @@ public class startScreen extends JPanel implements MouseListener{
         fastCity = loadSprite("city going fast/city", 30);
         redStart = new ImageIcon("Pictures/start_red.png").getImage();
         grayStart = new ImageIcon("Pictures/start_black.png").getImage();
-
-
 
         addMouseListener(this);
     }
