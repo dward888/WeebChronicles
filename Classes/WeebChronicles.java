@@ -19,7 +19,7 @@ public class WeebChronicles extends JFrame implements ActionListener {
 	JPanel cards;
 	CardLayout cLayout = new CardLayout();
 
-	public WeebChronicles() throws IOException, FontFormatException {
+	public WeebChronicles() {
 		super("The Weeb Chronicles");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(1200,650);
@@ -34,18 +34,18 @@ public class WeebChronicles extends JFrame implements ActionListener {
 		//***Following code --> change order so that the start screen appears
 		//cards.add(start, "start");
 		//cards.add(game, "game");
-		cards.add(game, "game");
+
 		cards.add(start, "start");
 		cards.add(cScene1, "cutScene1");
-
+		cards.add(game, "game");
 
 		add(cards);
 
 		startScreen = -1;
 		gPanel = 1;
 		cutScene1 = 2;
-		//status = startScreen;
-		status = gPanel;
+		status = startScreen;
+		//status = gPanel;
 		//status = cutScene1;
 
 		try {

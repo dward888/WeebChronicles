@@ -139,7 +139,8 @@ public class GamePanel extends JPanel implements KeyListener{
             coinSound = new Sound("coin.wav",false);
             run = new Sound("run.wav",false);
             runLeaf = new Sound("runLeaf.wav",false);
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+        }
+        catch (UnsupportedAudioFileException | IOException | LineUnavailableException e){
             e.printStackTrace();
         }
     }
@@ -152,7 +153,7 @@ public class GamePanel extends JPanel implements KeyListener{
     public void keyTyped(KeyEvent e){
     }
     public void keyPressed(KeyEvent e){
-        if (e.getKeyCode() == KeyEvent.VK_UP && !keys[e.getKeyCode()]){
+        if (e.getKeyCode() == KeyEvent.VK_W && !keys[e.getKeyCode()]){
            if(!midAir){
                p.jump();
                midAir = true;
@@ -167,7 +168,7 @@ public class GamePanel extends JPanel implements KeyListener{
     }
     public void keyReleased(KeyEvent e){
         keys[e.getKeyCode()] = false;
-        if(e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_LEFT){
+        if(e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_A){
             walking = false;
 
         }
@@ -415,7 +416,7 @@ public class GamePanel extends JPanel implements KeyListener{
 
     //user moving the character f
     public void move(){
-        if (keys[KeyEvent.VK_RIGHT]){
+        if (keys[KeyEvent.VK_D]){
             if (p.getX() >= 600 + offset){
                 offset += p.SPEED;
 
@@ -426,17 +427,12 @@ public class GamePanel extends JPanel implements KeyListener{
             walking = true;
 
         }
-        if (keys[KeyEvent.VK_LEFT]) {
+        if (keys[KeyEvent.VK_A]) {
             p.update(left);
             p.runL();
             direction = left;
             walking = true;
 
-        }
-        if(keys[KeyEvent.VK_UP]){
-            //p.jump();
-            //direction = jumpUp;
-            //direction = p.update(jumpUp); yo
         }
     }
 
