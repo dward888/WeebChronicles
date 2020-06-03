@@ -134,6 +134,11 @@ public class Player{
 	public Rectangle getRect(){
 		return new Rectangle(x+5,y+12,40,45);
 	}
+
+	public Rectangle getHitRect(){
+    	return new Rectangle(x+5,y+12,80,45);
+	}
+
 	public int getLives() {
 		return lives;
 	}

@@ -655,10 +655,15 @@ public class GamePanel extends JPanel implements KeyListener{
         }
 
         for (Goomba bad : goombs) {
-            if (bad.getRect().intersects(p.getRect())) {
+            if (bad.getRect().intersects(p.getHitRect())) {
                 //System.out.println("hi");
-                bad.setHit(true);
-                bad.loseHp(25);
+                if (attack){
+                    bad.setHit(true);
+                    bad.loseHp(10);
+                }
+                else{
+                    System.out.println("hi");
+                }
             }
         }
         for (int i=0; i < coins.size(); i++){
