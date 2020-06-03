@@ -8,15 +8,27 @@ import java.io.File;
 import java.io.IOException;
 
 public class Goomba {
-    private int x,y,dist;
+    private int x,y,dist,width,height;
     private double sy,sx;
     private Image pic;
+    private Image lHitPic;
+    private Image rHitPic;
     private int maxR, maxL;
 
     private int direction;
     private int left = 1;
     private int right = 2;
-    private int adjustment;
+    private int xAdjust;
+    private int yAdjust;
+    private int wAdjust;
+    private int hAdjust;
+    private int dAdjust; //adjustment for dead frames
+    private int hp;
+
+    private boolean checkHit;
+    private boolean dead;
+
+    private String type;
 
     private Rectangle rect;
 
@@ -26,24 +38,41 @@ public class Goomba {
 
     private Image[]rightF;
     private Image[]leftF;
+    private Image[]rightFDead;
+    private Image[]leftFDead;
     private int f;
 
-    public Goomba(int x1, int y1, int maxLeft, int maxRight, String file, int a, int size){
+    public Goomba(int x1, int y1, int maxLeft, int maxRight, String file, int xa,int ya, int wa, int ha, int da, int size, int h){
 
         x = x1;
         y = y1;
+
         maxL = maxLeft;
         maxR = maxRight;
-        adjustment = a;
         dist = 0;
         direction = right;
         pic =  new ImageIcon("badPics/" + file + ".png").getImage();
-        rect = new Rectangle(x1,y1,pic.getWidth(null),pic.getHeight(null));//pic.getWidth(null), pic.getHeight(null));
+        lHitPic = new ImageIcon("badHitPics/" + file + "HitL.png").getImage();
+        rHitPic = new ImageIcon("badHitPics/" + file + "HitR.png").getImage();
 
+        hp = h;
+        type = file;
+
+        width = pic.getWidth(null) + wa;
+        height = pic.getHeight(null) + ha;
+
+        xAdjust = xa;
+        yAdjust = ya;
+        wAdjust = wa;
+        hAdjust = ha;
+        dAdjust = da;
 
         rightF = new Image[size];
         leftF = new Image[size];
+        rightFDead = new Image[size];
+        leftFDead = new Image[size];
         loadSprite(rightF,leftF,"badFrames/"+file+"/tile");
+        loadSprite(rightFDead,leftFDead,"badFrames/"+file+"Dead/tile");
 
     }
 
@@ -53,8 +82,35 @@ public class Goomba {
     public int getY(){
         return y;
     }
-    public int getAdjust(){
-        return adjustment;
+    public int getWidth(){
+        return width;
+    }
+    public int getHeight(){
+        return height;
+    }
+    public int getXAdjust(){
+        return xAdjust;
+    }
+    public int getYAdjust(){
+        return yAdjust;
+    }
+    public int getWAdjust() {
+        return wAdjust;
+    }
+    public int getHAdjust(){
+        return hAdjust;
+    }
+    public int getDAdjust(){
+        return dAdjust;
+    }
+    public int getHp(){
+        return hp;
+    }
+    public void loseHp(int n){
+        hp -= n;
+    }
+    public void addHp(int n){
+        hp += n;
     }
     public double getSy(){
         return sy;
@@ -93,15 +149,11 @@ public class Goomba {
         return maxL;
     }
     public Image getFrame() {
-
-        if (f >= (rightF.length-1)*10) {
+        if (f >= (rightF.length-1)*12) {
             f = -1;
-
         }
 
         f ++;
-
-
 
         if (direction == left) {
             return rightF[f/12];
@@ -109,7 +161,28 @@ public class Goomba {
         else {
             return leftF[f/12];
         }
+    }
+    public Image getDeadFrame() {
+        if (f >= (rightFDead.length-1)*20) {
+            f = -1;
 
+        }
+        f ++;
+        if (f / 20 != rightFDead.length-1) {
+            if (direction == left) {
+
+                return rightFDead[f / 20];
+            } else {
+                return leftFDead[f / 20];
+            }
+        }
+        else{
+            return null;
+        }
+    }
+
+    public String getType(){
+        return type;
     }
     public void move(double xDelta, double yDelta){
         x += xDelta;
@@ -127,7 +200,15 @@ public class Goomba {
             sy = 0;
             y = 590;
         }
+        if (hp <= 0){
+            dead = true;
+        }
     }
+
+    public boolean checkDead(){
+        return dead;
+    }
+
     public void moveR(){
         move(SPEED, 0);
     }
@@ -135,10 +216,21 @@ public class Goomba {
         move(-SPEED, 0);
     }
     public Rectangle getRect(){
-        return rect;
+        return new Rectangle(x+xAdjust,y+yAdjust,width,height);
     }
-    public Image getImage(){
-        return pic;
+    public Image getRHitImage(){
+        return rHitPic;
+    }
+    public Image getLHitImage(){
+        return lHitPic;
+    }
+
+    public void setHit(boolean n){
+        checkHit = n;
+    }
+
+    public boolean checkHit(){
+        return checkHit;
     }
 
     public void loadSprite(Image[]actionRight, Image[]actionLeft, String directory){

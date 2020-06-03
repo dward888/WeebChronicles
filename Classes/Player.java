@@ -8,7 +8,8 @@ public class Player{
 	private String name;
 	private boolean scroll;
 	private int currentF;
-	private int score; //fakjdg;l
+	private int score;
+	private int lives;
 
 	public static final double FRICTION = 0.99;
 	public static final double GRAVITY = 0.4;
@@ -26,6 +27,7 @@ public class Player{
 		bx2 = 1185;
 		health = 100;
 		score = 0;
+		lives = 5;
 	}
 
 	public int getX(){
@@ -107,9 +109,9 @@ public class Player{
 			sy = 0;
 			y = 590;
 		}
-		if (x < 20){
-			x = 20;
-		}
+		/*if (x < 40){
+			x = 41;
+		}*/
 	}
 	public void runR(){
 		move(SPEED, 0);
@@ -132,8 +134,14 @@ public class Player{
 	public Rectangle getRect(){
 		return new Rectangle(x+5,y+12,40,45);
 	}
-	public int getHealth() {
-		return health;
+	public int getLives() {
+		return lives;
+	}
+	public void loseLife(){
+    	lives --;
+	}
+	public void gainLife(){
+    	lives ++;
 	}
 }
 
