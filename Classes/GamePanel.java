@@ -450,7 +450,7 @@ public class GamePanel extends JPanel implements KeyListener{
                     g.drawImage(jumpRight, p.getX()-offset, p.getY(), null);
                 }
                 if(attack){
-                    i(currentF >= (airPunchRight.length-1)*5){f
+                    if(currentF >= (airPunchRight.length-1)*5){
                         currentF = 0;
                         attack = false;
                     }

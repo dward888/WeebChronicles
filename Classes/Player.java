@@ -9,7 +9,7 @@ public class Player{
 	private boolean scroll;
 	private int currentF;
 	private int score;
-	private int lives;
+	private int lives;//ssfhsfdh
 
 	public static final double FRICTION = 0.99;
 	public static final double GRAVITY = 0.4;
