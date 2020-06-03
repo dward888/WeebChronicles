@@ -89,7 +89,7 @@ public class GamePanel extends JPanel implements KeyListener{
     private Image[][]attackPickLeft;
     private Image[]att;
     private boolean attack;
-
+    //dfgsdfhsdfh
 
 	private Image jumpRight;
 	private Image jumpLeft;
@@ -450,7 +450,7 @@ public class GamePanel extends JPanel implements KeyListener{
                     g.drawImage(jumpRight, p.getX()-offset, p.getY(), null);
                 }
                 if(attack){
-                    if(currentF >= (airPunchRight.length-1)*5){
+                    i(currentF >= (airPunchRight.length-1)*5){f
                         currentF = 0;
                         attack = false;
                     }
