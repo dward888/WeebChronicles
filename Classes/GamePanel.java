@@ -69,6 +69,19 @@ public class GamePanel extends JPanel implements KeyListener{
 	private Image[]runLeft;
 	private Image[]idleRight;
 	private Image[]idleLeft;
+	private Image[]kickRight;
+	private Image[]kickLeft;
+	private Image[]punchRight;
+	private Image[]punchLeft;
+	private Image[]uppercutRight;
+	private Image[]uppercutLeft;
+	private Image[]airPunchRight;
+	private Image[]airPunchLeft;
+    private Image[][]attackPickRight;
+    private Image[][]attackPickLeft;
+    private Image[]att;
+    private boolean attack;
+
 
 	private Image jumpRight;
 	private Image jumpLeft;
@@ -123,11 +136,18 @@ public class GamePanel extends JPanel implements KeyListener{
         runLeft = new Image[10];
         idleRight = new Image[8];
         idleLeft = new Image[8];
+        kickRight = new Image[7];
+        kickLeft = new Image[7];
+        punchRight = new Image[7];
+        punchLeft = new Image[7];
+        uppercutRight = new Image[7];
+        uppercutLeft = new Image[7];
+        airPunchRight = new Image[6];
+        airPunchLeft = new Image[6];
 
+        attack = false;
         loadSprite();
 
-        //TEXT
-        //String fName = "font/naruto1.ttf";
         try {
             fontLocal = Font.createFont(Font.TRUETYPE_FONT, new File("font/naruto1.ttf"));
             fontLocal = fontLocal.deriveFont(30f);
@@ -163,6 +183,18 @@ public class GamePanel extends JPanel implements KeyListener{
             Bullet b = new Bullet(p.getX()-offset, p.getY());
             b.setDirection(direction);
             bList.add(b);
+        }
+        if(e.getKeyCode() == KeyEvent.VK_ENTER && !keys[e.getKeyCode()]){
+            attack = true;
+            currentF = 0;
+            if(!midAir){
+                if(direction == right){
+                    att = attackPickRight[randint(0,2)];
+                }
+                if(direction == left){
+                    att = attackPickLeft[randint(0,2)];
+                }
+            }
         }
         keys[e.getKeyCode()] = true;
     }
@@ -345,7 +377,7 @@ public class GamePanel extends JPanel implements KeyListener{
             g.drawRect(coins.get(i).getX()-offset,coins.get(i).getY(),coins.get(i).getRect().width,coins.get(i).getRect().height);
         }
         //Following code draws player sprites
-        if(direction == right && !midAir){
+        if(direction == right && !midAir && !attack){
             if(!walking){ //Standing Right
                 if(currentF >= (idleRight.length - 1) * 8){
                     currentF = 0;
@@ -359,7 +391,7 @@ public class GamePanel extends JPanel implements KeyListener{
                 g.drawImage(runRight[currentF/3], p.getX()-offset, p.getY(), null);
             }
         }
-        if(direction == left && !midAir){
+        if(direction == left && !midAir && !attack){
             if(!walking){ //Standing Left
                 if(currentF >= (idleLeft.length - 1) * 8){
                     currentF = 0;
@@ -373,12 +405,46 @@ public class GamePanel extends JPanel implements KeyListener{
                 g.drawImage(runLeft[currentF/3], p.getX()-offset, p.getY(), null);
             }
         }
-        if(midAir){
+        if(!midAir && attack){
             if(direction == right){
-                g.drawImage(jumpRight, p.getX()-offset, p.getY(), null);
+                if(currentF >= (att.length-1)*5){
+                    currentF = 0;
+                    attack = false;
+                }
+                g.drawImage(att[currentF/5],p.getX()-offset, p.getY(),null);
             }
             if(direction == left){
-                g.drawImage(jumpLeft, p.getX()-offset, p.getY(), null);
+                if(currentF >= (att.length-1)*5){
+                    currentF = 0;
+                    attack = false;
+                }
+                g.drawImage(att[currentF/5],p.getX()-offset, p.getY(),null);
+            }
+        }
+        if(midAir){
+            if(direction == right){
+                if(!attack){
+                    g.drawImage(jumpRight, p.getX()-offset, p.getY(), null);
+                }
+                if(attack){
+                    if(currentF >= (airPunchRight.length-1)*5){
+                        currentF = 0;
+                        attack = false;
+                    }
+                    g.drawImage(airPunchRight[currentF/5],p.getX()-offset, p.getY(), null);
+                }
+            }
+            if(direction == left){
+                if(!attack) {
+                    g.drawImage(jumpLeft, p.getX() - offset, p.getY(), null);
+                }
+                if(attack){
+                    if(currentF >= (airPunchLeft.length-1)*5){
+                        currentF = 0;
+                        attack = false;
+                    }
+                    g.drawImage(airPunchLeft[currentF/5],p.getX()-offset, p.getY(), null);
+                }
             }
         }
 
@@ -533,11 +599,9 @@ public class GamePanel extends JPanel implements KeyListener{
             if (plat.getRect().intersects(p.getRect())){
                 falling = false;
                 if (p.getRect().y-p.getSy()+p.getHeight() <= plat.getY()){//checking to make sure that the player is above the platform in order to land on it
-
                     //System.out.println("hi");
                     p.setSy(0);//because the player is on a platform, the speed in the y component is zero
                     p.setY(plat.getRect().y-55);
-
                     midAir = false;
                     onPlat = true;
 
@@ -573,10 +637,20 @@ public class GamePanel extends JPanel implements KeyListener{
     public void loadSprite(){
 		loadSprite(runRight, runLeft, "Ryan Funyanjiwan/Run/run");
 		loadSprite(idleRight, idleLeft, "Ryan Funyanjiwan/Idle/idle");
+		loadSprite(kickRight, kickLeft, "Ryan Funyanjiwan/Side Kick/side kick");
+		loadSprite(punchRight, punchLeft, "Ryan Funyanjiwan/Punch/punch");
+		loadSprite(uppercutRight, uppercutLeft, "Ryan Funyanjiwan/Elbow Upercut/uppercut");
+		loadSprite(airPunchRight, airPunchLeft, "Ryan Funyanjiwan/Jump Punch/jump punch");
+
+        attackPickRight = new Image[][]{kickRight, punchRight, uppercutRight};
+        attackPickLeft = new Image[][]{kickLeft, punchLeft, uppercutLeft};
+
 		jumpRight = new ImageIcon("Ryan Funyanjiwan/jump.png").getImage();
 		jumpLeft = flipImage(jumpRight);
 	}
-
+    public static int randint(int low, int high){
+        return(int)(Math.random()*(high-low+1)+low);
+    }
 	public void loadSprite(Image[]actionRight, Image[]actionLeft, String directory){
 		try{
 			for(int i = 0; i < actionRight.length; i++) {

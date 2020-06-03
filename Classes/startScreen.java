@@ -27,8 +27,6 @@ public class startScreen extends JPanel implements MouseListener{
         mainFrame = m;
         try {
             font = Font.createFont(Font.TRUETYPE_FONT, new File("font/newyorkescape.ttf"));
-            //title = new Font(font.getFontName(), Font.PLAIN, 50);
-            //littleFont = new Font(font.getFontName(), Font.PLAIN, 10);
             title = font.deriveFont(50f);
             littleFont = font.deriveFont(10f);
         }
