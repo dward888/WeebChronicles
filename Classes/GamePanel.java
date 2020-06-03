@@ -89,6 +89,8 @@ public class GamePanel extends JPanel implements KeyListener{
     private Image[][]attackPickLeft;
     private Image[]att;
     private boolean attack;
+    private boolean attackDone;
+    private boolean hitBadGuy;
     //dfgsdfhsdfh
 
 	private Image jumpRight;
@@ -159,6 +161,7 @@ public class GamePanel extends JPanel implements KeyListener{
         airPunchLeft = new Image[6];
 
         attack = false;
+        attackDone = true;
         loadSprite();
 
         try {
@@ -197,9 +200,10 @@ public class GamePanel extends JPanel implements KeyListener{
             b.setDirection(direction);
             bList.add(b);
         }
-        if(e.getKeyCode() == KeyEvent.VK_ENTER && !keys[e.getKeyCode()]){
+        if(e.getKeyCode() == KeyEvent.VK_ENTER && !keys[e.getKeyCode()] && attackDone){
             attack = true;
             currentF = 0;
+            attackDone = false;
             if(!midAir){
                 if(direction == right){
                     att = attackPickRight[randint(0,2)];
@@ -358,8 +362,8 @@ public class GamePanel extends JPanel implements KeyListener{
         //mx = (int) mousePos.getX();
         //my = (int) mousePos.getY();
         g.drawImage(back, 0, 0, null);
-        f++;
-        System.out.println(p.getX() + "," + p.getY());
+
+        //System.out.println(p.getX() + "," + p.getY());
 
         for (Platform p : plats){
             g.drawImage(p.getImage(),p.getX() - offset,p.getY()+p.getAdjust(),null);
@@ -428,11 +432,14 @@ public class GamePanel extends JPanel implements KeyListener{
                 g.drawImage(runLeft[currentF/3], p.getX()-offset, p.getY(), null);
             }
         }
+        hitBadGuy = false;
         if(!midAir && attack){
             if(direction == right){
                 if(currentF >= (att.length-1)*5){
                     currentF = 0;
                     attack = false;
+                    attackDone = true;
+                    hitBadGuy = true;
                 }
                 g.drawImage(att[currentF/5],p.getX()-offset, p.getY(),null);
             }
@@ -440,6 +447,8 @@ public class GamePanel extends JPanel implements KeyListener{
                 if(currentF >= (att.length-1)*5){
                     currentF = 0;
                     attack = false;
+                    attackDone = true;
+                    hitBadGuy = true;
                 }
                 g.drawImage(att[currentF/5],p.getX()-offset, p.getY(),null);
             }
@@ -453,6 +462,8 @@ public class GamePanel extends JPanel implements KeyListener{
                     if(currentF >= (airPunchRight.length-1)*5){
                         currentF = 0;
                         attack = false;
+                        attackDone = true;
+                        hitBadGuy = true;
                     }
                     g.drawImage(airPunchRight[currentF/5],p.getX()-offset, p.getY(), null);
                 }
@@ -465,6 +476,8 @@ public class GamePanel extends JPanel implements KeyListener{
                     if(currentF >= (airPunchLeft.length-1)*5){
                         currentF = 0;
                         attack = false;
+                        attackDone = true;
+                        hitBadGuy = true;
                     }
                     g.drawImage(airPunchLeft[currentF/5],p.getX()-offset, p.getY(), null);
                 }
@@ -474,7 +487,6 @@ public class GamePanel extends JPanel implements KeyListener{
         if (footCount % 15 == 0){
             playRun();
         }
-
 
         footCount++;
         currentF++;
@@ -657,9 +669,10 @@ public class GamePanel extends JPanel implements KeyListener{
         for (Goomba bad : goombs) {
             if (bad.getRect().intersects(p.getHitRect())) {
                 //System.out.println("hi");
-                if (attack){
+                 if(hitBadGuy){
                     bad.setHit(true);
-                    bad.loseHp(10);
+                    bad.loseHp(50);
+                    System.out.println("sfsfdg");
                 }
                 else{
                     System.out.println("hi");

@@ -30,11 +30,9 @@ public class WeebChronicles extends JFrame implements ActionListener {
 		cScene1 = new CutScene1(this);
 		cards = new JPanel(cLayout);
 
-
 		//***Following code --> change order so that the start screen appears
 		//cards.add(start, "start");
 		cards.add(game, "game");
-
 		cards.add(start, "start");
 		cards.add(cScene1, "cutScene1");
 		//cards.add(game, "game");
