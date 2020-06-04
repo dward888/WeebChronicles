@@ -6,7 +6,7 @@ public class Player{
 	private int health;
 	private double sy,sx;
 	private String name;
-	private boolean scroll;
+	private boolean gotHit;
 	private int currentF;
 	private int score;
 	private int lives;//ssfhsfdhciftyiftyid
@@ -22,12 +22,13 @@ public class Player{
 		y = 340;
 		width = 40;
 		height = 40;
-		scroll = false;
+		//scroll = false;
 		currentF = 0;
 		bx2 = 1185;
 		health = 100;
 		score = 0;
 		lives = 5;
+		gotHit = false;
 	}
 
 	public int getX(){
@@ -54,9 +55,9 @@ public class Player{
 	public int getBx2(){
     	return bx2;
 	}
-	public void setScroll(boolean n){
-		scroll = n;
-	}
+	//public void setScroll(boolean n){
+	//	scroll = n;
+	//}
 	public int getHP(){
 		return hp;
 	}
@@ -150,6 +151,12 @@ public class Player{
 	}
 	public void gainLife(){
     	lives ++;
+	}
+	public boolean checkHit(){
+    	return gotHit;
+	}
+	public void setHit(boolean n){
+    	gotHit = n;
 	}
 }
 

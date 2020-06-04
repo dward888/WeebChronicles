@@ -90,6 +90,8 @@ public class GamePanel extends JPanel implements KeyListener{
     private Image[][]attackPickRight;
     private Image[][]attackPickLeft;
     private Image[]att;
+    private Image[] gotHitR;
+    private Image[]gotHitL;
     private boolean attack;
     private boolean attackDone;
     private boolean hitBadGuy;
@@ -103,6 +105,7 @@ public class GamePanel extends JPanel implements KeyListener{
     private Sound coinSound;
     private Sound run;
     private Sound runLeaf;
+    private Sound hit;
 
     Font fontLocal=null;
 
@@ -161,6 +164,9 @@ public class GamePanel extends JPanel implements KeyListener{
         uppercutLeft = new Image[7];
         airPunchRight = new Image[6];
         airPunchLeft = new Image[6];
+        gotHitR = new Image[9];
+        gotHitL = new Image[9];
+
 
         attack = false;
         attackDone = true;
@@ -177,6 +183,7 @@ public class GamePanel extends JPanel implements KeyListener{
             coinSound = new Sound("coin.wav",false);
             run = new Sound("run.wav",false);
             runLeaf = new Sound("runLeaf.wav",false);
+            hit = new Sound("hit.wav", false);
         }
         catch (UnsupportedAudioFileException | IOException | LineUnavailableException e){
             e.printStackTrace();
@@ -206,6 +213,8 @@ public class GamePanel extends JPanel implements KeyListener{
             attack = true;
             currentF = 0;
             attackDone = false;
+            hit.setVol((float) 40);
+            hit.play();
             if(!midAir){
                 if(direction == right){
                     att = attackPickRight[randint(0,2)];
@@ -365,7 +374,7 @@ public class GamePanel extends JPanel implements KeyListener{
         //my = (int) mousePos.getY();
         g.drawImage(back, 0, 0, null);
 
-        //System.out.println(p.getX() + "," + p.getY());
+        System.out.println(p.getX() + "," + p.getY());
 
         for (Platform p : plats){
             g.drawImage(p.getImage(),p.getX() - offset,p.getY()+p.getAdjust(),null);
@@ -410,8 +419,16 @@ public class GamePanel extends JPanel implements KeyListener{
             //g.setColor()
             g.drawRect(coins.get(i).getX()-offset,coins.get(i).getY(),coins.get(i).getRect().width,coins.get(i).getRect().height);
         }
+
+        if (direction == right && p.checkHit()){
+            g.drawImage(gotHitR[currentF/9], p.getX()-offset,p.getY(),null);
+        }
+        if (direction == left && p.checkHit()){
+            g.drawImage(gotHitL[currentF/9], p.getX()-offset,p.getY(),null);
+        }
+
         //Following code draws player sprites
-        if(direction == right && !midAir && !attack){
+        if(direction == right && !midAir && !attack && !p.checkHit()){
             if(!walking){ //Standing Right
                 if(currentF >= (idleRight.length - 1) * 8){
                     currentF = 0;
@@ -425,7 +442,7 @@ public class GamePanel extends JPanel implements KeyListener{
                 g.drawImage(runRight[currentF/3], p.getX()-offset, p.getY(), null);
             }
         }
-        if(direction == left && !midAir && !attack){
+        if(direction == left && !midAir && !attack && !p.checkHit()){
             if(!walking){ //Standing Left
                 if(currentF >= (idleLeft.length - 1) * 8){
                     currentF = 0;
@@ -440,7 +457,7 @@ public class GamePanel extends JPanel implements KeyListener{
             }
         }
         hitBadGuy = false;
-        if(!midAir && attack){
+        if(!midAir && attack && !p.checkHit()){
             if(direction == right){
                 if(currentF >= (att.length-1)*5){
                     currentF = 0;
@@ -460,7 +477,7 @@ public class GamePanel extends JPanel implements KeyListener{
                 g.drawImage(att[currentF/5],p.getX()-offset, p.getY(),null);
             }
         }
-        if(midAir){
+        if(midAir && !p.checkHit()){
             if(direction == right){
                 if(!attack){
                     g.drawImage(jumpRight, p.getX()-offset, p.getY(), null);
@@ -563,9 +580,7 @@ public class GamePanel extends JPanel implements KeyListener{
             if (b.getDirection() == left){
                 b.moveL();
             }
-
         }
-
     }
 
 
@@ -575,8 +590,8 @@ public class GamePanel extends JPanel implements KeyListener{
             midAir = false;
             p.resetCurrentF();
         }
-        if (p.getX() - offset < 40){
-            p.setX(40 + offset);
+        if (p.getX() - offset < 20){//making sure the player can't run off the screen on the left
+            p.setX(20 + offset);
         }
     }
 
@@ -590,12 +605,10 @@ public class GamePanel extends JPanel implements KeyListener{
 
     public void checkRun(){
         //int f = 0;
-
         if (walking && p.getSy() < 1 && !falling && !midAir){
             //System.out.println("hi");
             //run.play();
             playRun = true;
-
         }
         else{
             //un.stop();
@@ -677,6 +690,13 @@ public class GamePanel extends JPanel implements KeyListener{
             }
         }
 
+        for (Goomba bad : goombs){
+            if (p.getRect().intersects(bad.getRect())){
+                p.setHit(true);
+            }
+        }
+
+
         for (Goomba bad : goombs) {
             if(hitBadGuy){
                 if (direction == right){
@@ -741,6 +761,7 @@ public class GamePanel extends JPanel implements KeyListener{
 		loadSprite(punchRight, punchLeft, "Ryan Funyanjiwan/Punch/punch");
 		loadSprite(uppercutRight, uppercutLeft, "Ryan Funyanjiwan/Elbow Upercut/uppercut");
 		loadSprite(airPunchRight, airPunchLeft, "Ryan Funyanjiwan/Jump Punch/jump punch");
+		loadSprite(gotHitR, gotHitL, "Ryan Funyanjiwan/Gets Hit/hit");
 
         attackPickRight = new Image[][]{kickRight, punchRight, uppercutRight};
         attackPickLeft = new Image[][]{kickLeft, punchLeft, uppercutLeft};
