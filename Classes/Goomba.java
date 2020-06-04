@@ -27,6 +27,7 @@ public class Goomba {
 
     private boolean checkHit;
     private boolean dead;
+    private boolean drawHitPic;
 
     private String type;
 
@@ -73,6 +74,8 @@ public class Goomba {
         leftFDead = new Image[size];
         loadSprite(rightF,leftF,"badFrames/"+file+"/tile");
         loadSprite(rightFDead,leftFDead,"badFrames/"+file+"Dead/tile");
+
+        drawHitPic = false;
 
     }
 
@@ -205,8 +208,16 @@ public class Goomba {
         }
     }
 
+
+
     public boolean checkDead(){
         return dead;
+    }
+    public boolean drawHitPic(){
+        return drawHitPic;
+    }
+    public void setDrawHitPic(boolean n){
+        drawHitPic = n;
     }
 
     public void moveR(){

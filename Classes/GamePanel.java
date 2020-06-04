@@ -29,6 +29,7 @@ public class GamePanel extends JPanel implements KeyListener{
 	private int currentF;
 	private int footCount;
 	private int gDeadCount;
+	private int gHitPic;
 	private boolean midAir;//this boolean will make sure the user can't double jump
     private boolean onPlat;
     private boolean falling;
@@ -37,6 +38,7 @@ public class GamePanel extends JPanel implements KeyListener{
     private Rectangle badRect;
     private boolean enemyHit;
     private boolean playerHit;
+    //rivate boolean drawGHitPic;
     //private ArrayList<Rectangle>platRects = new ArrayList<Rectangle>();
     //private ArrayList<Rectangle>badRects = new ArrayList<Rectangle>();
     private ArrayList<Platform>plats = new ArrayList<Platform>();
@@ -370,14 +372,19 @@ public class GamePanel extends JPanel implements KeyListener{
             g.drawRect(p.getX()-offset,p.getY()+p.getAdjust(),p.getRect().width,p.getRect().height);
         }
         for (Goomba b : goombs){
-            if (b.checkHit()){
-                if (b.getDirection() == 2){
-                    g.drawImage(b.getRHitImage(), b.getX()-offset, b.getY(),null);
+            if (b.drawHitPic()){//b.checkHit()){
+                if (b.getDirection() == 1){
+                    g.drawImage(b.getLHitImage(), b.getX()-offset, b.getY(),null);
+                    //b.setX(b.getX()-(int)b.getSx());
                 }
                 else{
-                    g.drawImage(b.getLHitImage(), b.getX()-offset, b.getY(),null);
+                    g.drawImage(b.getRHitImage(), b.getX()-offset, b.getY(),null);
+                    //b.setX(b.getX()-(int)b.getSx());
                 }
 
+                if (gHitPic % 20 == 0){
+                    b.setDrawHitPic(false);
+                }
                 b.setHit(false);
             }
             else{
@@ -385,7 +392,7 @@ public class GamePanel extends JPanel implements KeyListener{
             }
             //else{
 
-            g.drawRect(b.getX()-offset+b.getXAdjust(),b.getY()+b.getYAdjust(), b.getWidth(), b.getHeight());
+            //g.drawRect(b.getX()-offset+b.getXAdjust(),b.getY()+b.getYAdjust(), b.getWidth(), b.getHeight());
 
             //g.drawRect(b.getX()-offset,b.getY(),32,32);
         }
@@ -488,13 +495,17 @@ public class GamePanel extends JPanel implements KeyListener{
             playRun();
         }
 
+
         footCount++;
         currentF++;
         gDeadCount++;
+        gHitPic++;
 
         //drawing the rects
         g.setColor(Color.blue);
-        g.drawRect(p.getX()+5-offset, p.getY()+12,40,55);
+        //g.drawRect(p.getX()+5-offset, p.getY()+12,40,55);
+        g.drawRect(p.getX()+5-offset,p.getY()+12,80,45);
+        //x+5,y+12,80,45
         //g.drawRect(b.getX()-offset, b.getY()+8, 20, 20);
 
         //TEXT
@@ -565,7 +576,7 @@ public class GamePanel extends JPanel implements KeyListener{
             p.resetCurrentF();
         }
         if (p.getX() - offset < 40){
-            p.setX(p.getX() - offset);
+            p.setX(40 + offset);
         }
     }
 
@@ -667,12 +678,28 @@ public class GamePanel extends JPanel implements KeyListener{
         }
 
         for (Goomba bad : goombs) {
-            if (bad.getRect().intersects(p.getHitRect())) {
-                //System.out.println("hi");
-                 if(hitBadGuy){
-                    bad.setHit(true);
-                    bad.loseHp(50);
-                    System.out.println("sfsfdg");
+            if(hitBadGuy){
+                if (direction == right){
+                    if (bad.getRect().intersects(p.getRHitRect())){
+                        bad.setHit(true);
+                        bad.setDrawHitPic(true);
+
+                        //drawGHitPic = true;
+                        bad.loseHp(50);
+                        hitBadGuy = false;
+                        System.out.println("sfsfdg");
+                    }
+
+                }
+                else if (direction == left){
+                    if (bad.getRect().intersects(p.getLHitRect())){
+                        bad.setHit(true);
+                        bad.setDrawHitPic(true);
+                        //drawGHitPic = true;
+                        bad.loseHp(50);
+                        hitBadGuy = false;
+                        System.out.println("sfsfdg");
+                    }
                 }
                 else{
                     System.out.println("hi");
