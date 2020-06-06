@@ -48,8 +48,8 @@ public class Sound {
             sounds.remove(this);
         }
         public void setVol(double v){
-            float dB = (float) (Math.log(v) / Math.log(10.0) * 20.0);
-            gainControl.setValue(dB);
+            //float dB = (float) (Math.log(v) / Math.log(10.0) * 20.0);
+            //gainControl.setValue(dB);
         }
 
 
