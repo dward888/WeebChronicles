@@ -122,10 +122,6 @@ public class Player{
 		move(-SPEED, 0);
 	}
 
-	public void knockback(){
-    	move(-50,0);
-	}
-
 	public void jump(){
 		accelerate(0,JUMPSTRENGTH);
 	}
@@ -146,7 +142,7 @@ public class Player{
     	return new Rectangle(x+5,y+12,100,55);
 	}
 	public Rectangle getLHitRect(){
-    	return new Rectangle(x-40,y+12,90,55);
+    	return new Rectangle(x-50,y+12,100,55);
 	}
 
 	public int getLives() {

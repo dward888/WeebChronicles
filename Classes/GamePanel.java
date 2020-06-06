@@ -376,7 +376,9 @@ public class GamePanel extends JPanel implements KeyListener{
         //my = (int) mousePos.getY();
         g.drawImage(back, 0, 0, null);
         g.setColor(Color.blue);
-        g.drawRect(p.getX()+5-offset,p.getY()+12,100,55);
+        //+12,100,55
+        //-40,y+12,90,55
+        //g.drawRect(p.getX()-50-offset,p.getY()+12,100,55);
 
         //System.out.println(p.getX() + "," + p.getY());
 
@@ -718,6 +720,16 @@ public class GamePanel extends JPanel implements KeyListener{
 
 
         for (Goomba bad : goombs) {
+            if (direction == right){
+                if (bad.getRect().intersects(p.getRHitRect())) {
+                    System.out.println("hi");
+                }
+            }
+            else if (direction == left){
+                if (bad.getRect().intersects(p.getLHitRect())){
+                    System.out.printf("bye");
+                }
+            }
             if(hitBadGuy){
                 if (direction == right){
                     if (bad.getRect().intersects(p.getRHitRect())){

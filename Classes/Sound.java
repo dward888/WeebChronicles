@@ -33,7 +33,6 @@ public class Sound {
 
         public void play(){
             //gainControl.setValue(-10.0f);
-
             clip.setMicrosecondPosition(0);
             clip.start();
         }
