@@ -109,7 +109,7 @@ public class Player{
 		if (y > 590){
 			sy = 0;
 			y = 590;
-		}
+		}//sfdg
 		/*if (x < 40){
 			x = 41;
 		}*/
