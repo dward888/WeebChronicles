@@ -421,9 +421,17 @@ public class GamePanel extends JPanel implements KeyListener{
         }
 
         if (direction == right && p.checkHit()){
+            if(currentF >= (gotHitR.length -1 )*9){
+                currentF = 0;
+                p.setHit(false);
+            }
             g.drawImage(gotHitR[currentF/9], p.getX()-offset,p.getY(),null);
         }
         if (direction == left && p.checkHit()){
+            if(currentF >= (gotHitL.length - 1)*9){
+                currentF = 0;
+                p.setHit(false);
+            }
             g.drawImage(gotHitL[currentF/9], p.getX()-offset,p.getY(),null);
         }
 
