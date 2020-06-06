@@ -467,7 +467,7 @@ public class GamePanel extends JPanel implements KeyListener{
             }
         }
         hitBadGuy = false;
-        if(!midAir && attack && !p.checkHit()){
+        if(!midAir && !walking && attack && !p.checkHit()){
             if(direction == right){
                 if(currentF >= (att.length-1)*5){
                     currentF = 0;
@@ -487,33 +487,35 @@ public class GamePanel extends JPanel implements KeyListener{
                 g.drawImage(att[currentF/5],p.getX()-offset, p.getY(),null);
             }
         }
+        if(walking && attack && !p.checkHit()){
+            if(direction == right){
+                if(currentF >= (airPunchRight.length-1)*5){
+                    currentF = 0;
+                    attack = false;
+                    attackDone = true;
+                    hitBadGuy = true;
+                }
+                g.drawImage(airPunchRight[currentF/5],p.getX()-offset, p.getY(), null);
+            }
+            if(direction == left){
+                if(currentF >= (airPunchLeft.length-1)*5){
+                    currentF = 0;
+                    attack = false;
+                    attackDone = true;
+                    hitBadGuy = true;
+                }
+                g.drawImage(airPunchLeft[currentF/5],p.getX()-offset, p.getY(), null);
+            }
+        }
         if(midAir && !p.checkHit()){
             if(direction == right){
                 if(!attack){
                     g.drawImage(jumpRight, p.getX()-offset, p.getY(), null);
                 }
-                if(attack){
-                    if(currentF >= (airPunchRight.length-1)*5){
-                        currentF = 0;
-                        attack = false;
-                        attackDone = true;
-                        hitBadGuy = true;
-                    }
-                    g.drawImage(airPunchRight[currentF/5],p.getX()-offset, p.getY(), null);
-                }
             }
             if(direction == left){
                 if(!attack) {
                     g.drawImage(jumpLeft, p.getX() - offset, p.getY(), null);
-                }
-                if(attack){
-                    if(currentF >= (airPunchLeft.length-1)*5){
-                        currentF = 0;
-                        attack = false;
-                        attackDone = true;
-                        hitBadGuy = true;
-                    }
-                    g.drawImage(airPunchLeft[currentF/5],p.getX()-offset, p.getY(), null);
                 }
             }
         }
