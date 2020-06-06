@@ -211,7 +211,7 @@ public class GamePanel extends JPanel implements KeyListener{
             b.setDirection(direction);
             bList.add(b);
         }
-        if(e.getKeyCode() == KeyEvent.VK_ENTER && !keys[e.getKeyCode()] && attackDone){
+        if(e.getKeyCode() == KeyEvent.VK_ENTER && !keys[e.getKeyCode()] && attackDone && !p.checkHit()){
             attack = true;
             currentF = 0;
             attackDone = false;
@@ -710,7 +710,7 @@ public class GamePanel extends JPanel implements KeyListener{
         }
 
         for (Goomba bad : goombs){
-            if (p.getRect().intersects(bad.getRect())){
+            if (p.getRect().intersects(bad.getRect()) && !attack){
                 p.setHit(true);
                 oof.play();
             }
