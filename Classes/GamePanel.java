@@ -42,6 +42,8 @@ public class GamePanel extends JPanel implements KeyListener{
     //private ArrayList<Rectangle>platRects = new ArrayList<Rectangle>();
     //private ArrayList<Rectangle>badRects = new ArrayList<Rectangle>();
     private ArrayList<Platform>plats = new ArrayList<Platform>();
+    private ArrayList<Life>pLives = new ArrayList<Life>();
+    private ArrayList<Life>levelLives = new ArrayList<Life>();
 
     //private ArrayList<Platform>plats1 = new ArrayList<Platform>();
     //private ArrayList<Platform>plats2 = new ArrayList<Platform>();
@@ -92,6 +94,8 @@ public class GamePanel extends JPanel implements KeyListener{
     private Image[]att;
     private Image[] gotHitR;
     private Image[]gotHitL;
+    private Image[]bigHeartR;
+    private Image[]bigHeartL;
     private boolean attack;
     private boolean attackDone;
     private boolean hitBadGuy;
@@ -99,6 +103,7 @@ public class GamePanel extends JPanel implements KeyListener{
 
 	private Image jumpRight;
 	private Image jumpLeft;
+	//private Image heart;
 
 	private Image flowerHit;
 
@@ -146,6 +151,7 @@ public class GamePanel extends JPanel implements KeyListener{
 		airPlat = new ImageIcon("platPics/airPlat.png").getImage();
 
 		flowerHit = new ImageIcon("badHitPics/flowerHit.png").getImage();
+		//heart = new ImageIcon("heart.png").getImage();
 
         //addMouseListener(this);
         //initilizing the platforms as rects
@@ -168,9 +174,15 @@ public class GamePanel extends JPanel implements KeyListener{
         gotHitR = new Image[9];
         gotHitL = new Image[9];
 
+        bigHeartR = new Image[16];
+        bigHeartL =  new Image[16];
 
         attack = false;
         attackDone = true;
+
+
+
+
         loadSprite();
 
         try {
@@ -337,6 +349,23 @@ public class GamePanel extends JPanel implements KeyListener{
         }
     }
 
+    public void loadPHearts(){
+
+        Life tmp1 = new Life (0,-5,16);
+        Life tmp2 =  new Life (60,-5,16);
+        Life tmp3 = new Life(120,-5,16);
+        Life tmp4 = new Life (180,-5,16);
+        Life tmp5 = new Life(240,-5,16);
+
+        pLives.add(tmp1);
+        pLives.add(tmp2);
+        pLives.add(tmp3);
+        pLives.add(tmp4);
+        pLives.add(tmp5);
+
+
+    }
+
     public void loadCoins(String file, int lvl)throws IOException{
         Scanner inFile = new Scanner(new BufferedReader(new FileReader(file)));
         while (inFile.hasNext()) {//while there are lines to be read
@@ -376,11 +405,12 @@ public class GamePanel extends JPanel implements KeyListener{
         //my = (int) mousePos.getY();
         g.drawImage(back, 0, 0, null);
         g.setColor(Color.blue);
+        //g.drawImage(heart,200, 0, null);
         //+12,100,55
         //-40,y+12,90,55
         //g.drawRect(p.getX()-50-offset,p.getY()+12,100,55);
 
-        //System.out.println(p.getX() + "," + p.getY());
+        System.out.println(p.getX() + "," + p.getY());
 
         for (Platform p : plats){
             g.drawImage(p.getImage(),p.getX() - offset,p.getY()+p.getAdjust(),null);
@@ -425,6 +455,8 @@ public class GamePanel extends JPanel implements KeyListener{
             //g.setColor()
             g.drawRect(coins.get(i).getX()-offset,coins.get(i).getY(),coins.get(i).getRect().width,coins.get(i).getRect().height);
         }
+
+
 
         if (direction == right && p.checkHit()){
             if(currentF >= (gotHitR.length -1 )*9){
@@ -528,6 +560,8 @@ public class GamePanel extends JPanel implements KeyListener{
             }
         }
 
+
+
         if (footCount % 15 == 0){
             playRun();
         }
@@ -553,6 +587,10 @@ public class GamePanel extends JPanel implements KeyListener{
         //g.setColor(Color.WHITE);
         g.setFont(fontLocal);
         g.drawString("SCORE  "+p.getScore(),975,35);
+
+        for (int i = 0; i < pLives.size(); i++){
+            g.drawImage(pLives.get(i).getFrame(),pLives.get(i).getX()-offset,pLives.get(i).getY(),null);
+        }
 
         //g.drawString(""+p.getScore(),500,500);
 
@@ -710,26 +748,16 @@ public class GamePanel extends JPanel implements KeyListener{
                 p.addScore(30);
             }
         }
-
-        for (Goomba bad : goombs){
+        //TURNED OFF FOR NOW
+        /*for (Goomba bad : goombs){
             if (p.getRect().intersects(bad.getRect()) && !attack){
                 p.setHit(true);
                 oof.play();
             }
-        }
+        }*/
 
 
         for (Goomba bad : goombs) {
-            if (direction == right){
-                if (bad.getRect().intersects(p.getRHitRect())) {
-                    System.out.println("hi");
-                }
-            }
-            else if (direction == left){
-                if (bad.getRect().intersects(p.getLHitRect())){
-                    System.out.printf("bye");
-                }
-            }
             if(hitBadGuy){
                 if (direction == right){
                     if (bad.getRect().intersects(p.getRHitRect())){
@@ -789,6 +817,7 @@ public class GamePanel extends JPanel implements KeyListener{
 		loadSprite(uppercutRight, uppercutLeft, "Ryan Funyanjiwan/Elbow Upercut/uppercut");
 		loadSprite(airPunchRight, airPunchLeft, "Ryan Funyanjiwan/Jump Punch/jump punch");
 		loadSprite(gotHitR, gotHitL, "Ryan Funyanjiwan/Gets Hit/hit");
+        //loadSprite(artR, bigHeartL, "heartFrames/tile");
 
         attackPickRight = new Image[][]{kickRight, punchRight, uppercutRight};
         attackPickLeft = new Image[][]{kickLeft, punchLeft, uppercutLeft};

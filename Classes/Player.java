@@ -13,7 +13,7 @@ public class Player{
 
 	public static final double FRICTION = 0.99;
 	public static final double GRAVITY = 0.4;
-	public static final double SPEED = 5;//10;
+	public static final double SPEED = 10;//5
 	public static final double JUMPSTRENGTH = -10;
 
     public Player() {
@@ -157,8 +157,8 @@ public class Player{
 	public boolean checkHit(){
     	return gotHit;
 	}
-	public void setHit(boolean n){
-    	gotHit = n;
+	public void setHit(boolean n) {
+		gotHit = n;
 	}
 }
 

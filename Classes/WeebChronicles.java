@@ -51,6 +51,7 @@ public class WeebChronicles extends JFrame implements ActionListener {
 			game.loadDecor("decor1.txt",1);
 			game.loadGoombs("goomba1.txt",1);
 			game.loadCoins("coin1.txt",1);
+			game.loadPHearts();
 		}catch (IOException e) {
 			e.printStackTrace();
 		}
