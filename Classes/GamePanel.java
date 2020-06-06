@@ -425,6 +425,7 @@ public class GamePanel extends JPanel implements KeyListener{
                 currentF = 0;
                 p.setHit(false);
             }
+            p.knockback(-3);
             g.drawImage(gotHitR[currentF/9], p.getX()-offset,p.getY(),null);
         }
         if (direction == left && p.checkHit()){
@@ -432,6 +433,7 @@ public class GamePanel extends JPanel implements KeyListener{
                 currentF = 0;
                 p.setHit(false);
             }
+            p.knockback(3);
             g.drawImage(gotHitL[currentF/9], p.getX()-offset,p.getY(),null);
         }
 

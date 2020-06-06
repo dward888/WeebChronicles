@@ -49,6 +49,7 @@ public class Player{
 	public void setSy(double n){
 		sy = n;
 	}
+	public void knockback(int n){x = x + n;};
 	public int getBx() {
 		return bx;
 	}
