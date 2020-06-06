@@ -375,8 +375,10 @@ public class GamePanel extends JPanel implements KeyListener{
         //mx = (int) mousePos.getX();
         //my = (int) mousePos.getY();
         g.drawImage(back, 0, 0, null);
+        g.setColor(Color.blue);
+        g.drawRect(p.getX()+5-offset,p.getY()+12,100,55);
 
-        System.out.println(p.getX() + "," + p.getY());
+        //System.out.println(p.getX() + "," + p.getY());
 
         for (Platform p : plats){
             g.drawImage(p.getImage(),p.getX() - offset,p.getY()+p.getAdjust(),null);
@@ -535,7 +537,6 @@ public class GamePanel extends JPanel implements KeyListener{
         //drawing the rects
         g.setColor(Color.blue);
         //g.drawRect(p.getX()+5-offset, p.getY()+12,40,55);
-        g.drawRect(p.getX()+5-offset,p.getY()+12,80,45);
         //x+5,y+12,80,45
         //g.drawRect(b.getX()-offset, b.getY()+8, 20, 20);
 
@@ -716,34 +717,13 @@ public class GamePanel extends JPanel implements KeyListener{
 
         for (Goomba bad : goombs) {
             if(hitBadGuy){
-                if (direction == right) {
-                    if (p.getX() + 10 <= bad.getX()) {
+                if (direction == right){
+                    if (bad.getRect().intersects(p.getRHitRect())){
                         bad.setHit(true);
                         bad.setDrawHitPic(true);
                         bad.loseHp(50);
                         hitBadGuy = false;
                     }
-                }
-                else if (direction == left){
-                    if (p.getX()-10 >= bad.getX()){
-                        bad.setHit(true);
-                        bad.setDrawHitPic(true);
-                        bad.loseHp(50);
-                        hitBadGuy = false;
-                }
-
-            }
-                //if (direction == right){
-                    /*if (bad.getRect().intersects(p.getRHitRect())){
-                        bad.setHit(true);
-                        bad.setDrawHitPic(true);
-
-                        //drawGHitPic = true;
-                        bad.loseHp(50);
-                        hitBadGuy = false;
-                        System.out.println("sfsfdg");
-                    }
-
                 }
                 else if (direction == left){
                     if (bad.getRect().intersects(p.getLHitRect())){
@@ -752,12 +732,11 @@ public class GamePanel extends JPanel implements KeyListener{
                         //drawGHitPic = true;
                         bad.loseHp(50);
                         hitBadGuy = false;
-                        System.out.println("sfsfdg");
                     }
                 }
                 else{
                     System.out.println("hi");
-                }*/
+                }
             }
         }
         for (int i=0; i < coins.size(); i++){
