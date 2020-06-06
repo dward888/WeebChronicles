@@ -471,44 +471,46 @@ public class GamePanel extends JPanel implements KeyListener{
             }
         }
         hitBadGuy = false;
-        if(!midAir && !walking && attack && !p.checkHit()){
-            if(direction == right){
-                if(currentF >= (att.length-1)*5){
-                    currentF = 0;
-                    attack = false;
-                    attackDone = true;
-                    hitBadGuy = true;
+        if(attack && !p.checkHit()){
+            if(!midAir && !walking) {
+                if (direction == right) {
+                    if (currentF >= (att.length - 1) * 5) {
+                        currentF = 0;
+                        attack = false;
+                        attackDone = true;
+                        hitBadGuy = true;
+                    }
+                    g.drawImage(att[currentF / 5], p.getX() - offset, p.getY(), null);
                 }
-                g.drawImage(att[currentF/5],p.getX()-offset, p.getY(),null);
+                if (direction == left) {
+                    if (currentF >= (att.length - 1) * 5) {
+                        currentF = 0;
+                        attack = false;
+                        attackDone = true;
+                        hitBadGuy = true;
+                    }
+                    g.drawImage(att[currentF / 5], p.getX() - offset, p.getY(), null);
+                }
             }
-            if(direction == left){
-                if(currentF >= (att.length-1)*5){
-                    currentF = 0;
-                    attack = false;
-                    attackDone = true;
-                    hitBadGuy = true;
+            else{
+                if(direction == right){
+                    if(currentF >= (airPunchRight.length-1)*5){
+                        currentF = 0;
+                        attack = false;
+                        attackDone = true;
+                        hitBadGuy = true;
+                    }
+                    g.drawImage(airPunchRight[currentF/5],p.getX()-offset, p.getY(), null);
                 }
-                g.drawImage(att[currentF/5],p.getX()-offset, p.getY(),null);
-            }
-        }
-        if(walking && attack && !p.checkHit()){
-            if(direction == right){
-                if(currentF >= (airPunchRight.length-1)*5){
-                    currentF = 0;
-                    attack = false;
-                    attackDone = true;
-                    hitBadGuy = true;
+                if(direction == left){
+                    if(currentF >= (airPunchLeft.length-1)*5){
+                        currentF = 0;
+                        attack = false;
+                        attackDone = true;
+                        hitBadGuy = true;
+                    }
+                    g.drawImage(airPunchLeft[currentF/5],p.getX()-offset, p.getY(), null);
                 }
-                g.drawImage(airPunchRight[currentF/5],p.getX()-offset, p.getY(), null);
-            }
-            if(direction == left){
-                if(currentF >= (airPunchLeft.length-1)*5){
-                    currentF = 0;
-                    attack = false;
-                    attackDone = true;
-                    hitBadGuy = true;
-                }
-                g.drawImage(airPunchLeft[currentF/5],p.getX()-offset, p.getY(), null);
             }
         }
         if(midAir && !p.checkHit()){
