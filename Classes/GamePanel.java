@@ -198,13 +198,13 @@ public class GamePanel extends JPanel implements KeyListener{
     public void keyTyped(KeyEvent e){
     }
     public void keyPressed(KeyEvent e){
-        if (e.getKeyCode() == KeyEvent.VK_W && !keys[e.getKeyCode()]){
+        if (e.getKeyCode() == KeyEvent.VK_W && !keys[e.getKeyCode()] && !p.checkHit()){
            if(!midAir){
                p.jump();
                midAir = true;
            }
         }
-        if(e.getKeyCode() == KeyEvent.VK_SPACE && !keys[e.getKeyCode()]){
+        if(e.getKeyCode() == KeyEvent.VK_SPACE && !keys[e.getKeyCode()] && !p.checkHit()){
             Bullet b = new Bullet(p.getX()-offset, p.getY());
             b.setDirection(direction);
             bList.add(b);
@@ -213,7 +213,7 @@ public class GamePanel extends JPanel implements KeyListener{
             attack = true;
             currentF = 0;
             attackDone = false;
-            hit.setVol((float) 40);
+            //hit.setVol((float) 40);
             hit.play();
             if(!midAir){
                 if(direction == right){
@@ -425,7 +425,7 @@ public class GamePanel extends JPanel implements KeyListener{
                 currentF = 0;
                 p.setHit(false);
             }
-            p.knockback(-3);
+            p.knockback(-2);
             g.drawImage(gotHitR[currentF/9], p.getX()-offset,p.getY(),null);
         }
         if (direction == left && p.checkHit()){
@@ -433,7 +433,7 @@ public class GamePanel extends JPanel implements KeyListener{
                 currentF = 0;
                 p.setHit(false);
             }
-            p.knockback(3);
+            p.knockback(2);
             g.drawImage(gotHitL[currentF/9], p.getX()-offset,p.getY(),null);
         }
 
@@ -556,18 +556,19 @@ public class GamePanel extends JPanel implements KeyListener{
 
     //user moving the character f
     public void move(){
-        if (keys[KeyEvent.VK_D]){
+        if (keys[KeyEvent.VK_D] && !p.checkHit()){
             if (p.getX() >= 600 + offset){
                 offset += p.SPEED;
 
             }
             p.update(right);
+
             p.runR();
             direction = right;
             walking = true;
 
         }
-        if (keys[KeyEvent.VK_A]) {
+        if (keys[KeyEvent.VK_A] && !p.checkHit()) {
             p.update(left);
             p.runL();
             direction = left;

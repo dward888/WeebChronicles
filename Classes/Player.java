@@ -121,6 +121,11 @@ public class Player{
 	public void runL(){
 		move(-SPEED, 0);
 	}
+
+	public void knockback(){
+    	move(-50,0);
+	}
+
 	public void jump(){
 		accelerate(0,JUMPSTRENGTH);
 	}
