@@ -106,6 +106,7 @@ public class GamePanel extends JPanel implements KeyListener{
     private Sound run;
     private Sound runLeaf;
     private Sound hit;
+    private Sound oof;
 
     Font fontLocal=null;
 
@@ -184,6 +185,7 @@ public class GamePanel extends JPanel implements KeyListener{
             run = new Sound("run.wav",false);
             runLeaf = new Sound("runLeaf.wav",false);
             hit = new Sound("hit.wav", false);
+            oof = new Sound("oof.wav",false);
         }
         catch (UnsupportedAudioFileException | IOException | LineUnavailableException e){
             e.printStackTrace();
@@ -700,20 +702,39 @@ public class GamePanel extends JPanel implements KeyListener{
             if (gDeadCount % 50 == 0){
                 gDeadRemove.add(gRemove.get(i));
                 gDeadCount = 0;
+                p.addScore(30);
             }
         }
 
         for (Goomba bad : goombs){
             if (p.getRect().intersects(bad.getRect())){
                 p.setHit(true);
+                oof.play();
             }
         }
 
 
         for (Goomba bad : goombs) {
             if(hitBadGuy){
-                if (direction == right){
-                    if (bad.getRect().intersects(p.getRHitRect())){
+                if (direction == right) {
+                    if (p.getX() + 10 <= bad.getX()) {
+                        bad.setHit(true);
+                        bad.setDrawHitPic(true);
+                        bad.loseHp(50);
+                        hitBadGuy = false;
+                    }
+                }
+                else if (direction == left){
+                    if (p.getX()-10 >= bad.getX()){
+                        bad.setHit(true);
+                        bad.setDrawHitPic(true);
+                        bad.loseHp(50);
+                        hitBadGuy = false;
+                }
+
+            }
+                //if (direction == right){
+                    /*if (bad.getRect().intersects(p.getRHitRect())){
                         bad.setHit(true);
                         bad.setDrawHitPic(true);
 
@@ -736,7 +757,7 @@ public class GamePanel extends JPanel implements KeyListener{
                 }
                 else{
                     System.out.println("hi");
-                }
+                }*/
             }
         }
         for (int i=0; i < coins.size(); i++){
