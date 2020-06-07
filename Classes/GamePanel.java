@@ -55,8 +55,12 @@ public class GamePanel extends JPanel implements KeyListener{
     //private ArrayList<Platform>plats3 = new ArrayList<Platform>();
     //yo
     private ArrayList<Goomba>goombs = new ArrayList<Goomba>();
-    private ArrayList<Goomba>gRemove = new ArrayList<Goomba>();
+    private ArrayList<Goomba>gDead = new ArrayList<Goomba>();
     private ArrayList<Goomba>gDeadRemove = new ArrayList<Goomba>();
+
+    private ArrayList<Shooter>shooters = new ArrayList<Shooter>();
+    private ArrayList<Shooter>sDead = new ArrayList<Shooter>();
+    private ArrayList<Shooter>sDeadRemove = new ArrayList<Shooter>();
 
     private ArrayList<Decor>decor = new ArrayList<Decor>();
 
@@ -334,6 +338,38 @@ public class GamePanel extends JPanel implements KeyListener{
         }
     }
 
+    public void loadShooters(String file, int lvl) throws IOException{
+        Scanner inFile = new Scanner (new BufferedReader(new FileReader(file)));
+        while (inFile.hasNext()) {//while there are lines to be read
+            String line = inFile.nextLine();
+            String[] data = line.split(" ");//splitting up each value to be able to keep track of the x,y,max R, max L, and picture
+            int x = Integer.parseInt(data[0]);
+            int y = Integer.parseInt(data[1]);
+            int mL = Integer.parseInt(data[2]);
+            int mR = Integer.parseInt(data[3]);
+            String b = data[4];
+            int num = Integer.parseInt(data[5]);
+            int hp = Integer.parseInt(data[6]);
+
+            Shooter tmp = new Shooter(x, y, mL, mR, b, num, hp);
+            if (lvl == 1) {
+                //plats1.add(tmp);
+                shooters.add(tmp);
+                //badRects.add(tmp.getRect());
+            }
+            if (lvl == 2){
+                shooters = new ArrayList<Shooter>();
+                shooters.add(tmp);
+            }
+            if (lvl == 3){
+                shooters = new ArrayList<Shooter>();
+                shooters.add(tmp);
+            }
+        }
+    }
+
+
+
     public void loadDecor(String file,int lvl) throws IOException {
         Scanner inFile = new Scanner(new BufferedReader(new FileReader(file)));
         while (inFile.hasNext()) {//while there are lines to be read
@@ -474,8 +510,13 @@ public class GamePanel extends JPanel implements KeyListener{
             //g.drawRect(b.getX()-offset,b.getY(),32,32);
         }
 
-        for (Goomba b : gRemove){
+
+        for (Goomba b : gDead){
             g.drawImage(b.getDeadFrame(), b.getX()-offset, b.getY()+b.getDAdjust(), null);
+        }
+
+        for (Shooter s : shooters){
+            g.drawImage(s.getFrame(),s.getX()-offset,s.getY(),null);
         }
 
         for (Decor d : decor){
@@ -803,13 +844,13 @@ public class GamePanel extends JPanel implements KeyListener{
 
         for (int i=0; i < goombs.size(); i++){
             if (goombs.get(i).checkDead()) {
-                gRemove.add(goombs.get(i));
+                gDead.add(goombs.get(i));
             }
         }
 
-        for (int i = 0; i < gRemove.size(); i++){
+        for (int i = 0; i < gDead.size(); i++){
             if (gDeadCount % 50 == 0){
-                gDeadRemove.add(gRemove.get(i));
+                gDeadRemove.add(gDead.get(i));
                 gDeadCount = 0;
                 p.addScore(30);
             }
@@ -909,14 +950,14 @@ public class GamePanel extends JPanel implements KeyListener{
     }
 
     public void removeGoombs(){
-        for (int i = 0; i < gRemove.size(); i++){
-            goombs.remove(gRemove.get(i));
+        for (int i = 0; i < gDead.size(); i++){
+            goombs.remove(gDead.get(i));
         }
     }
 
     public void removeDGoombs(){
         for (int i = 0; i < gDeadRemove.size(); i++){
-            gRemove.remove(gDeadRemove.get(i));
+            gDead.remove(gDeadRemove.get(i));
         }
     }
 

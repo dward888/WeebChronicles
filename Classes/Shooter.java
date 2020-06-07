@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class Goomba {
+public class Shooter {
     private int x,y,dist,width,height;
     private double sy,sx;
     private Image pic;
@@ -43,7 +43,7 @@ public class Goomba {
     private Image[]leftFDead;
     private int f;
 
-    public Goomba(int x1, int y1, int maxLeft, int maxRight, String file, int xa,int ya, int wa, int ha, int da, int size, int h){
+    public Shooter(int x1, int y1, int maxLeft, int maxRight, String file, int size, int h){
 
         x = x1;
         y = y1;
@@ -59,21 +59,16 @@ public class Goomba {
         hp = h;
         type = file;
 
-        width = pic.getWidth(null) + wa;
-        height = pic.getHeight(null) + ha;
+        width = pic.getWidth(null);
+        height = pic.getHeight(null);
 
-        xAdjust = xa;
-        yAdjust = ya;
-        wAdjust = wa;
-        hAdjust = ha;
-        dAdjust = da; //adjustment for the death frames (sometimes the frames would be higher than desired)
 
         rightF = new Image[size];
         leftF = new Image[size];
         rightFDead = new Image[size];
         leftFDead = new Image[size];
         loadSprite(rightF,leftF,"badFrames/"+file+"/tile");
-        loadSprite(rightFDead,leftFDead,"badFrames/"+file+"Dead/tile");
+        //loadSprite(rightFDead,leftFDead,"badFrames/"+file+"Dead/tile");
 
         drawHitPic = false;
 

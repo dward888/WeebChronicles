@@ -53,6 +53,7 @@ public class WeebChronicles extends JFrame implements ActionListener {
 			game.loadCoins("coin1.txt",1);
 			game.loadPLives();
 			game.loadLvlLives("life1.txt",1);
+			game.loadShooters("shooter1.txt",1);
 		}catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -108,7 +109,9 @@ public class WeebChronicles extends JFrame implements ActionListener {
 			game.removeGoombs();
 			game.removeDGoombs();
 			game.removeLvlLives();
+
 			game.removePLives();
+
 			//game.checkLife();
 		}
 	}
