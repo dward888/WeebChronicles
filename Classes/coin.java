@@ -52,7 +52,7 @@ public class Coin {
 
     public Image getFrame() {
 
-        if (f >= (rightF.length-1)*10) {
+        if (f >= (rightF.length-1)*5) {
             f = -1;
 
         }
@@ -62,12 +62,11 @@ public class Coin {
 
 
         if (direction == left) {
-            return rightF[f/10];
+            return rightF[f/5];
         }
         else {
-            return leftF[f/10];
+            return leftF[f/5];
         }
-
     }
     public void loadSprite(Image[]actionRight, Image[]actionLeft, String directory){
         try{

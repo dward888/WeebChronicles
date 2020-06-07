@@ -43,7 +43,10 @@ public class GamePanel extends JPanel implements KeyListener{
     //private ArrayList<Rectangle>badRects = new ArrayList<Rectangle>();
     private ArrayList<Platform>plats = new ArrayList<Platform>();
     private ArrayList<Life>pLives = new ArrayList<Life>();
-    private ArrayList<Life>levelLives = new ArrayList<Life>();
+    private ArrayList<Life>pLivesRemove = new ArrayList<Life>();
+
+    private ArrayList<Life>lvlLives = new ArrayList<Life>();
+    private ArrayList<Life>lvlLivesRemove = new ArrayList<Life>();
 
     //private ArrayList<Platform>plats1 = new ArrayList<Platform>();
     //private ArrayList<Platform>plats2 = new ArrayList<Platform>();
@@ -112,6 +115,7 @@ public class GamePanel extends JPanel implements KeyListener{
     private Sound runLeaf;
     private Sound hit;
     private Sound oof;
+    private Sound heal;
 
     Font fontLocal=null;
 
@@ -198,6 +202,7 @@ public class GamePanel extends JPanel implements KeyListener{
             runLeaf = new Sound("runLeaf.wav",false);
             hit = new Sound("hit.wav", false);
             oof = new Sound("oof.wav",false);
+            heal = new Sound("heal.wav",false);
         }
         catch (UnsupportedAudioFileException | IOException | LineUnavailableException e){
             e.printStackTrace();
@@ -349,7 +354,7 @@ public class GamePanel extends JPanel implements KeyListener{
         }
     }
 
-    public void loadPHearts(){
+    public void loadPLives(){
 
         Life tmp1 = new Life (0,-5,16);
         Life tmp2 =  new Life (60,-5,16);
@@ -362,8 +367,29 @@ public class GamePanel extends JPanel implements KeyListener{
         pLives.add(tmp3);
         pLives.add(tmp4);
         pLives.add(tmp5);
+    }
 
-
+    public void loadLvlLives(String file, int lvl) throws IOException {
+        Scanner inFile = new Scanner(new BufferedReader(new FileReader(file)));
+        while (inFile.hasNext()) {//while there are lines to be read
+            String line = inFile.nextLine();
+            String[] data = line.split(" ");//splitting up each value to be able to keep track of the x,y,max R, max L, and picture
+            int x = Integer.parseInt(data[0]);
+            int y = Integer.parseInt(data[1]);
+            int frames = Integer.parseInt(data[2]);
+            Life tmp = new Life(x,y,frames);
+            if (lvl == 1){
+                lvlLives.add(tmp);
+            }
+            if (lvl == 2){
+                lvlLives = new ArrayList<Life>();
+                lvlLives.add(tmp);
+            }
+            if (lvl == 3){
+                lvlLives = new ArrayList<Life>();
+                lvlLives.add(tmp);
+            }
+        }
     }
 
     public void loadCoins(String file, int lvl)throws IOException{
@@ -456,6 +482,9 @@ public class GamePanel extends JPanel implements KeyListener{
             g.drawRect(coins.get(i).getX()-offset,coins.get(i).getY(),coins.get(i).getRect().width,coins.get(i).getRect().height);
         }
 
+        for (int i=0; i < lvlLives.size(); i++){
+            g.drawImage(lvlLives.get(i).getFrame(),lvlLives.get(i).getX()-offset,lvlLives.get(i).getY(),null);
+        }
 
 
         if (direction == right && p.checkHit()){
@@ -589,7 +618,7 @@ public class GamePanel extends JPanel implements KeyListener{
         g.drawString("SCORE  "+p.getScore(),975,35);
 
         for (int i = 0; i < pLives.size(); i++){
-            g.drawImage(pLives.get(i).getFrame(),pLives.get(i).getX()-offset,pLives.get(i).getY(),null);
+            g.drawImage(pLives.get(i).getFrame(),pLives.get(i).getX(),pLives.get(i).getY(),null);
         }
 
         //g.drawString(""+p.getScore(),500,500);
@@ -748,13 +777,16 @@ public class GamePanel extends JPanel implements KeyListener{
                 p.addScore(30);
             }
         }
+
+
         //TURNED OFF FOR NOW
-        /*for (Goomba bad : goombs){
+        for (Goomba bad : goombs){
             if (p.getRect().intersects(bad.getRect()) && !attack){
                 p.setHit(true);
                 oof.play();
+                p.loseLife();
             }
-        }*/
+        }
 
 
         for (Goomba bad : goombs) {
@@ -788,6 +820,25 @@ public class GamePanel extends JPanel implements KeyListener{
                 cRemove.add(coins.get(i));
             }
         }
+        for (Goomba bad : goombs){
+            for (int i = 0; i < pLives.size(); i++){
+
+                if (p.getRect().intersects(bad.getRect())){
+                    pLivesRemove.add(pLives.get(i));
+                }
+            }
+        }
+
+
+        for (int i=0; i < lvlLives.size(); i++){
+            if (lvlLives.get(i).getRect().intersects(p.getRect())){
+                //if (p.getLives() <= 4){
+                    p.gainLife();
+                    heal.play();
+                    lvlLivesRemove.add(lvlLives.get(i));
+                //}
+            }
+        }
     }
 
     public void removeGoombs(){
@@ -805,9 +856,21 @@ public class GamePanel extends JPanel implements KeyListener{
     public void removeCoins(){
         for (int i = 0; i < cRemove.size(); i++){
             coins.remove(cRemove.get(i));
-
         }
     }
+
+    public void removePLives(){
+        for (int i = 0; i < pLivesRemove.size(); i++){
+            pLives.remove(pLivesRemove.get(i));
+        }
+    }
+
+    public void removeLvlLives(){
+        for (int i = 0; i < lvlLivesRemove.size(); i++){
+            lvlLives.remove(lvlLivesRemove.get(i));
+        }
+    }
+
 
     public void loadSprite(){
 		loadSprite(runRight, runLeft, "Ryan Funyanjiwan/Run/run");
