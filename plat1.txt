@@ -27,6 +27,11 @@
 6500 575 long -5
 6750 575 long -5
 7000 575 long -5
+7250 575 long -5
+7500 575 long -5
+7750 575 long -5
+8000 575 long -5
+8250 575 long -5
 500 450 air 5
 650 450 air 5
 950 350 air 5
@@ -54,5 +59,10 @@
 5835 370 air 5
 6000 370 air 5
 6280 450 long -5
+6950 455 longerBlock 7
+7250 380 longerBlock 7
+7540 455 longerBlock 7
+
+
 
 

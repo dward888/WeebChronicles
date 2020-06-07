@@ -19,6 +19,7 @@ public class Player{
     public Player() {
 		name = "Ryan Funyanjiwan";
 		x = 140;
+		//x = 6500;
 		y = 340;
 		width = 40;
 		height = 40;

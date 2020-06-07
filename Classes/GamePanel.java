@@ -441,8 +441,8 @@ public class GamePanel extends JPanel implements KeyListener{
         //+12,100,55
         //-40,y+12,90,55
         //g.drawRect(p.getX()-50-offset,p.getY()+12,100,55);
-        //System.out.println(p.getX() + "," + p.getY());
-        System.out.println(p.getLives());
+        System.out.println(p.getX() + "," + p.getY());
+        //System.out.println(p.getLives());
 
         for (Platform p : plats){
             g.drawImage(p.getImage(),p.getX() - offset,p.getY()+p.getAdjust(),null);
@@ -660,9 +660,16 @@ public class GamePanel extends JPanel implements KeyListener{
     //user moving the character f
     public void move(){
         if (keys[KeyEvent.VK_D] && !p.checkHit()){
-            if (p.getX() >= 600 + offset){
-                offset += p.SPEED;
-
+            if (p.getX() >= 7300){
+                p.setX(p.getX());
+                if (p.getX() >= 7820){
+                    p.setX(7820);
+                }
+            }
+            else{
+                if (p.getX() >= 600 + offset) {
+                    offset += p.SPEED;
+                }
             }
             p.update(right);
 
