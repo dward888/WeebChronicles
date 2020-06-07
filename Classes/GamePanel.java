@@ -441,8 +441,8 @@ public class GamePanel extends JPanel implements KeyListener{
         //+12,100,55
         //-40,y+12,90,55
         //g.drawRect(p.getX()-50-offset,p.getY()+12,100,55);
-
         //System.out.println(p.getX() + "," + p.getY());
+        System.out.println(p.getLives());
 
         for (Platform p : plats){
             g.drawImage(p.getImage(),p.getX() - offset,p.getY()+p.getAdjust(),null);
@@ -773,7 +773,8 @@ public class GamePanel extends JPanel implements KeyListener{
             p.resetCurrentF();
         }*/
         //System.out.println(p.checkHit());
-        System.out.println(lifeCounter);
+        //
+        // System.out.println(lifeCounter);
         for(Platform plat : plats){//checking collision for each platform in the arraylist
             if (plat.getRect().intersects(p.getRect())){
                 falling = false;
@@ -839,9 +840,6 @@ public class GamePanel extends JPanel implements KeyListener{
                         hitBadGuy = false;
                     }
                 }
-                else{
-                    System.out.println("hi");
-                }
             }
         }
         for (int i=0; i < coins.size(); i++){
@@ -855,7 +853,7 @@ public class GamePanel extends JPanel implements KeyListener{
         for (int i = pLives.size()-1; i > -1; i--){
             if (p.checkHit()){
                 if (lifeCounter == 1){
-                    System.out.println("hi");
+
                     p.loseLife();
                     pLivesRemove.add(pLives.get(i));
 
@@ -863,27 +861,45 @@ public class GamePanel extends JPanel implements KeyListener{
 
 
                 }
-                else{
-                    //lifeCounter = 0;
-                    System.out.println("bye");;
-                }
-
             }
         }
 
 
 
-        for (int i=0; i < lvlLives.size(); i++){
-            if (lvlLives.get(i).getRect().intersects(p.getRect())){
-                if (p.getLives() <= 4){
+        for (int i=0; i < lvlLives.size(); i++) {
+            if (lvlLives.get(i).getRect().intersects(p.getRect())) {
+                if (p.getLives() == 4) {
                     p.gainLife();
                     heal.play();
+                    drawAddedLife(4);
+                    lvlLivesRemove.add(lvlLives.get(i));
+                }
+                if (p.getLives() == 3) {
+                    p.gainLife();
+                    heal.play();
+                    drawAddedLife(3);
+                    lvlLivesRemove.add(lvlLives.get(i));
+                }
+                if (p.getLives() == 2) {
+                    p.gainLife();
+                    heal.play();
+                    drawAddedLife(2);
+                    lvlLivesRemove.add(lvlLives.get(i));
+                }
+                if (p.getLives() == 1) {
+                    p.gainLife();
+                    heal.play();
+                    drawAddedLife(1);
+                    lvlLivesRemove.add(lvlLives.get(i));
                 }
             }
         }
     }
 
-
+    public void drawAddedLife(int num){
+        Life tmp = new Life(60*num,-5,16);
+        pLives.add(tmp);
+    }
 
     public void removeGoombs(){
         for (int i = 0; i < gRemove.size(); i++){
