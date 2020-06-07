@@ -35,6 +35,8 @@ public class GamePanel extends JPanel implements KeyListener{
     private boolean falling;
     private boolean playRun;
 
+    private int lifeCounter;
+
     private Rectangle badRect;
     private boolean enemyHit;
     private boolean playerHit;
@@ -102,6 +104,7 @@ public class GamePanel extends JPanel implements KeyListener{
     private boolean attack;
     private boolean attackDone;
     private boolean hitBadGuy;
+    private boolean loseLife;
     //dfgsdfhsdfh
 
 	private Image jumpRight;
@@ -137,6 +140,9 @@ public class GamePanel extends JPanel implements KeyListener{
         falling = true;
 
         playRun = false;
+
+        //getLife = false;
+        loseLife = false;
 
         offset = 0;
         currentF = 0;
@@ -184,7 +190,7 @@ public class GamePanel extends JPanel implements KeyListener{
         attack = false;
         attackDone = true;
 
-
+        lifeCounter = 0;
 
 
         loadSprite();
@@ -436,7 +442,7 @@ public class GamePanel extends JPanel implements KeyListener{
         //-40,y+12,90,55
         //g.drawRect(p.getX()-50-offset,p.getY()+12,100,55);
 
-        System.out.println(p.getX() + "," + p.getY());
+        //System.out.println(p.getX() + "," + p.getY());
 
         for (Platform p : plats){
             g.drawImage(p.getImage(),p.getX() - offset,p.getY()+p.getAdjust(),null);
@@ -482,6 +488,8 @@ public class GamePanel extends JPanel implements KeyListener{
             g.drawRect(coins.get(i).getX()-offset,coins.get(i).getY(),coins.get(i).getRect().width,coins.get(i).getRect().height);
         }
 
+
+
         for (int i=0; i < lvlLives.size(); i++){
             g.drawImage(lvlLives.get(i).getFrame(),lvlLives.get(i).getX()-offset,lvlLives.get(i).getY(),null);
         }
@@ -491,17 +499,21 @@ public class GamePanel extends JPanel implements KeyListener{
             if(currentF >= (gotHitR.length -1 )*9){
                 currentF = 0;
                 p.setHit(false);
+                lifeCounter = 0;
             }
             p.knockback(-2);
             g.drawImage(gotHitR[currentF/9], p.getX()-offset,p.getY(),null);
+
         }
         if (direction == left && p.checkHit()){
             if(currentF >= (gotHitL.length - 1)*9){
                 currentF = 0;
                 p.setHit(false);
+                lifeCounter = 0;
             }
             p.knockback(2);
             g.drawImage(gotHitL[currentF/9], p.getX()-offset,p.getY(),null);
+
         }
 
         //Following code draws player sprites
@@ -612,14 +624,29 @@ public class GamePanel extends JPanel implements KeyListener{
         //g.fillRect(1000,0,500,75);
         g.fillRect(0,0,1500,50);
         g.setColor(new Color(255,215,0,255));
+        g.setFont(fontLocal);
+        g.drawString("SCORE " + " " + " " + p.getScore(),1000,40);
 
         //g.setColor(Color.WHITE);
-        g.setFont(fontLocal);
-        g.drawString("SCORE  "+p.getScore(),975,35);
 
-        for (int i = 0; i < pLives.size(); i++){
+
+        /*for(int i = 0; i<p.getLives(); i++){
+            for (Life l : pLives){
+                g.drawImage(l.getFrame(),l.getX(),l.getY(),null);
+            }
+        }*/
+
+        for(int i = 0; i<p.getLives(); i++){
             g.drawImage(pLives.get(i).getFrame(),pLives.get(i).getX(),pLives.get(i).getY(),null);
         }
+
+        /*for (Life l : pLives){
+            g.drawImage(l.getFrame(),l.getX(),l.getY(),null);
+        }*/
+
+        /*for (int i = 0; i < pLives.size(); i++){
+            g.drawImage(pLives.get(i).getFrame(),pLives.get(i).getX(),pLives.get(i).getY(),null);
+        }*/
 
         //g.drawString(""+p.getScore(),500,500);
 
@@ -745,6 +772,8 @@ public class GamePanel extends JPanel implements KeyListener{
             midAir = false;
             p.resetCurrentF();
         }*/
+        //System.out.println(p.checkHit());
+        System.out.println(lifeCounter);
         for(Platform plat : plats){//checking collision for each platform in the arraylist
             if (plat.getRect().intersects(p.getRect())){
                 falling = false;
@@ -783,8 +812,10 @@ public class GamePanel extends JPanel implements KeyListener{
         for (Goomba bad : goombs){
             if (p.getRect().intersects(bad.getRect()) && !attack){
                 p.setHit(true);
+                lifeCounter++;
                 oof.play();
-                p.loseLife();
+
+                //p.loseLife();
             }
         }
 
@@ -820,26 +851,39 @@ public class GamePanel extends JPanel implements KeyListener{
                 cRemove.add(coins.get(i));
             }
         }
-        for (Goomba bad : goombs){
-            for (int i = 0; i < pLives.size(); i++){
 
-                if (p.getRect().intersects(bad.getRect())){
+        for (int i = pLives.size()-1; i > -1; i--){
+            if (p.checkHit()){
+                if (lifeCounter == 1){
+                    System.out.println("hi");
+                    p.loseLife();
                     pLivesRemove.add(pLives.get(i));
+
+                    p.setHit(false);
+
+
                 }
+                else{
+                    //lifeCounter = 0;
+                    System.out.println("bye");;
+                }
+
             }
         }
+
 
 
         for (int i=0; i < lvlLives.size(); i++){
             if (lvlLives.get(i).getRect().intersects(p.getRect())){
-                //if (p.getLives() <= 4){
+                if (p.getLives() <= 4){
                     p.gainLife();
                     heal.play();
-                    lvlLivesRemove.add(lvlLives.get(i));
-                //}
+                }
             }
         }
     }
+
+
 
     public void removeGoombs(){
         for (int i = 0; i < gRemove.size(); i++){
@@ -870,6 +914,7 @@ public class GamePanel extends JPanel implements KeyListener{
             lvlLives.remove(lvlLivesRemove.get(i));
         }
     }
+
 
 
     public void loadSprite(){

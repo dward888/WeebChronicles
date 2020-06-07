@@ -109,6 +109,7 @@ public class WeebChronicles extends JFrame implements ActionListener {
 			game.removeDGoombs();
 			game.removeLvlLives();
 			game.removePLives();
+			//game.checkLife();
 		}
 	}
 
