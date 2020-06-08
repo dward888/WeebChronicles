@@ -87,6 +87,9 @@
 5940 450 longerBlock 7
 6200 450 longerBlock 7
 6460 450 longerBlock 7
+6950 455 longerBlock 7
+7250 380 longerBlock 7
+7540 455 longerBlock 7
 
 
 
