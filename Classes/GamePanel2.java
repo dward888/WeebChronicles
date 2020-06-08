@@ -12,30 +12,30 @@ import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class GamePanel extends JPanel implements KeyListener{
+public class GamePanel2 extends JPanel implements KeyListener{
 
-	private boolean []keys;
-	private WeebChronicles mainFrame;
-	private Player p;
-	private Goomba b;
-	private Character[]chars;
-	private boolean walking;
-	private int frame;
-	private int stillRight;
-	private int stillLeft;
-	private int right;
-	private int left;
-	private int down;
-	private int up;
-	private int direction;
-	private int bulletRight;
-	private int bulletLeft;
-	private int currentF;
-	private int footCount;
-	private int gDeadCount;
-	private int gHitPic;
-	private int level;
-	private boolean midAir;//this boolean will make sure the user can't double jump
+    private boolean []keys;
+    private WeebChronicles mainFrame;
+    private Player p;
+    private Goomba b;
+    private Character[]chars;
+    private boolean walking;
+    private int frame;
+    private int stillRight;
+    private int stillLeft;
+    private int right;
+    private int left;
+    private int down;
+    private int up;
+    private int direction;
+    private int bulletRight;
+    private int bulletLeft;
+    private int currentF;
+    private int footCount;
+    private int gDeadCount;
+    private int gHitPic;
+    private int level;
+    private boolean midAir;//this boolean will make sure the user can't double jump
     private boolean onPlat;
     private boolean falling;
     private boolean playRun;
@@ -80,31 +80,31 @@ public class GamePanel extends JPanel implements KeyListener{
 
     private int f = 0;
     private int offset;
-	//images//
-	private Image back1;
-	private Image back2;
-	private Image back3;
-	private Image star;
-	//private Image platPic;
-	private Image longPlat;
-	private Image airPlat;
+    //images//
+    private Image back1;
+    private Image back2;
+    private Image back3;
+    private Image star;
+    //private Image platPic;
+    private Image longPlat;
+    private Image airPlat;
 
     private int mx;
     private int my;
 
     //Frame Arrays
-	private Image[]runRight;
-	private Image[]runLeft;
-	private Image[]idleRight;
-	private Image[]idleLeft;
-	private Image[]kickRight;
-	private Image[]kickLeft;
-	private Image[]punchRight;
-	private Image[]punchLeft;
-	private Image[]uppercutRight;
-	private Image[]uppercutLeft;
-	private Image[]airPunchRight;
-	private Image[]airPunchLeft;
+    private Image[]runRight;
+    private Image[]runLeft;
+    private Image[]idleRight;
+    private Image[]idleLeft;
+    private Image[]kickRight;
+    private Image[]kickLeft;
+    private Image[]punchRight;
+    private Image[]punchLeft;
+    private Image[]uppercutRight;
+    private Image[]uppercutLeft;
+    private Image[]airPunchRight;
+    private Image[]airPunchLeft;
     private Image[][]attackPickRight;
     private Image[][]attackPickLeft;
     private Image[]att;
@@ -119,15 +119,14 @@ public class GamePanel extends JPanel implements KeyListener{
     private boolean hitBadGuy;
     private boolean loseLife;
     private boolean bossBattle;
-    private boolean finish;
     //dfgsdfhsdfh
 
-	private Image jumpRight;
-	private Image jumpLeft;
-	private Image text;
-	//private Image heart;
+    private Image jumpRight;
+    private Image jumpLeft;
+    private Image text;
+    //private Image heart;
 
-	private Image flowerHit;
+    private Image flowerHit;
 
     private Sound coinSound;
     private Sound run;
@@ -142,9 +141,9 @@ public class GamePanel extends JPanel implements KeyListener{
     Font fontLocal=null;
     Font newyork;
 
-    public GamePanel(WeebChronicles m) {
-    	keys = new boolean[KeyEvent.KEY_LAST+1];
-		mainFrame = m;
+    public GamePanel2(WeebChronicles m) {
+        keys = new boolean[KeyEvent.KEY_LAST+1];
+        mainFrame = m;
         p = new Player();
         //b = new Goomba(500, 400,500,600);
         frame = 0;
@@ -173,18 +172,18 @@ public class GamePanel extends JPanel implements KeyListener{
         bulletLeft = 4;
         bulletRight = 5;
 
-		addKeyListener(this);
+        addKeyListener(this);
 
-		//loading images//
-		back1 = new ImageIcon("Pictures/back.png").getImage();
-		back2 = new ImageIcon("Pictures/space.png").getImage();
-		star = new ImageIcon("Pictures/star.png").getImage();
-		//platPic = new ImageIcon("Pictures/plat pic.png").getImage();
-		longPlat =  new ImageIcon("platPics/longPlat.png").getImage();
-		airPlat = new ImageIcon("platPics/airPlat.png").getImage();
+        //loading images//
+        back1 = new ImageIcon("Pictures/back.png").getImage();
+        back2 = new ImageIcon("Pictures/space.png").getImage();
+        star = new ImageIcon("Pictures/star.png").getImage();
+        //platPic = new ImageIcon("Pictures/plat pic.png").getImage();
+        longPlat =  new ImageIcon("platPics/longPlat.png").getImage();
+        airPlat = new ImageIcon("platPics/airPlat.png").getImage();
         text = new ImageIcon("Pictures/text bubble.png").getImage();
-		flowerHit = new ImageIcon("badHitPics/flowerHit.png").getImage();
-		//heart = new ImageIcon("heart.png").getImage();
+        flowerHit = new ImageIcon("badHitPics/flowerHit.png").getImage();
+        //heart = new ImageIcon("heart.png").getImage();
 
         //addMouseListener(this);
         //initilizing the platforms as rects
@@ -217,8 +216,6 @@ public class GamePanel extends JPanel implements KeyListener{
         attackDone = true;
         miniscene = false;
         lifeCounter = 0;
-
-        finish = false;
 
         abobo = new Abobo();
 
@@ -257,10 +254,10 @@ public class GamePanel extends JPanel implements KeyListener{
     }
     public void keyPressed(KeyEvent e){
         if (e.getKeyCode() == KeyEvent.VK_W && !keys[e.getKeyCode()] && !p.checkHit() && !miniscene){
-           if(!midAir){
-               p.jump();
-               midAir = true;
-           }
+            if(!midAir){
+                p.jump();
+                midAir = true;
+            }
         }
         if(e.getKeyCode() == KeyEvent.VK_SPACE && !keys[e.getKeyCode()] && !p.checkHit() && !miniscene){
             //Bullet b = new Bullet(p.getX()-offset, p.getY());
@@ -296,7 +293,7 @@ public class GamePanel extends JPanel implements KeyListener{
     }
 
     public void loadPlats() throws IOException{
-        Scanner inFile = new Scanner (new BufferedReader(new FileReader("plat1.txt")));
+        Scanner inFile = new Scanner (new BufferedReader(new FileReader("plat2.txt")));
         while (inFile.hasNext()){//while there are lines to be read
             String line = inFile.nextLine();
             String[]data = line.split(" ");//splitting up each value to be able to keep track of the x,y, width, height
@@ -312,13 +309,13 @@ public class GamePanel extends JPanel implements KeyListener{
             Platform tmp = new Platform(x,y,p,a);
 
             plats.add(tmp);
-            //platRects.add(tmp.getRect());
+
 
         }
     }
 
     public void loadGoombs() throws IOException{
-        Scanner inFile = new Scanner (new BufferedReader(new FileReader("goomba1.txt")));
+        Scanner inFile = new Scanner (new BufferedReader(new FileReader("goomba2.txt")));
         while (inFile.hasNext()) {//while there are lines to be read
             String line = inFile.nextLine();
             String[] data = line.split(" ");//splitting up each value to be able to keep track of the x,y,max R, max L, and picture
@@ -343,7 +340,7 @@ public class GamePanel extends JPanel implements KeyListener{
     }
 
     public void loadShooters() throws IOException{
-        Scanner inFile = new Scanner (new BufferedReader(new FileReader("shooter1.txt")));
+        Scanner inFile = new Scanner (new BufferedReader(new FileReader("shooter2.txt")));
         while (inFile.hasNext()) {//while there are lines to be read
             String line = inFile.nextLine();
             String[] data = line.split(" ");//splitting up each value to be able to keep track of the x,y,max R, max L, and picture
@@ -353,29 +350,22 @@ public class GamePanel extends JPanel implements KeyListener{
             String b = data[3];
             int num = Integer.parseInt(data[4]);
             int hp = Integer.parseInt(data[5]);
-
             Shooter tmp = new Shooter(x, y, dist, b, num, hp);
-
             shooters.add(tmp);
-
         }
     }
 
 
 
     public void loadDecor() throws IOException {
-        Scanner inFile = new Scanner(new BufferedReader(new FileReader("decor1.txt")));
+        Scanner inFile = new Scanner(new BufferedReader(new FileReader("decor2.txt")));
         while (inFile.hasNext()) {//while there are lines to be read
             String line = inFile.nextLine();
             String[] data = line.split(" ");//splitting up each value to be able to keep track of the x,y,max R, max L, and picture
             int x = Integer.parseInt(data[0]);
             int y = Integer.parseInt(data[1]);
             String b = data[2];
-
-
             Decor tmp = new Decor(x,y,b);
-
-
             decor.add(tmp);
 
         }
@@ -397,7 +387,7 @@ public class GamePanel extends JPanel implements KeyListener{
     }
 
     public void loadLvlLives() throws IOException {
-        Scanner inFile = new Scanner(new BufferedReader(new FileReader("life1.txt")));
+        Scanner inFile = new Scanner(new BufferedReader(new FileReader("life2.txt")));
         while (inFile.hasNext()) {//while there are lines to be read
             String line = inFile.nextLine();
             String[] data = line.split(" ");//splitting up each value to be able to keep track of the x,y,max R, max L, and picture
@@ -412,7 +402,7 @@ public class GamePanel extends JPanel implements KeyListener{
     }
 
     public void loadCoins()throws IOException{
-        Scanner inFile = new Scanner(new BufferedReader(new FileReader("coin1.txt")));
+        Scanner inFile = new Scanner(new BufferedReader(new FileReader("coin2.txt")));
 
         while (inFile.hasNext()) {//while there are lines to be read
             String line = inFile.nextLine();
@@ -444,15 +434,9 @@ public class GamePanel extends JPanel implements KeyListener{
         //my = (int) mousePos.getY();
         //g.drawImage(back+level, 0, 0, null);
 
-        g.drawImage(back1, 0, 0, null);
+        g.drawImage(back2, 0, 0, null);
 
         g.setColor(Color.white);
-        //g.drawImage(heart,200, 0, null);
-        //+12,100,55
-        //-40,y+12,90,55
-        //g.drawRect(p.getX()-50-offset,p.getY()+12,100,55);
-        //System.out.println(p.getX() + "," + p.getY());
-        //System.out.println(p.getLives());
 
         for (Platform p : plats){
             g.drawImage(p.getImage(),p.getX() - offset,p.getY()+p.getAdjust(),null);
@@ -656,10 +640,10 @@ public class GamePanel extends JPanel implements KeyListener{
             g.drawImage(pLives.get(i).getFrame(),pLives.get(i).getX(),pLives.get(i).getY(),null);
         }
 
-        if (bossBattle){
+        /*if (bossBattle && level == 1){
             g.drawImage(abobo.getFrame(),abobo.getX()-offset,abobo.getY(),null);
         }
-        if(abobo.getStart()){
+        if(abobo.getStart() && level == 1){
             g.setColor(Color.white);
             g.fillRect(295,95,610,60);
             g.setColor(Color.gray);
@@ -694,7 +678,7 @@ public class GamePanel extends JPanel implements KeyListener{
                 miniscene = false;
                 abobo.start();
             }
-        }
+        }*/
         /*for (Life l : pLives){
             g.drawImage(l.getFrame(),l.getX(),l.getY(),null);
         }*/
@@ -1025,7 +1009,8 @@ public class GamePanel extends JPanel implements KeyListener{
 
         if (abobo.getHits() <= 0){
             //new GamePanel(mainFrame, 2);
-            finish = true;
+            level = 2;
+            //reset();
         }
     }
 
@@ -1091,10 +1076,6 @@ public class GamePanel extends JPanel implements KeyListener{
         return level;
     }
 
-    public boolean checkFinish(){
-        return finish;
-    }
-
     /*public void reset() throws IOException {
         //offset = 0;
         p.setX(140);
@@ -1116,45 +1097,45 @@ public class GamePanel extends JPanel implements KeyListener{
 
 
     public void loadSprite(){
-		loadSprite(runRight, runLeft, "Ryan Funyanjiwan/Run/run");
-		loadSprite(idleRight, idleLeft, "Ryan Funyanjiwan/Idle/idle");
-		loadSprite(kickRight, kickLeft, "Ryan Funyanjiwan/Side Kick/side kick");
-		loadSprite(punchRight, punchLeft, "Ryan Funyanjiwan/Punch/punch");
-		loadSprite(uppercutRight, uppercutLeft, "Ryan Funyanjiwan/Elbow Upercut/uppercut");
-		loadSprite(airPunchRight, airPunchLeft, "Ryan Funyanjiwan/Jump Punch/jump punch");
-		loadSprite(gotHitR, gotHitL, "Ryan Funyanjiwan/Gets Hit/hit");
-		loadSprite(badBulletR, badBulletL, "bulletFrames/ice/tile");
+        loadSprite(runRight, runLeft, "Ryan Funyanjiwan/Run/run");
+        loadSprite(idleRight, idleLeft, "Ryan Funyanjiwan/Idle/idle");
+        loadSprite(kickRight, kickLeft, "Ryan Funyanjiwan/Side Kick/side kick");
+        loadSprite(punchRight, punchLeft, "Ryan Funyanjiwan/Punch/punch");
+        loadSprite(uppercutRight, uppercutLeft, "Ryan Funyanjiwan/Elbow Upercut/uppercut");
+        loadSprite(airPunchRight, airPunchLeft, "Ryan Funyanjiwan/Jump Punch/jump punch");
+        loadSprite(gotHitR, gotHitL, "Ryan Funyanjiwan/Gets Hit/hit");
+        loadSprite(badBulletR, badBulletL, "bulletFrames/ice/tile");
         //loadSprite(artR, bigHeartL, "heartFrames/tile");
 
         attackPickRight = new Image[][]{kickRight, punchRight, uppercutRight};
         attackPickLeft = new Image[][]{kickLeft, punchLeft, uppercutLeft};
 
-		jumpRight = new ImageIcon("Ryan Funyanjiwan/jump.png").getImage();
-		jumpLeft = flipImage(jumpRight);
-	}
+        jumpRight = new ImageIcon("Ryan Funyanjiwan/jump.png").getImage();
+        jumpLeft = flipImage(jumpRight);
+    }
     public static int randint(int low, int high){
         return(int)(Math.random()*(high-low+1)+low);
     }
-	public void loadSprite(Image[]actionRight, Image[]actionLeft, String directory){
-		try{
-			for(int i = 0; i < actionRight.length; i++) {
-				Image img = ImageIO.read(new File(directory +  i + ".png"));
-				actionRight[i] = img;
-				actionLeft[i] = flipImage(img);
-			}
-		}
-		catch(IOException e ){
-			e.printStackTrace();
-		}
-	}
-	public Image flipImage(Image image) {
-		BufferedImage bImg = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_4BYTE_ABGR);
-		Graphics2D g = (Graphics2D) bImg.getGraphics();
-		g.drawImage(image, 0, 0, null);
-		AffineTransform mirror = AffineTransform.getScaleInstance(-1, 1);
-		mirror.translate(-bImg.getWidth(null), 0);
-		AffineTransformOp mirrorOp = new AffineTransformOp(mirror, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
-		bImg = mirrorOp.filter(bImg, null);
-		return bImg;
-	}
+    public void loadSprite(Image[]actionRight, Image[]actionLeft, String directory){
+        try{
+            for(int i = 0; i < actionRight.length; i++) {
+                Image img = ImageIO.read(new File(directory +  i + ".png"));
+                actionRight[i] = img;
+                actionLeft[i] = flipImage(img);
+            }
+        }
+        catch(IOException e ){
+            e.printStackTrace();
+        }
+    }
+    public Image flipImage(Image image) {
+        BufferedImage bImg = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_4BYTE_ABGR);
+        Graphics2D g = (Graphics2D) bImg.getGraphics();
+        g.drawImage(image, 0, 0, null);
+        AffineTransform mirror = AffineTransform.getScaleInstance(-1, 1);
+        mirror.translate(-bImg.getWidth(null), 0);
+        AffineTransformOp mirrorOp = new AffineTransformOp(mirror, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+        bImg = mirrorOp.filter(bImg, null);
+        return bImg;
+    }
 }

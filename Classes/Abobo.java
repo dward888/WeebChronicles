@@ -39,10 +39,12 @@ public class Abobo {
         right = 1;
         walking = 1;
         act = 2;
-        hits = 16;
+        //hits = 16;
+        hits = 1;
         direction = left;
         startMoving = false;
-        health = 150;
+        health = 1;
+        //health = 150;
         jump = new bossAction("Abobo/jump/jump", 1, 1, 1, 1);
         backhand = new bossAction("Abobo/backhand/backhand", 6, 13, 0, 0);
         died = new bossAction("Abobo/died/blownback", 18, 7,0,1);

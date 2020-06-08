@@ -10,11 +10,13 @@ public class WeebChronicles extends JFrame implements ActionListener {
 	int status;
 	int startScreen;
 	int gPanel;
+	int gPanel2;
 	int cutScene1;
 	int level;
 
 	startScreen start;
 	GamePanel game;
+	GamePanel2 game2;
 	CutScene1 cScene1;
 
 	JPanel cards;
@@ -27,6 +29,7 @@ public class WeebChronicles extends JFrame implements ActionListener {
 		myTimer = new Timer(15, this);	 // trigger every 10 ms
 		setResizable(false);
 		game = new GamePanel(this);
+		game2 = new GamePanel2(this);
 		start = new startScreen(this);
 		cScene1 = new CutScene1(this);
 		cards = new JPanel(cLayout);
@@ -34,6 +37,7 @@ public class WeebChronicles extends JFrame implements ActionListener {
 		//***Following code --> change order so that the start screen appears
 		//cards.add(start, "start");
 		cards.add(game, "game");
+		cards.add(game2,"game2");
 		//cards.add(start, "start");
 		//cards.add(cScene1, "cutScene1");
 		//cards.add(game, "game");
@@ -49,19 +53,18 @@ public class WeebChronicles extends JFrame implements ActionListener {
 
 		try {
 			game.loadPLives();
-			game.loadPlats("plat1.txt",1);
-			game.loadDecor("decor1.txt",1);
-			game.loadGoombs("goomba1.txt",1);
-			game.loadCoins("coin1.txt",1);
-			game.loadLvlLives("life1.txt",1);
+			game.loadPlats();
+			game.loadDecor();
+			game.loadGoombs();
+			game.loadCoins();
+			game.loadLvlLives();
+			game2.loadPLives();
+			game2.loadPlats();
+			game2.loadDecor();
+			game2.loadGoombs();
+			game2.loadCoins();
+			game2.loadLvlLives();
 
-			//game.loadShooters("shooter2.txt",1);
-			/*game.loadPlats("plat2.txt",2);
-			game.loadDecor("decor2.txt",2);
-			game.loadGoombs("goomba2.txt",2);
-			game.loadCoins("coin2.txt",2);
-			game.loadLvlLives("life2.txt",2);
-			game.loadShooters("shooter2.txt",2);*/
 			//game.loadPlats("plat2.txt",2);
 		}catch (IOException e) {
 			e.printStackTrace();
@@ -94,6 +97,10 @@ public class WeebChronicles extends JFrame implements ActionListener {
 			cLayout.show(cards,"game");
 			status = gPanel;
 		}
+		if (game.checkFinish()){
+			cLayout.show(cards, "game2");
+			status = gPanel2;
+		}
 
 		//Following code draws the elements of each stage
 		if(status == startScreen){
@@ -104,13 +111,14 @@ public class WeebChronicles extends JFrame implements ActionListener {
 			cScene1.requestFocus();
 			cScene1.repaint();
 		}
-		else if(status == gPanel){
+
+		if(status == gPanel){
 			game.requestFocus();
 			game.move();
 			game.playerUpdate();//applying physics
 			game.badMove();
 
-            game.badUpdate();
+			game.badUpdate();
 			game.checkCollisions();
 			game.repaint();
 			game.removeCoins();
@@ -122,11 +130,27 @@ public class WeebChronicles extends JFrame implements ActionListener {
 			game.moveBullets();
 			game.removeBullets();
 			game.removePLives();
-
-
-
-			//game.checkLife();
 		}
+		else if (status == gPanel2){
+			game2.requestFocus();
+			game2.move();
+			game2.playerUpdate();//applying physics
+			game2.badMove();
+
+			game2.badUpdate();
+			game2.checkCollisions();
+			game2.repaint();
+			game2.removeCoins();
+			game2.checkRun();
+			game2.removeGoombs();
+			game2.removeDGoombs();
+			game2.removeLvlLives();
+			game2.addBBullets();
+			game2.moveBullets();
+			game2.removeBullets();
+			game2.removePLives();
+		}
+
 	}
 
 	public static void main(String[] arguments) throws IOException, FontFormatException {
