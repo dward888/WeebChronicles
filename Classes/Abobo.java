@@ -61,7 +61,7 @@ public class Abobo {
     }
     public void getNextAction(){
         currentAct = actions[randint(0, actions.length - 1)];
-        currentAct.resetCurrentF();
+        currentAct.resetCurrentF();//adsf
     }
     public int getX(){
         x += currentAct.getmX(direction);
