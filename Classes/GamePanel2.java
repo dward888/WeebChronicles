@@ -136,7 +136,7 @@ public class GamePanel2 extends JPanel implements KeyListener{
     private Sound heal;
     private Sound ice;
 
-    private Abobo abobo;
+    private Draconius draconius;
 
     Font fontLocal=null;
     Font newyork;
@@ -217,7 +217,7 @@ public class GamePanel2 extends JPanel implements KeyListener{
         miniscene = false;
         lifeCounter = 0;
 
-        abobo = new Abobo();
+        draconius = new Draconius();
 
         loadSprite();
 
@@ -637,10 +637,10 @@ public class GamePanel2 extends JPanel implements KeyListener{
             g.drawImage(pLives.get(i).getFrame(),pLives.get(i).getX(),pLives.get(i).getY(),null);
         }
 
-        /*if (bossBattle && level == 1){
-            g.drawImage(abobo.getFrame(),abobo.getX()-offset,abobo.getY(),null);
+        if (bossBattle){
+            g.drawImage(draconius.getFrame(),draconius.getX()-offset,draconius.getY(),null);
         }
-        if(abobo.getStart() && level == 1){
+        if(draconius.getStart()){
             g.setColor(Color.white);
             g.fillRect(295,95,610,60);
             g.setColor(Color.gray);
@@ -652,7 +652,7 @@ public class GamePanel2 extends JPanel implements KeyListener{
             g.setColor(Color.black);
             g.fillRect(364, 114, 512, 22);
             g.setColor(Color.green);
-            g.fillRect(364, 114, 32*abobo.getHits(), 22);
+            g.fillRect(364, 114, 32*draconius.getHits(), 22);
         }
 
         if(miniscene){
@@ -673,9 +673,9 @@ public class GamePanel2 extends JPanel implements KeyListener{
             }
             if(frame > 530){
                 miniscene = false;
-                abobo.start();
+                draconius.start();
             }
-        }*/
+        }
         /*for (Life l : pLives){
             g.drawImage(l.getFrame(),l.getX(),l.getY(),null);
         }*/
@@ -876,7 +876,6 @@ public class GamePanel2 extends JPanel implements KeyListener{
         }
 
 
-        //TURNED OFF FOR NOW
         for (Goomba bad : goombs){
             if (p.getRect().intersects(bad.getRect()) && !attack){
                 p.setHit(true);
@@ -884,6 +883,14 @@ public class GamePanel2 extends JPanel implements KeyListener{
                 oof.play();
 
                 //p.loseLife();
+            }
+        }
+
+        for (Shooter s : shooters){
+            if (p.getRect().intersects(s.getRect()) && !attack){
+                p.setHit(true);
+                lifeCounter++;
+                oof.play();
             }
         }
 
@@ -909,28 +916,31 @@ public class GamePanel2 extends JPanel implements KeyListener{
                 }
             }
         }
-        if(abobo.getRect().intersects(p.getRect())){
-            if(hitBadGuy && !abobo.getAttack()){
-                abobo.gotHit();
+
+
+
+        if(draconius.getRect().intersects(p.getRect())){
+            if(hitBadGuy && !draconius.getAttack()){
+                draconius.gotHit();
             }
-            if(!attack && abobo.getAttack()){
-                if(abobo.getDirection() == right){
-                    if(p.getX() > abobo.getX()){
+            if(!attack && draconius.getAttack()){
+                if(draconius.getDirection() == right){
+                    if(p.getX() > draconius.getX()){
                         p.setHit(true);
                         oof.play();
                         lifeCounter++;
                     }
                 }
-                if(abobo.getDirection() == left){
-                    if(p.getX() < abobo.getX()){
+                if(draconius.getDirection() == left){
+                    if(p.getX() < draconius.getX()){
                         p.setHit(true);
                         oof.play();
                         lifeCounter++;
                     }
                 }
             }
-            if(hitBadGuy && abobo.getAttack()){
-                abobo.gotHit();
+            if(hitBadGuy && draconius.getAttack()){
+                draconius.gotHit();
             }
         }
         for (Bullet b : badBList){
@@ -997,14 +1007,14 @@ public class GamePanel2 extends JPanel implements KeyListener{
                 bRemove.add(badBList.get(i));
                 oof.play();
                 p.loseLife();
-                p.setHit(true);
-                p.knockback(-2);
+                lifeCounter = 0;
+                //p.setHit(true);
             }
             if (badBList.get(i).getX() - offset < 100 )
                 bRemove.add(badBList.get(i));
         }
 
-        if (abobo.getHits() <= 0){
+        if (draconius.getHits() <= 0){
             //new GamePanel(mainFrame, 2);
             level = 2;
             //reset();
@@ -1014,11 +1024,14 @@ public class GamePanel2 extends JPanel implements KeyListener{
     public void addBBullets(){
         for (Shooter s : shooters){
             if (s.checkShoot()) {
-                Bullet tmp =  new Bullet(s.getX(), s.getY()+50, "ice");
-                tmp.setDirection(left);
-                badBList.add(tmp);
-                ice.play();
-                s.setShoot(false);
+                if (p.getX() + 500 >= s.getX()){
+                    Bullet tmp =  new Bullet(s.getX(), s.getY()+50, "ice");
+                    tmp.setDirection(left);
+                    badBList.add(tmp);
+                    ice.play();
+                    s.setShoot(false);
+                }
+
             }
         }
     }
