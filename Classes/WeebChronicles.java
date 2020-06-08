@@ -56,12 +56,12 @@ public class WeebChronicles extends JFrame implements ActionListener {
 			game.loadLvlLives("life1.txt",1);
 
 			//game.loadShooters("shooter2.txt",1);
-			game.loadPlats("plat2.txt",2);
+			/*game.loadPlats("plat2.txt",2);
 			game.loadDecor("decor2.txt",2);
 			game.loadGoombs("goomba2.txt",2);
-			game.loadCoins("coin2.txt",1);
-			game.loadLvlLives("life2.txt",1);
-			game.loadShooters("shooter2.txt",1);
+			game.loadCoins("coin2.txt",2);
+			game.loadLvlLives("life2.txt",2);
+			game.loadShooters("shooter2.txt",2);*/
 			//game.loadPlats("plat2.txt",2);
 		}catch (IOException e) {
 			e.printStackTrace();
