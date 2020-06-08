@@ -21,6 +21,7 @@ public class GamePanel extends JPanel implements KeyListener{
 	private Character[]chars;
 	private boolean walking;
 	private int frame;
+	private int frame2;
 	private int stillRight;
 	private int stillLeft;
 	private int right;
@@ -39,8 +40,10 @@ public class GamePanel extends JPanel implements KeyListener{
     private boolean onPlat;
     private boolean falling;
     private boolean playRun;
-    private boolean miniscene;
+    private boolean miniscene1;
+    private boolean miniscene2;
     private int lifeCounter;
+    private int fireCount;
 
     private Rectangle badRect;
     private boolean enemyHit;
@@ -88,6 +91,7 @@ public class GamePanel extends JPanel implements KeyListener{
 	//private Image platPic;
 	private Image longPlat;
 	private Image airPlat;
+	private Image deadBoss;
 
     private int mx;
     private int my;
@@ -110,6 +114,10 @@ public class GamePanel extends JPanel implements KeyListener{
     private Image[]att;
     private Image[] gotHitR;
     private Image[]gotHitL;
+    private Image[]fireBoom;
+    private Image[]fi;
+    private Image plat;
+    private Image door;
 
     private Image[]badBulletR;
     private Image[]badBulletL;
@@ -148,6 +156,7 @@ public class GamePanel extends JPanel implements KeyListener{
         p = new Player();
         //b = new Goomba(500, 400,500,600);
         frame = 0;
+        frame2 = 0;
         //Direction
         stillRight = 0;
         right = 1;
@@ -155,6 +164,7 @@ public class GamePanel extends JPanel implements KeyListener{
         up = 6;
         down = 7;
         stillLeft = 3;
+        fireCount = 0;
 
         direction = right;
         walking = false;
@@ -184,6 +194,9 @@ public class GamePanel extends JPanel implements KeyListener{
 		airPlat = new ImageIcon("platPics/airPlat.png").getImage();
         text = new ImageIcon("Pictures/text bubble.png").getImage();
 		flowerHit = new ImageIcon("badHitPics/flowerHit.png").getImage();
+        deadBoss = new ImageIcon("Abobo/died/blownback17.png").getImage();
+        plat = new ImageIcon("platPics/doorPlat.png").getImage();
+        door = new ImageIcon("decorPics/door.png").getImage();
 		//heart = new ImageIcon("heart.png").getImage();
 
         //addMouseListener(this);
@@ -206,6 +219,8 @@ public class GamePanel extends JPanel implements KeyListener{
         airPunchLeft = new Image[6];
         gotHitR = new Image[9];
         gotHitL = new Image[9];
+        fireBoom = new Image[15];
+        fi = new Image[15];
 
         badBulletR = new Image[30];
         badBulletL = new Image[30];
@@ -215,7 +230,8 @@ public class GamePanel extends JPanel implements KeyListener{
 
         attack = false;
         attackDone = true;
-        miniscene = false;
+        miniscene1 = false;
+        miniscene2 = false;
         lifeCounter = 0;
 
         finish = false;
@@ -256,18 +272,18 @@ public class GamePanel extends JPanel implements KeyListener{
     public void keyTyped(KeyEvent e){
     }
     public void keyPressed(KeyEvent e){
-        if (e.getKeyCode() == KeyEvent.VK_W && !keys[e.getKeyCode()] && !p.checkHit() && !miniscene){
+        if (e.getKeyCode() == KeyEvent.VK_W && !keys[e.getKeyCode()] && !p.checkHit() && !miniscene1 && !miniscene2){
            if(!midAir){
                p.jump();
                midAir = true;
            }
         }
-        if(e.getKeyCode() == KeyEvent.VK_SPACE && !keys[e.getKeyCode()] && !p.checkHit() && !miniscene){
+        if(e.getKeyCode() == KeyEvent.VK_SPACE && !keys[e.getKeyCode()] && !p.checkHit() && !miniscene1 && !miniscene2){
             //Bullet b = new Bullet(p.getX()-offset, p.getY());
             //b.setDirection(direction);
             //bList.add(b);
         }
-        if(e.getKeyCode() == KeyEvent.VK_ENTER && !keys[e.getKeyCode()] && attackDone && !p.checkHit() && !miniscene){
+        if(e.getKeyCode() == KeyEvent.VK_ENTER && !keys[e.getKeyCode()] && attackDone && !p.checkHit() && !miniscene1 && !miniscene2){
             attack = true;
             currentF = 0;
             attackDone = false;
@@ -657,7 +673,7 @@ public class GamePanel extends JPanel implements KeyListener{
         if (bossBattle){
             g.drawImage(abobo.getFrame(),abobo.getX()-offset,abobo.getY(),null);
         }
-        if(abobo.getStart()){
+        if(abobo.getStart() && bossBattle){
             g.setColor(Color.white);
             g.fillRect(295,95,610,60);
             g.setColor(Color.gray);
@@ -672,7 +688,7 @@ public class GamePanel extends JPanel implements KeyListener{
             g.fillRect(364, 114, 32*abobo.getHits(), 22);
         }
 
-        if(miniscene){
+        if(miniscene1){
             frame++;
             if(frame > 100) {
                 g.drawImage(text, 630, 340, null);
@@ -689,10 +705,39 @@ public class GamePanel extends JPanel implements KeyListener{
                 g.drawString("Prove your worth", 705,415);
             }
             if(frame > 530){
-                miniscene = false;
+                miniscene1 = false;
                 abobo.start();
+                frame = 0;
             }
         }
+        if(miniscene2){
+            frame++;
+            g.drawImage(deadBoss, abobo.getX()-offset, abobo.getY()+70, null);
+            if(frame > 70){
+                g.drawImage(plat, 340,440,null);
+                g.drawImage(door,395,350,null);
+                if(frame < 180){
+                    g.drawImage(fireBoom[fireCount / 8], 325, 260, null);
+                    if(fireCount >= (fireBoom.length - 1) * 8) {
+                        fireCount = -1;
+                    }
+                    fireCount++;
+                }
+            }
+            if(frame > 270){
+                g.setColor(Color.white);
+                g.setFont(newyork);
+                g.drawString("Ryan was determined. Nothing was to stop him.", 150,190);
+            }
+            if(frame > 570){
+                g.setColor(Color.black);
+                g.fillRect(0,0,1200,650);
+            }
+            if(frame > 600){
+                finish = true;
+            }
+        }
+
         /*for (Life l : pLives){
             g.drawImage(l.getFrame(),l.getX(),l.getY(),null);
         }*/
@@ -712,7 +757,7 @@ public class GamePanel extends JPanel implements KeyListener{
 
     //user moving the character f
     public void move(){
-        if (keys[KeyEvent.VK_D] && !p.checkHit() && !miniscene){
+        if (keys[KeyEvent.VK_D] && !p.checkHit() && !miniscene1 && !miniscene2){
             if (p.getX() >= 7300){
                 p.setX(p.getX());
                 if (p.getX() >= 7820){
@@ -732,11 +777,11 @@ public class GamePanel extends JPanel implements KeyListener{
             if (p.getX() >= 6500){
                 bossBattle = true;
             }
-            if(p.getX() >= 7290 && frame < 530){
-                miniscene = true;
+            if(p.getX() >= 7290 && frame < 530 && !abobo.getStart()){
+                miniscene1 = true;
             }
         }
-        if (keys[KeyEvent.VK_A] && !p.checkHit() && !miniscene) {
+        if (keys[KeyEvent.VK_A] && !p.checkHit() && !miniscene1 && !miniscene2) {
             p.update(left);
             p.runL();
             direction = left;
@@ -1019,11 +1064,11 @@ public class GamePanel extends JPanel implements KeyListener{
             }
             if (badBList.get(i).getX() - offset < 100 )
                 bRemove.add(badBList.get(i));
-        }
+            }
 
         if (abobo.getHits() <= 0){
-            //new GamePanel(mainFrame, 2);
-            finish = true;
+            miniscene2 = true;
+            bossBattle = false;
         }
     }
 
@@ -1122,6 +1167,7 @@ public class GamePanel extends JPanel implements KeyListener{
 		loadSprite(airPunchRight, airPunchLeft, "Ryan Funyanjiwan/Jump Punch/jump punch");
 		loadSprite(gotHitR, gotHitL, "Ryan Funyanjiwan/Gets Hit/hit");
 		loadSprite(badBulletR, badBulletL, "bulletFrames/ice/tile");
+        loadSprite(fireBoom, fi,"fire boom/fire");
         //loadSprite(artR, bigHeartL, "heartFrames/tile");
 
         attackPickRight = new Image[][]{kickRight, punchRight, uppercutRight};

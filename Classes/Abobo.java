@@ -13,7 +13,7 @@ public class Abobo {
     private boolean startMoving; //variable used to check that the mini cut scene is over
     private boolean attack; //variable used to check if the boss is attacking
     private int hits; //used as a health variable, the boss can take up to 16 hits
-    private int health;
+    //Following variable are the different actions that the boss does
     private bossAction currentAct;
     private bossAction jump;
     private bossAction backhand;
@@ -26,11 +26,13 @@ public class Abobo {
     private bossAction laugh;
     private bossAction thunderclap;
     private bossAction walk;
+    //Following 2 variables are used to decide if the boss is going to walk or do another action
     private int walking;
     private int act;
-    private int[]decision;
-    private int[]fiftyfifty;
-    private bossAction[] actions;
+
+    private int[]decision; //Array used determine the next action the boss will take
+    private int[]fiftyfifty; //Array used to see if the boss will change direction
+    private bossAction[] actions; //if the next decision is not to walk, it will be picked from this array
 
     public Abobo(){
         currentF = 0;
@@ -46,8 +48,6 @@ public class Abobo {
         hits = 1;
         direction = left;
         startMoving = false;
-        health = 1;
-        //health = 150;
         jump = new bossAction("Abobo/jump/jump", 1, 1, 1, 1);
         backhand = new bossAction("Abobo/backhand/backhand", 6, 13, 0, 0);
         died = new bossAction("Abobo/died/blownback", 18, 7,0,1);
@@ -61,51 +61,61 @@ public class Abobo {
         walk = new bossAction("Abobo/walking/walk",12,5,2,0);
         actions = new bossAction[]{backhand, gutpunch, headbutt, idle, laugh, thunderclap};
         currentAct = laugh;
-        decision = new int[]{walking, act};
+        decision = new int[]{walking, act}; //the boss will walk more than the other action
         fiftyfifty = new int[]{right, left};
     }
+    //This method is used to get the frames of whatever action the boss is doing
     public Image getFrame(){
-            if(direction == left){
-                if(x + currentAct.getmX(direction) <= maxLeft){
-                    direction = right;
-                }
-            }
-            if(direction == right){
-                if(x + currentAct.getmX(direction) >= maxRight){
-                    direction = left;
-                }
-            }
-            if(currentAct.isDone() && startMoving){
-                currentAct.resetCurrentF();
-                currentAct.resetMove();
-                attack = false;
-                getNextAction();
-            }
-        return currentAct.getFrame(direction);
-    }
-    public void getNextAction(){
-        int next = decision[randint(0, decision.length - 1)];
-        int changeDirection = fiftyfifty[randint(0, fiftyfifty.length-1)];
-        if(changeDirection == right){
-            if(direction == right){
-                direction = left;
-            }
-            else{
+        //Following code changes the boss' direction if they are about to go out of the x range
+        if(direction == left && hits >0){
+            if(x + currentAct.getmX(direction) <= maxLeft){
                 direction = right;
             }
         }
-        if(next == walking){
-            currentAct = walk;
-            currentAct.resetCurrentF();
+        if(direction == right && hits > 0){
+            if(x + currentAct.getmX(direction) >= maxRight){
+                direction = left;
+            }
         }
-        if(next == act){
-            currentAct = actions[randint(0, actions.length - 1)];
-            currentAct.resetCurrentF();//adsf
-            if(currentAct == backhand || currentAct == gutpunch || currentAct == headbutt || currentAct == thunderclap){
-                attack = true;
+        //Following code checks if the action is completed, if it is, then it determines the next action
+        if(currentAct.isDone() && startMoving && hits > 0){
+            currentAct.resetCurrentF();
+            currentAct.resetMove();
+            attack = false;
+            getNextAction();
+        }
+        return currentAct.getFrame(direction);
+    }
+    //Following method is used to determine the next action of the boss, it is done by picking an action at random
+    //from an array
+    public void getNextAction(){
+        if(hits > 0) {
+            int next = decision[randint(0, decision.length - 1)]; //picking the next action
+            int changeDirection = fiftyfifty[randint(0, fiftyfifty.length - 1)]; //seeing if the direction is going to change
+            //Changing the direction
+            if (changeDirection == right) {
+                if (direction == right) {
+                    direction = left;
+                } else {
+                    direction = right;
+                }
+            }
+            if (next == walking) {
+                currentAct = walk; //sets next action
+                currentAct.resetCurrentF();
+            }
+            if (next == act) {
+                //determines the next action from another array
+                currentAct = actions[randint(0, actions.length - 1)];
+                currentAct.resetCurrentF();
+                //if the next action is any of these than it is considered an attack and will damage the player
+                if (currentAct == backhand || currentAct == gutpunch || currentAct == headbutt || currentAct == thunderclap) {
+                    attack = true;
+                }
             }
         }
     }
+    //get methods
     public int getX(){
         x += currentAct.getmX(direction);
         return x;
@@ -124,13 +134,10 @@ public class Abobo {
     }
     public void gotHit(){
         hits --;
-        currentAct = getHit;
+        currentAct = getHit; //displays the get hit frames
     }
     public int getHits(){
         return hits;
-    }
-    public void moveX(int n){
-        x += n;
     }
     public int getDirection(){
         return direction;
