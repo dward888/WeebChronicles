@@ -133,6 +133,7 @@ public class GamePanel extends JPanel implements KeyListener{
     private Sound hit;
     private Sound oof;
     private Sound heal;
+    private Sound ice;
 
     private Abobo abobo;
 
@@ -227,11 +228,12 @@ public class GamePanel extends JPanel implements KeyListener{
 
         try {
             coinSound = new Sound("coin.wav",false, 80);
-            run = new Sound("run.wav",false, 100);
-            runLeaf = new Sound("runLeaf.wav",false, 100);
+            run = new Sound("run.wav",false, 80);
+            runLeaf = new Sound("runLeaf.wav",false, 90);
             hit = new Sound("hit.wav", false, 80);
-            oof = new Sound("oof.wav",false, 100);
-            heal = new Sound("heal.wav",false, 100);
+            oof = new Sound("oof.wav",false, 80);
+            heal = new Sound("heal.wav",false, 80);
+            ice = new Sound("iceShot.wav",false,80);
         }
         catch (UnsupportedAudioFileException | IOException | LineUnavailableException e){
             e.printStackTrace();
@@ -1013,9 +1015,10 @@ public class GamePanel extends JPanel implements KeyListener{
     public void addBBullets(){
         for (Shooter s : shooters){
             if (s.checkShoot()) {
-                Bullet tmp =  new Bullet(s.getX(), s.getY(), "ice");
+                Bullet tmp =  new Bullet(s.getX(), s.getY()+50, "ice");
                 tmp.setDirection(left);
                 badBList.add(tmp);
+                ice.play();
                 s.setShoot(false);
             }
         }
