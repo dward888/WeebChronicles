@@ -9,7 +9,7 @@ public class Abobo {
     private int direction, left, right;
     private boolean startMoving;
     private boolean attack;
-    private boolean hit;
+    private int hits;
     private int health;
     private bossAction currentAct;
     private bossAction jump;
@@ -39,6 +39,7 @@ public class Abobo {
         right = 1;
         walking = 1;
         act = 2;
+        hits = 16;
         direction = left;
         startMoving = false;
         health = 150;
@@ -117,11 +118,11 @@ public class Abobo {
         return attack;
     }
     public void gotHit(){
-        health -= 10;
+        hits --;
         currentAct = getHit;
     }
-    public int getHealth(){
-        return health;
+    public int getHits(){
+        return hits;
     }
     public void moveX(int n){
         x += n;

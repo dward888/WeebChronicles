@@ -721,11 +721,7 @@ public class GamePanel extends JPanel implements KeyListener{
             g.setColor(Color.black);
             g.fillRect(364, 114, 512, 22);
             g.setColor(Color.green);
-            int aboboMaxHealth = 150;
-            double health = 512*(abobo.getHealth()/aboboMaxHealth);
-            System.out.println(health);
-            System.out.println(abobo.getHealth());
-;            g.fillRect(364, 114, (int) health, 22);
+            g.fillRect(364, 114, 32*abobo.getHits(), 22);
         }
 
         if(miniscene){
