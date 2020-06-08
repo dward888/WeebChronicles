@@ -33,6 +33,7 @@ public class GamePanel extends JPanel implements KeyListener{
 	private int footCount;
 	private int gDeadCount;
 	private int gHitPic;
+	private int level;
 	private boolean midAir;//this boolean will make sure the user can't double jump
     private boolean onPlat;
     private boolean falling;
@@ -117,6 +118,7 @@ public class GamePanel extends JPanel implements KeyListener{
     private boolean attackDone;
     private boolean hitBadGuy;
     private boolean loseLife;
+    private boolean bossBattle;
     //dfgsdfhsdfh
 
 	private Image jumpRight;
@@ -131,6 +133,8 @@ public class GamePanel extends JPanel implements KeyListener{
     private Sound hit;
     private Sound oof;
     private Sound heal;
+
+    private Abobo abobo;
 
     Font fontLocal=null;
 
@@ -147,6 +151,7 @@ public class GamePanel extends JPanel implements KeyListener{
         up = 6;
         down = 7;
         stillLeft = 3;
+        level = 1;
 
         direction = right;
         walking = false;
@@ -209,6 +214,7 @@ public class GamePanel extends JPanel implements KeyListener{
 
         lifeCounter = 0;
 
+        abobo = new Abobo();
 
         loadSprite();
 
@@ -696,6 +702,9 @@ public class GamePanel extends JPanel implements KeyListener{
             g.drawImage(pLives.get(i).getFrame(),pLives.get(i).getX(),pLives.get(i).getY(),null);
         }
 
+        if (bossBattle && level == 1){
+            g.drawImage(abobo.getFrame(),abobo.getX()-offset,abobo.getY(),null);
+        }
 
         /*for (Life l : pLives){
             g.drawImage(l.getFrame(),l.getX(),l.getY(),null);
@@ -733,6 +742,9 @@ public class GamePanel extends JPanel implements KeyListener{
             p.runR();
             direction = right;
             walking = true;
+            if (p.getX() >= 6500){
+                bossBattle = true;
+            }
 
         }
         if (keys[KeyEvent.VK_A] && !p.checkHit()) {
