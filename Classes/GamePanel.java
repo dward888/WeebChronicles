@@ -128,6 +128,7 @@ public class GamePanel extends JPanel implements KeyListener{
     private Sound heal;
 
     Font fontLocal=null;
+    Font newyork;
     private Abobo abobo;
     public GamePanel(WeebChronicles m) {
     	keys = new boolean[KeyEvent.KEY_LAST+1];
@@ -207,8 +208,9 @@ public class GamePanel extends JPanel implements KeyListener{
 
         try {
             fontLocal = Font.createFont(Font.TRUETYPE_FONT, new File("font/naruto1.ttf"));
-
             fontLocal = fontLocal.deriveFont(30f);
+            newyork = Font.createFont(Font.TRUETYPE_FONT, new File("font/newyorkescape.ttf"));
+            newyork = newyork.deriveFont(20f);
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
         }
