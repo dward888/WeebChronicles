@@ -1,3 +1,8 @@
+//GamePanel.java
+//Jim Ji and Edward Yang
+//Class that loads everything in for the first level
+
+//imports
 import java.awt.*;
 import java.awt.event.*;
 import javax.imageio.ImageIO;
@@ -8,93 +13,56 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
 public class GamePanel extends JPanel implements KeyListener{
 
+    //fields
 	private boolean []keys;
 	private WeebChronicles mainFrame;
 	private Player p;
-	private Goomba b;
-	private Character[]chars;
-	private boolean walking;
-	private int frame;
-	private int frame2;
-	private int stillRight;
-	private int stillLeft;
+	private int frame;//counter to allow for animation in the cutscenes
 	private int right;
 	private int left;
-	private int down;
-	private int up;
 	private int direction;
-	private int bulletRight;
-	private int bulletLeft;
-	private int currentF;
-	private int footCount;
-	private int gDeadCount;
-	private int gHitPic;
-	private int level;
-	private boolean midAir;//this boolean will make sure the user can't double jump
-    private boolean onPlat;
-    private boolean falling;
-    private boolean playRun;
-    private boolean miniscene1;
-    private boolean miniscene2;
-    private int lifeCounter;
-    private int fireCount;
+	private int currentF;//counter used for the sprites allowing for animation
+	private int footCount;//counter used for the footsteps of the player
+	private int gDeadCount;//counter used for animating the death of any dead goombas
+	private int gHitPic;//counter used for the frame at which the player hits a goomba to allow it to glow red
+    private int lifeCounter;//counter used so that the player won't lose all his lives when hit by an enemy
+    private int fireCount;//counter used for the fire blast in the first cutscene
+    private int offset;/*this variable increases when the player moves past a certain point on the screen. This allows for the "side scrolling" effect. Whenever
+    I want an object to scroll with the player, I subtract this number from the objects' X value.*/
 
-    private Rectangle badRect;
-    private boolean enemyHit;
-    private boolean playerHit;
-    //rivate boolean drawGHitPic;
-    //private ArrayList<Rectangle>platRects = new ArrayList<Rectangle>();
-    //private ArrayList<Rectangle>badRects = new ArrayList<Rectangle>();
-    private ArrayList<Platform>plats = new ArrayList<Platform>();
-    private ArrayList<Life>pLives = new ArrayList<Life>();
-    private ArrayList<Life>pLivesRemove = new ArrayList<Life>();
-
-    private ArrayList<Life>lvlLives = new ArrayList<Life>();
-    private ArrayList<Life>lvlLivesRemove = new ArrayList<Life>();
-
-    //private ArrayList<Platform>plats1 = new ArrayList<Platform>();
-    //private ArrayList<Platform>plats2 = new ArrayList<Platform>();
-    //private ArrayList<Platform>plats3 = new ArrayList<Platform>();
-    //yo
-    private ArrayList<Goomba>goombs = new ArrayList<Goomba>();
-    private ArrayList<Goomba>gDead = new ArrayList<Goomba>();
-    private ArrayList<Goomba>gDeadRemove = new ArrayList<Goomba>();
-
-    private ArrayList<Shooter>shooters = new ArrayList<Shooter>();
-    private ArrayList<Shooter>sDead = new ArrayList<Shooter>();
-    private ArrayList<Shooter>sDeadRemove = new ArrayList<Shooter>();
-
-    private ArrayList<Decor>decor = new ArrayList<Decor>();
-
-    private ArrayList<Coin>coins = new ArrayList<Coin>();
+    //arraylists to store the aspects of the level (platforms, coins, enemies, etc)
+    private ArrayList<Platform>plats = new ArrayList<Platform>();//storing the platforms in the first level
+    private ArrayList<Life>pLives = new ArrayList<Life>();//storing the player's lives in the first level
+    private ArrayList<Life>pLivesRemove = new ArrayList<Life>();//arraylist that stores when the player loses a life so that it can be removed from the arraylist above
+    private ArrayList<Life>lvlLives = new ArrayList<Life>();//storing the lives that the player can pick up to gain a life in the first level
+    private ArrayList<Life>lvlLivesRemove = new ArrayList<Life>();//storing the lives when the player picks up a life so that i can be removed in the level
+    private ArrayList<Goomba>goombs = new ArrayList<Goomba>();//storing the goombas
+    private ArrayList<Goomba>gDead = new ArrayList<Goomba>();//storing the goombas that have died
+    private ArrayList<Goomba>gDeadRemove = new ArrayList<Goomba>();//storing the dead goombas so that that their death animation will be drawn
+    private ArrayList<Decor>decor = new ArrayList<Decor>();//storing the decoration
+    private ArrayList<Coin>coins = new ArrayList<Coin>();//storing the coins and their positions
     private ArrayList<Coin>cRemove = new ArrayList<Coin>(); //Records all the coins that the player has collected
-    //private ArrayList<Coin>cCurrent = new ArrayList<Coin>();
-
     private ArrayList<Bullet>bList = new ArrayList<Bullet>(); //array list for the projectiles (bullets)
     private ArrayList<Bullet>bRemove = new ArrayList<Bullet>(); //Records all the bullets that have hit an object
+    //
 
-    private ArrayList<Bullet>badBList = new ArrayList<Bullet>();
 
-    private int f = 0;
-    private int offset;
+
 	//images//
 	private Image back1;
-	private Image back2;
-	private Image back3;
-	private Image star;
-	//private Image platPic;
-	private Image longPlat;
-	private Image airPlat;
 	private Image deadBoss;
-
-    private int mx;
-    private int my;
+    private Image jumpRight;
+    private Image jumpLeft;
+    private Image text;
+    private Image plat;
+    private Image door;
+    //
 
     //Frame Arrays
 	private Image[]runRight;
@@ -116,93 +84,78 @@ public class GamePanel extends JPanel implements KeyListener{
     private Image[]gotHitL;
     private Image[]fireBoom;
     private Image[]fi;
-    private Image plat;
-    private Image door;
-
     private Image[]badBulletR;
     private Image[]badBulletL;
+    //
 
-    private boolean attack;
-    private boolean attackDone;
-    private boolean hitBadGuy;
-    private boolean loseLife;
-    private boolean bossBattle;
-    private boolean finish;
-    //dfgsdfhsdfh
+    //boolean values
+    private boolean attack;//boolean that tracks whether or not the player has attacked
+    private boolean attackDone;//boolean that tracks if the player has finished the attack animation
+    private boolean walking;
+    private boolean hitBadGuy;//if the player has hit an enemy
+    private boolean bossBattle;//boolean indicating that the boss battle will start
+    private boolean finish;//boolean indicating if the player has finished the level
+    private boolean midAir;//this boolean will make sure the user can't double jump
+    private boolean falling;//checks if the player is falling
+    private boolean playRun;//checks if the footstep sound can be played
+    private boolean miniscene1;//keeps track of which scene needs to be played
+    private boolean miniscene2;
+    //
 
-	private Image jumpRight;
-	private Image jumpLeft;
-	private Image text;
-	//private Image heart;
-
-	private Image flowerHit;
-
+    //sound files
     private Sound coinSound;
     private Sound run;
     private Sound runLeaf;
     private Sound hit;
     private Sound oof;
     private Sound heal;
-    private Sound ice;
+    //
 
-    private Abobo abobo;
+    //bosses
+    private Abobo abobo;//the first level boss object. We have a class that tracks his movement, attacks, and health. (Abobo.java)
+    //
 
+    //fonts
     Font fontLocal=null;
     Font newyork;
+    //
 
     public GamePanel(WeebChronicles m) {
     	keys = new boolean[KeyEvent.KEY_LAST+1];
 		mainFrame = m;
         p = new Player();
-        //b = new Goomba(500, 400,500,600);
         frame = 0;
-        frame2 = 0;
+        fireCount = 0;
         //Direction
-        stillRight = 0;
         right = 1;
         left = 2;
-        up = 6;
-        down = 7;
-        stillLeft = 3;
-        fireCount = 0;
+        //
 
         direction = right;
         walking = false;
-        onPlat = false;
         falling = true;
-
         playRun = false;
-
-        //getLife = false;
-        loseLife = false;
+        attack = false;
+        attackDone = true;
+        miniscene1 = false;
+        miniscene2 = false;
+        lifeCounter = 0;
+        finish = false;
 
         offset = 0;
         currentF = 0;
         footCount = 0;
         gDeadCount = 0;
-        bulletLeft = 4;
-        bulletRight = 5;
 
 		addKeyListener(this);
 
 		//loading images//
 		back1 = new ImageIcon("Pictures/back.png").getImage();
-		back2 = new ImageIcon("Pictures/space.png").getImage();
-		star = new ImageIcon("Pictures/star.png").getImage();
-		//platPic = new ImageIcon("Pictures/plat pic.png").getImage();
-		longPlat =  new ImageIcon("platPics/longPlat.png").getImage();
-		airPlat = new ImageIcon("platPics/airPlat.png").getImage();
         text = new ImageIcon("Pictures/text bubble.png").getImage();
-		flowerHit = new ImageIcon("badHitPics/flowerHit.png").getImage();
         deadBoss = new ImageIcon("Abobo/died/blownback17.png").getImage();
         plat = new ImageIcon("platPics/doorPlat.png").getImage();
         door = new ImageIcon("decorPics/door.png").getImage();
-		//heart = new ImageIcon("heart.png").getImage();
-
-        //addMouseListener(this);
-        //initilizing the platforms as rects
-        //Rectangle plat1 = new Rectangle(500,525,1000,40);
-        //plats1.add(plat1);
+        //
 
         //Frame Arrays
         runRight  = new Image[10];
@@ -221,25 +174,15 @@ public class GamePanel extends JPanel implements KeyListener{
         gotHitL = new Image[9];
         fireBoom = new Image[15];
         fi = new Image[15];
-
         badBulletR = new Image[30];
         badBulletL = new Image[30];
-
-        //bigHeartR = new Image[16];
-        //bigHeartL =  new Image[16];
-
-        attack = false;
-        attackDone = true;
-        miniscene1 = false;
-        miniscene2 = false;
-        lifeCounter = 0;
-
-        finish = false;
+        //
 
         abobo = new Abobo();
 
         loadSprite();
 
+        //loading in fonts
         try {
             fontLocal = Font.createFont(Font.TRUETYPE_FONT, new File("font/naruto1.ttf"));
             fontLocal = fontLocal.deriveFont(30f);
@@ -249,7 +192,9 @@ public class GamePanel extends JPanel implements KeyListener{
         catch (FontFormatException | IOException e) {
             e.printStackTrace();
         }
+        //
 
+        //loading in sounds
         try {
             coinSound = new Sound("coin.wav",false, 80);
             run = new Sound("run.wav",false, 80);
@@ -257,11 +202,11 @@ public class GamePanel extends JPanel implements KeyListener{
             hit = new Sound("hit.wav", false, 80);
             oof = new Sound("oof.wav",false, 80);
             heal = new Sound("heal.wav",false, 80);
-            ice = new Sound("iceShot.wav",false,80);
         }
         catch (UnsupportedAudioFileException | IOException | LineUnavailableException e){
             e.printStackTrace();
         }
+        //
     }
     public void addNotify() {
         super.addNotify();
@@ -272,26 +217,20 @@ public class GamePanel extends JPanel implements KeyListener{
     public void keyTyped(KeyEvent e){
     }
     public void keyPressed(KeyEvent e){
-        if (e.getKeyCode() == KeyEvent.VK_W && !keys[e.getKeyCode()] && !p.checkHit() && !miniscene1 && !miniscene2){
-           if(!midAir){
+        if (e.getKeyCode() == KeyEvent.VK_W && !keys[e.getKeyCode()] && !p.checkHit() && !miniscene1 && !miniscene2){//checking if the user hits the "jump" button
+           if(!midAir){//if the player is on the ground
                p.jump();
                midAir = true;
            }
         }
-        if(e.getKeyCode() == KeyEvent.VK_SPACE && !keys[e.getKeyCode()] && !p.checkHit() && !miniscene1 && !miniscene2){
-            //Bullet b = new Bullet(p.getX()-offset, p.getY());
-            //b.setDirection(direction);
-            //bList.add(b);
-        }
-        if(e.getKeyCode() == KeyEvent.VK_ENTER && !keys[e.getKeyCode()] && attackDone && !p.checkHit() && !miniscene1 && !miniscene2){
+        if(e.getKeyCode() == KeyEvent.VK_ENTER && !keys[e.getKeyCode()] && attackDone && !p.checkHit() && !miniscene1 && !miniscene2){//checking if the user hits the "attack" button
             attack = true;
             currentF = 0;
             attackDone = false;
-            //hit.setVol((float) 40);
-            hit.play();
+            hit.play();//playing the punch sound effect
             if(!midAir){
                 if(direction == right){
-                    att = attackPickRight[randint(0,2)];
+                    att = attackPickRight[randint(0,2)];//randomely picks an attack from the idle attack frames
                 }
                 if(direction == left){
                     att = attackPickLeft[randint(0,2)];
@@ -304,246 +243,165 @@ public class GamePanel extends JPanel implements KeyListener{
         keys[e.getKeyCode()] = false;
         if(e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_A){
             walking = false;
-
         }
         if(!keys[e.getKeyCode()] && !midAir){
             p.resetCurrentF();
         }
     }
 
-    public void loadPlats() throws IOException{
+
+    public void loadPlats() throws IOException{//loading in the platforms from a text file
         Scanner inFile = new Scanner (new BufferedReader(new FileReader("plat1.txt")));
         while (inFile.hasNext()){//while there are lines to be read
             String line = inFile.nextLine();
-            String[]data = line.split(" ");//splitting up each value to be able to keep track of the x,y, width, height
+            String[]data = line.split(" ");//splitting up each value to be able to keep track of the x,y, type, and adjustment
             int x = Integer.parseInt(data[0]);
             int y = Integer.parseInt(data[1]);
-            //int w = Integer.parseInt(data[2]);
-            //int h = Integer.parseInt(data[3]);
-
             String p = data[2];
-            int a = Integer.parseInt(data[3]);
-            //int w = Integer.parseInt(data[2]);
-            //int h = Integer.parseInt(data[3]);
+            int a = Integer.parseInt(data[3]);//this value in the text file represents an adjustment. sometimes the platform's rect would not be exactly where we wanted it
             Platform tmp = new Platform(x,y,p,a);
-
             plats.add(tmp);
-            //platRects.add(tmp.getRect());
-
         }
     }
 
-    public void loadGoombs() throws IOException{
+    public void loadGoombs() throws IOException{//loading in the goombas from a text file
         Scanner inFile = new Scanner (new BufferedReader(new FileReader("goomba1.txt")));
         while (inFile.hasNext()) {//while there are lines to be read
             String line = inFile.nextLine();
-            String[] data = line.split(" ");//splitting up each value to be able to keep track of the x,y,max R, max L, and picture
+            String[] data = line.split(" ");//splitting up each value to be able to keep track of the x,y,max R, max L, type, adjustments, number of frames, and health
             int x = Integer.parseInt(data[0]);
             int y = Integer.parseInt(data[1]);
-            int mL = Integer.parseInt(data[2]);
-            int mR = Integer.parseInt(data[3]);
+            int mL = Integer.parseInt(data[2]);//max left
+            int mR = Integer.parseInt(data[3]);//max right
             String b = data[4];
-            int xa = Integer.parseInt(data[5]);
-            int ya = Integer.parseInt(data[6]);
-            int wa = Integer.parseInt(data[7]);
-            int ha = Integer.parseInt(data[8]);
-            int da = Integer.parseInt(data[9]);
-            int num = Integer.parseInt(data[10]);
-            int dNum = Integer.parseInt(data[11]);
-            int hp = Integer.parseInt(data[12]);
+            int xa = Integer.parseInt(data[5]);//x adjustment
+            int ya = Integer.parseInt(data[6]);//y adjustment
+            int wa = Integer.parseInt(data[7]);//width adjustment
+            int ha = Integer.parseInt(data[8]);//height adjustment
+            int da = Integer.parseInt(data[9]);//death adjustment
+            int num = Integer.parseInt(data[10]);//number of walking frames
+            int dNum = Integer.parseInt(data[11]);//num of death frames
+            int hp = Integer.parseInt(data[12]);//health
 
             Goomba tmp = new Goomba(x, y, mL, mR, b, xa, ya, wa, ha, da, num, dNum, hp);
-
             goombs.add(tmp);
 
         }
     }
 
-    public void loadShooters() throws IOException{
-        Scanner inFile = new Scanner (new BufferedReader(new FileReader("shooter1.txt")));
-        while (inFile.hasNext()) {//while there are lines to be read
-            String line = inFile.nextLine();
-            String[] data = line.split(" ");//splitting up each value to be able to keep track of the x,y,max R, max L, and picture
-            int x = Integer.parseInt(data[0]);
-            int y = Integer.parseInt(data[1]);
-            int dist = Integer.parseInt(data[2]);
-            String b = data[3];
-            int num = Integer.parseInt(data[4]);
-            int hp = Integer.parseInt(data[5]);
-
-            Shooter tmp = new Shooter(x, y, dist, b, num, hp);
-
-            shooters.add(tmp);
-
-        }
-    }
-
-
-
     public void loadDecor() throws IOException {
         Scanner inFile = new Scanner(new BufferedReader(new FileReader("decor1.txt")));
         while (inFile.hasNext()) {//while there are lines to be read
             String line = inFile.nextLine();
-            String[] data = line.split(" ");//splitting up each value to be able to keep track of the x,y,max R, max L, and picture
+            String[] data = line.split(" ");//splitting up each value to be able to keep track of the x,y, and type
             int x = Integer.parseInt(data[0]);
             int y = Integer.parseInt(data[1]);
             String b = data[2];
-
-
             Decor tmp = new Decor(x,y,b);
-
-
             decor.add(tmp);
-
         }
     }
 
-    public void loadPLives(){
-
+    public void loadPLives(){//loading in the players' lives
         Life tmp1 = new Life (0,-5,16);
         Life tmp2 =  new Life (60,-5,16);
         Life tmp3 = new Life(120,-5,16);
         Life tmp4 = new Life (180,-5,16);
         Life tmp5 = new Life(240,-5,16);
 
-        pLives.add(tmp1);
+        pLives.add(tmp1);//adding to the arraylist that stores them
         pLives.add(tmp2);
         pLives.add(tmp3);
         pLives.add(tmp4);
         pLives.add(tmp5);
     }
 
-    public void loadLvlLives() throws IOException {
+    public void loadLvlLives() throws IOException {//loading in the attainable lives in the level, the player will heal one life if he has is not at full lives
         Scanner inFile = new Scanner(new BufferedReader(new FileReader("life1.txt")));
         while (inFile.hasNext()) {//while there are lines to be read
             String line = inFile.nextLine();
-            String[] data = line.split(" ");//splitting up each value to be able to keep track of the x,y,max R, max L, and picture
+            String[] data = line.split(" ");//splitting up each value to be able to keep track of the x,y, number of frames
             int x = Integer.parseInt(data[0]);
             int y = Integer.parseInt(data[1]);
             int frames = Integer.parseInt(data[2]);
             Life tmp = new Life(x,y,frames);
-
             lvlLives.add(tmp);
-
         }
     }
 
-    public void loadCoins()throws IOException{
+    public void loadCoins()throws IOException{//loading coins
         Scanner inFile = new Scanner(new BufferedReader(new FileReader("coin1.txt")));
-
         while (inFile.hasNext()) {//while there are lines to be read
             String line = inFile.nextLine();
-            String[] data = line.split(" ");//splitting up each value to be able to keep track of the x,y,max R, max L, and picture
+            String[] data = line.split(" ");//splitting up each value to be able to keep track of the x,y, file, and num of frames
             int x = Integer.parseInt(data[0]);
             int y = Integer.parseInt(data[1]);
             String b = data[2];
             int frames = Integer.parseInt(data[3]);
-
             Coin tmp = new Coin(x,y,b,frames);
-
-
             coins.add(tmp);
 
         }
     }
 
-    public void deleteBullets(){
-        for(int i= 0; i < bRemove.size(); i++){//yo
-            bList.remove(bRemove.get(i));
-        }
-    }
-
     public void paintComponent(Graphics g){
-        //background
-        Point mousePos = getMousePosition();
-        //mx = (int) mousePos.getX();
-        //my = (int) mousePos.getY();
-        //g.drawImage(back+level, 0, 0, null);
+        g.drawImage(back1, 0, 0, null);//background
 
-        g.drawImage(back1, 0, 0, null);
-
-        //g.drawImage(heart,200, 0, null);
-        //+12,100,55
-        //-40,y+12,90,55
-        //g.drawRect(p.getX()-50-offset,p.getY()+12,100,55);
-        //System.out.println(p.getX() + "," + p.getY());
-        //System.out.println(p.getLives());
-
-        for (Platform p : plats){
-            g.drawImage(p.getImage(),p.getX() - offset,p.getY()+p.getAdjust(),null);
-
+        for (Platform p : plats){//drawing platform images
+            g.drawImage(p.getImage(),p.getX() - offset,p.getY()+p.getAdjust(),null);//i subtract offset from the platform's x because I want the illusion of the player running through the level
         }
+
         for (Goomba b : goombs){
-            if (b.drawHitPic()){//b.checkHit()){
-                if (b.getDirection() == 1){
+            if (b.drawHitPic()){//if the indication of being hit needs to be drawn
+                if (b.getDirection() == left){
                     g.drawImage(b.getLHitImage(), b.getX()-offset, b.getY(),null);
-                    //b.setX(b.getX()-(int)b.getSx());
                 }
                 else{
                     g.drawImage(b.getRHitImage(), b.getX()-offset, b.getY(),null);
-                    //b.setX(b.getX()-(int)b.getSx());
                 }
 
-                if (gHitPic % 20 == 0){
+                if (gHitPic % 20 == 0){//we added a counter here because the picture that indicated that the goomba was hit was drawn too fast, we wanted to prolong the number of frames
                     b.setDrawHitPic(false);
                 }
                 b.setHit(false);
             }
             else{
-                g.drawImage(b.getFrame(), b.getX()-offset, b.getY(),null);
+                g.drawImage(b.getFrame(), b.getX()-offset, b.getY(),null);//drawing the goomba normally if they are not being hit
             }
-            //else{
-
-            //g.drawRect(b.getX()-offset+b.getXAdjust(),b.getY()+b.getYAdjust(), b.getWidth(), b.getHeight());
-
-            //g.drawRect(b.getX()-offset,b.getY(),32,32);
         }
 
-
-        for (Goomba b : gDead){
+        for (Goomba b : gDead){//drawing the dying frames when a goomba dies
             g.drawImage(b.getDeadFrame(), b.getX()-offset, b.getY()+b.getDAdjust(), null);
         }
 
-        for (Shooter s : shooters){
-            g.drawImage(s.getFrame(),s.getX()-offset,s.getY(),null);
-        }
-
-        for (Decor d : decor){
+        for (Decor d : decor){//drawing the decoration
             g.drawImage(d.getImage(), d.getX()-offset, d.getY(),null);
-            //g.drawRect(b.getX()-offset,b.getY(),32,32);
         }
-        for(int i = 0; i < coins.size(); i++){
+        for(int i = 0; i < coins.size(); i++){//drawing coins
             g.drawImage(coins.get(i).getFrame(),coins.get(i).getX()-offset,coins.get(i).getY(),null);
-            //g.setColor()
         }
 
-        for (Bullet b : badBList){
-            g.drawImage(badBulletL[currentF/30], b.getX()-offset,b.getY(),null);
-        }
-
-
-        for (int i=0; i < lvlLives.size(); i++){
+        for (int i=0; i < lvlLives.size(); i++){//drawing the level lives that the player can heal from
             g.drawImage(lvlLives.get(i).getFrame(),lvlLives.get(i).getX()-offset,lvlLives.get(i).getY(),null);
         }
 
-
-        if (direction == right && p.checkHit()){
-            if(currentF >= (gotHitR.length -1 )*9){
+        if (direction == right && p.checkHit()){//if the player is facing right and has been hit by an enemy
+            if(currentF >= (gotHitR.length -1 )*9){//drawing the getting hit frames
                 currentF = 0;
                 p.setHit(false);
-                lifeCounter = 0;
+                lifeCounter = 0;//we use a counter here because we had a problem where the player would lose all of his lives when hit by an enemy. this allows it to only take one life when hit
             }
-            p.knockback(-2);
+            p.knockback(-2);//knockback function from player class that simulates being hit back. the player cannot move while being knocked back
             g.drawImage(gotHitR[currentF/9], p.getX()-offset,p.getY(),null);
 
         }
-        if (direction == left && p.checkHit()){
+        if (direction == left && p.checkHit()){//same as above but for the left side
             if(currentF >= (gotHitL.length - 1)*9){
                 currentF = 0;
                 p.setHit(false);
                 lifeCounter = 0;
             }
-            p.knockback(2);
+            p.knockback(2);//knocking back in the opposite direction as the right side
             g.drawImage(gotHitL[currentF/9], p.getX()-offset,p.getY(),null);
 
         }
@@ -554,7 +412,7 @@ public class GamePanel extends JPanel implements KeyListener{
                 if(currentF >= (idleRight.length - 1) * 8){
                     currentF = 0;
                 }
-                g.drawImage(idleRight[currentF/8], p.getX()-offset, p.getY(), null);
+                g.drawImage(idleRight[currentF/8], p.getX()-offset, p.getY(), null);//we divide the currentF by a number to act as a buffer so that the frames don't change every loop
             }
             else{
                 if(currentF >= (runRight.length - 1) * 3){
@@ -578,8 +436,9 @@ public class GamePanel extends JPanel implements KeyListener{
             }
         }
         hitBadGuy = false;
-        if(attack && !p.checkHit()){
-            if(!midAir && !walking) {
+
+        if(attack && !p.checkHit()){//checking if the player has hit an enemy
+            if(!midAir && !walking) {//making sure they are on the ground
                 if (direction == right) {
                     if (currentF >= (att.length - 1) * 5) {
                         currentF = 0;
@@ -620,7 +479,8 @@ public class GamePanel extends JPanel implements KeyListener{
                 }
             }
         }
-        if(midAir && !p.checkHit()){
+
+        if(midAir && !p.checkHit()){//if in the air and not hit by an enemy
             if(direction == right){
                 if(!attack){
                     g.drawImage(jumpRight, p.getX()-offset, p.getY(), null);
@@ -633,47 +493,35 @@ public class GamePanel extends JPanel implements KeyListener{
             }
         }
 
-        if (footCount % 15 == 0){
+        if (footCount % 15 == 0){//this counter was used a a delay when playing the footstep sound effect. we had a problem where the footsteps were way too fast and we wanted to slow it down
             playRun();
         }
 
-
+        //adding onto the counters
         footCount++;
         currentF++;
         gDeadCount++;
         gHitPic++;
+        //
 
-        //drawing the rects
-        g.setColor(Color.blue);
-        //g.drawRect(p.getX()+5-offset, p.getY()+12,40,55);
-        //x+5,y+12,80,45
-        //g.drawRect(b.getX()-offset, b.getY()+8, 20, 20);
 
         //TEXT
-        g.setColor(new Color(0,0,00,125));
-        //g.fillRect(1000,0,500,75);
+        g.setColor(new Color(0,0,0,125));//setting a transparent rectangle at the top of the screen
         g.fillRect(0,0,1500,50);
         g.setColor(new Color(255,215,0,255));
         g.setFont(fontLocal);
-        g.drawString("SCORE " + " " + " " + p.getScore(),1000,40);
-
-        //g.setColor(Color.WHITE);
+        g.drawString("SCORE " + " " + p.getScore(),1000,40);//player's score
 
 
-        /*for(int i = 0; i<p.getLives(); i++){
-            for (Life l : pLives){
-                g.drawImage(l.getFrame(),l.getX(),l.getY(),null);
-            }
-        }*/
-
-        for(int i = 0; i<p.getLives(); i++){
+        for(int i = 0; i<p.getLives(); i++){//drawing the players' lives
             g.drawImage(pLives.get(i).getFrame(),pLives.get(i).getX(),pLives.get(i).getY(),null);
         }
 
-        if (bossBattle){
+        if (bossBattle){//if the boss battle is about to begin
             g.drawImage(abobo.getFrame(),abobo.getX()-offset,abobo.getY(),null);
         }
         if(abobo.getStart() && bossBattle){
+            //following code draws an hp bar when fighting the boss
             g.setColor(Color.white);
             g.fillRect(295,95,610,60);
             g.setColor(Color.gray);
@@ -686,15 +534,16 @@ public class GamePanel extends JPanel implements KeyListener{
             g.fillRect(364, 114, 512, 22);
             g.setColor(Color.green);
             g.fillRect(364, 114, 32*abobo.getHits(), 22);
+            //
         }
 
-        if(miniscene1){
-            frame++;
+        if(miniscene1){//starting the mini scene to introduce the first boss
+            frame++;//counter used for the cut scenes
             if(frame > 100) {
                 g.drawImage(text, 630, 340, null);
                 g.setColor(Color.black);
                 g.setFont(newyork);
-                if (frame < 230) {
+                if (frame < 230) {//text from the boss
                     g.drawString("AHAHAHAHA!", 750, 415);
                 }
             }
@@ -706,11 +555,11 @@ public class GamePanel extends JPanel implements KeyListener{
             }
             if(frame > 530){
                 miniscene1 = false;
-                abobo.start();
+                abobo.start();//starting the bosses movement
                 frame = 0;
             }
         }
-        if(miniscene2){
+        if(miniscene2){//the scene when the player clears the first level
             frame++;
             g.drawImage(deadBoss, abobo.getX()-offset, abobo.getY()+70, null);
             if(frame > 70){
@@ -734,31 +583,16 @@ public class GamePanel extends JPanel implements KeyListener{
                 g.fillRect(0,0,1200,650);
             }
             if(frame > 600){
-                finish = true;
+                finish = true;//advancing to the second level
             }
         }
 
-        /*for (Life l : pLives){
-            g.drawImage(l.getFrame(),l.getX(),l.getY(),null);
-        }*/
-
-        /*for (int i = 0; i < pLives.size(); i++){
-            g.drawImage(pLives.get(i).getFrame(),pLives.get(i).getX(),pLives.get(i).getY(),null);
-        }*/
-
-        //g.drawString(""+p.getScore(),500,500);
-
-
-        //g.drawImage(platPic,500-offset,500,null);+
-
-        //g.fillRect(500 - offset, 510, 1000, 40);
-        //g.drawRect(500, 500, 1920,40);
     }
 
-    //user moving the character f
+    //user moving the character
     public void move(){
         if (keys[KeyEvent.VK_D] && !p.checkHit() && !miniscene1 && !miniscene2){
-            if (p.getX() >= 7300){
+            if (p.getX() >= 7300){//once the player has reached this certain point, the scrolling will stop and the boss battle will start. we didn't want the player to scroll while fighting the bos
                 p.setX(p.getX());
                 if (p.getX() >= 7820){
                     p.setX(7820);
@@ -766,68 +600,50 @@ public class GamePanel extends JPanel implements KeyListener{
             }
             else{
                 if (p.getX() >= 600 + offset) {
-                    offset += p.SPEED;
+                    offset += p.SPEED;//when the player is at half way in the screen's coordinates, start adding to the offset variable to allow scrolling
                 }
             }
-            p.update(right);
-
-            p.runR();
+            p.direct(right);
+            p.runR();//player moves right because the user if holding the "d" key
             direction = right;
             walking = true;
             if (p.getX() >= 6500){
-                bossBattle = true;
+                bossBattle = true;//starting the boss battle
             }
             if(p.getX() >= 7290 && frame < 530 && !abobo.getStart()){
                 miniscene1 = true;
             }
         }
         if (keys[KeyEvent.VK_A] && !p.checkHit() && !miniscene1 && !miniscene2) {
-            p.update(left);
+            p.direct(left);
             p.runL();
             direction = left;
             walking = true;
-
         }
     }
 
-    public void badMove(){
+    public void badMove(){//we moved the goombas by giving them a max left and a max right. once they reached a max point, they would change directions and loop back and forth
         for (Goomba b : goombs){
             if (b.getX() == b.getMaxL()){
-                b.setDirection(right);
+                b.setDirection(right);//switching directions
             }
             if (b.getX() == b.getMaxR()){
                 b.setDirection(left);
             }
             if (b.getDirection() == right){
-                b.moveR();
+                b.moveR();//actually moving the goombas
             }
             if (b.getDirection() == left){
                 b.moveL();
-            }
-        }
-        for (Shooter s : shooters){
-            if (s.getY() == s.getMaxH()) {
-                s.setShoot(true);
-                s.setDirection(down);
-            }
-            if (s.getY() == s.getMinH()){
-                s.setShoot(true);
-                s.setDirection(up);
-            }
-            if (s.getDirection() == up){
-                s.moveU();
-            }
-            if (s.getDirection() == down){
-                s.moveD();
             }
         }
     }
 
 
     public void playerUpdate(){
-        p.update2();
-        if(p.getSy() == 0){
-            midAir = false;
+        p.update();
+        if(p.getSy() == 0){//if the player is not accelerating upwards or downwards
+            midAir = false;//on the goround
             p.resetCurrentF();
         }
         if (p.getX() - offset < 20){//making sure the player can't run off the screen on the left
@@ -835,38 +651,32 @@ public class GamePanel extends JPanel implements KeyListener{
         }
     }
 
-    public void badUpdate(){
+    public void badUpdate(){//updating the goombas to move
         for (Goomba b : goombs){
             b.update();
         }
-        for (Shooter s : shooters){
-            s.update();
-        }
-        //b.update();
-
     }
 
-    public void checkRun(){
-        //int f = 0;
-        if (walking && p.getSy() < 1 && !falling && !midAir){
-            //System.out.println("hi");
-            //run.play();
+    public void checkRun(){//checking if the footstep sound can be played
+
+        if (walking && p.getSy() < 1 && !falling && !midAir){//this checks to see if the player is on a surface
             playRun = true;
         }
         else{
-            //un.stop();
             playRun = false;
         }
     }
 
-    public void playRun(){
+    public void playRun(){//playing the footstep sound
         if (playRun) {
             for (Platform plat : plats) {
                 if (!midAir) {
                     if (plat.getRect().intersects(p.getRect())) {
-                        if (p.getRect().y - p.getSy() + p.getHeight() <= plat.getY()) {
+                        if (p.getRect().y - p.getSy() + p.getHeight() <= plat.getY()) {/*this operation checks the frame before the current one. i subtract the player's current vertical
+                            speed from the y position. i then check if the frame before the current one is above any platform to decide whether or not to play the footstep sound.
+                            I also add the player's height because I want to make sure i'm checking for their feet and not their head*/
                             if (walking && p.getSy() < 1 && !falling && !midAir) {
-                                if (plat.platType().equals("long") || plat.platType().equals("air")) {
+                                if (plat.platType().equals("long") || plat.platType().equals("air")) {//we have two different footstep sounds, one for the grass, one for everything else
                                     runLeaf.play();
                                     playRun = false;
                                 } else {
@@ -874,88 +684,59 @@ public class GamePanel extends JPanel implements KeyListener{
                                 }
                             }
                         }
-
                     }
 
                 }
-                //run.play();
-                //playRun = false;
             }
         }
         else{
             run.stop();
             runLeaf.stop();
         }
-
     }
 
 
     public void checkCollisions(){
-        //Rectangle player = p.getRect();//the players rect to check collision
-
-        //Rectangle test = new Rectangle(500,500,1000,40);
-        /*if (player.intersects(test)){
-            System.out.println("hi");
-            p.setSy(0);
-            p.setY(440);
-            midAir = false;
-            p.resetCurrentF();
-        }*/
-        //System.out.println(p.checkHit());
-        //
-        // System.out.println(lifeCounter);
         for(Platform plat : plats){//checking collision for each platform in the arraylist
             if (plat.getRect().intersects(p.getRect())){
                 falling = false;
                 if (p.getRect().y-p.getSy()+p.getHeight() <= plat.getY()){//checking to make sure that the player is above the platform in order to land on it
-                    //System.out.println("hi");
                     p.setSy(0);//because the player is on a platform, the speed in the y component is zero
-                    p.setY(plat.getRect().y-55);
+                    p.setY(plat.getRect().y-55);//setting the y position to be ontop of the platform
                     midAir = false;
-                    onPlat = true;
-
                 }
-
             }
-            else{
-                onPlat = false;
-            }
-
         }
 
         for (int i=0; i < goombs.size(); i++){
-            if (goombs.get(i).checkDead()) {
+            if (goombs.get(i).checkDead()) {//adding the dead goombas to the dead goombas array list so that they can be removed from the level
                 gDead.add(goombs.get(i));
             }
         }
 
         for (int i = 0; i < gDead.size(); i++){
-            if (gDeadCount % 50 == 0){
+            if (gDeadCount % 50 == 0){//this counter is used to animate the death of the goombas
                 gDeadRemove.add(gDead.get(i));
                 gDeadCount = 0;
                 p.addScore(30);
             }
         }
 
-
-        //TURNED OFF FOR NOW
-        for (Goomba bad : goombs){
-            if (p.getRect().intersects(bad.getRect()) && !attack){
+        for (Goomba bad : goombs){//checking if the player hits any goombas
+            if (p.getRect().intersects(bad.getRect()) && !attack){//making sure that they are intersecting and also not attacking
                 p.setHit(true);
-                lifeCounter++;
-                oof.play();
-
-                //p.loseLife();
+                lifeCounter++;//counter used to make sure that the player doesn't lose all his lives when hit by an enemy
+                oof.play();//playing the getting hit sound
             }
         }
 
 
         for (Goomba bad : goombs) {
-            if(hitBadGuy){
+            if(hitBadGuy){//checking if the player has hit any goombas
                 if (direction == right){
-                    if (bad.getRect().intersects(p.getRHitRect())){
+                    if (bad.getRect().intersects(p.getRHitRect())){//i check the intersection on the player's hitRect which is just a rectangle that is slightly larger because of the length of the fist/kick when he attacks
                         bad.setHit(true);
-                        bad.setDrawHitPic(true);
+                        bad.setDrawHitPic(true);//drawing the indicator that the goomba has lost health
                         bad.loseHp(50);
                         hitBadGuy = false;
                     }
@@ -964,20 +745,20 @@ public class GamePanel extends JPanel implements KeyListener{
                     if (bad.getRect().intersects(p.getLHitRect())){
                         bad.setHit(true);
                         bad.setDrawHitPic(true);
-                        //drawGHitPic = true;
                         bad.loseHp(50);
                         hitBadGuy = false;
                     }
                 }
             }
         }
+
         if(abobo.getRect().intersects(p.getRect())){
             if(hitBadGuy && !abobo.getAttack()){
-                abobo.gotHit();
+                abobo.gotHit();//checking if the player has hit the first boss
             }
             if(!attack && abobo.getAttack()){
                 if(abobo.getDirection() == right){
-                    if(p.getX() > abobo.getX()){
+                    if(p.getX() > abobo.getX()){//if the player has been hit by the first boss
                         p.setHit(true);
                         oof.play();
                         lifeCounter++;
@@ -995,13 +776,8 @@ public class GamePanel extends JPanel implements KeyListener{
                 abobo.gotHit();
             }
         }
-        for (Bullet b : badBList){
-            if (b.getRect().intersects(p.getRect())){
-                b.setHit(true);
-            }
-        }
 
-        for (int i=0; i < coins.size(); i++){
+        for (int i=0; i < coins.size(); i++){//removing the coins from the level when the player grabs them
             if (coins.get(i).getRect().intersects(p.getRect())){
                 p.addScore(25);
                 coinSound.play();
@@ -1011,22 +787,17 @@ public class GamePanel extends JPanel implements KeyListener{
 
         for (int i = pLives.size()-1; i > -1; i--){
             if (p.checkHit()){
-                if (lifeCounter == 1){
-
+                if (lifeCounter == 1){//using the counter so that the player only loses one life when hit by an enemy
                     p.loseLife();
                     pLivesRemove.add(pLives.get(i));
-
                     p.setHit(false);
-
-
                 }
             }
         }
 
-
-
         for (int i=0; i < lvlLives.size(); i++) {
             if (lvlLives.get(i).getRect().intersects(p.getRect())) {
+                //following code ensures that the player doesn't go over 5 lives
                 if (p.getLives() == 4) {
                     p.gainLife();
                     heal.play();
@@ -1054,37 +825,24 @@ public class GamePanel extends JPanel implements KeyListener{
             }
         }
 
-        for (int i = 0; i < badBList.size(); i++){
-            if (badBList.get(i).checkHit()) {
-                bRemove.add(badBList.get(i));
-                oof.play();
-                p.loseLife();
-                p.setHit(true);
-                p.knockback(-2);
-            }
-            if (badBList.get(i).getX() - offset < 100 )
-                bRemove.add(badBList.get(i));
-            }
-
         if (abobo.getHits() <= 0){
             miniscene2 = true;
-            bossBattle = false;
+            bossBattle = false;//if the player kills the boss
         }
     }
 
-
-    public void drawAddedLife(int num){
+    public void drawAddedLife(int num){//drawing the lives that the player gains from grabbing
         Life tmp = new Life(60*num,-5,16);
         pLives.add(tmp);
     }
 
-    public void removeGoombs(){
+    public void removeGoombs(){//removing initiating the dead frames to play for the goombas
         for (int i = 0; i < gDead.size(); i++){
             goombs.remove(gDead.get(i));
         }
     }
 
-    public void removeDGoombs(){
+    public void removeDGoombs(){//removing the goombas from the level once they have finished their death animation
         for (int i = 0; i < gDeadRemove.size(); i++){
             gDead.remove(gDeadRemove.get(i));
         }
@@ -1108,41 +866,11 @@ public class GamePanel extends JPanel implements KeyListener{
         }
     }
 
-    public void removeBullets(){
-        for (int i = 0; i < bRemove.size(); i ++){
-            badBList.remove(bRemove.get(i));
-        }
-    }
-
-    public int getLevel(){
-        return level;
-    }
-
     public boolean checkFinish(){
         return finish;
     }
 
-    /*public void reset() throws IOException {
-        //offset = 0;
-        p.setX(140);
-        p.setY(340);
-        plats = new ArrayList<Platform>();
-        goombs = new ArrayList<Goomba>();
-        decor = new ArrayList<Decor>();
-        coins = new ArrayList<Coin>();
-        lvlLives = new ArrayList<Life>();
-        shooters = new ArrayList<Shooter>();
-        loadPlats("plat" + level + ".txt");
-        loadGoombs("goomba" + level + ".txt");
-        loadDecor("decor" + level + ".txt");
-        loadCoins("coin" + level + ".txt");
-        loadLvlLives("life" + level + ".txt");
-        loadShooters("shooter"+level+".txt");
-
-    }*/
-
-
-    public void loadSprite(){
+    public void loadSprite(){//loading the sprites in from the frames
 		loadSprite(runRight, runLeft, "Ryan Funyanjiwan/Run/run");
 		loadSprite(idleRight, idleLeft, "Ryan Funyanjiwan/Idle/idle");
 		loadSprite(kickRight, kickLeft, "Ryan Funyanjiwan/Side Kick/side kick");
@@ -1152,7 +880,6 @@ public class GamePanel extends JPanel implements KeyListener{
 		loadSprite(gotHitR, gotHitL, "Ryan Funyanjiwan/Gets Hit/hit");
 		loadSprite(badBulletR, badBulletL, "bulletFrames/ice/tile");
         loadSprite(fireBoom, fi,"fire boom/fire");
-        //loadSprite(artR, bigHeartL, "heartFrames/tile");
 
         attackPickRight = new Image[][]{kickRight, punchRight, uppercutRight};
         attackPickLeft = new Image[][]{kickLeft, punchLeft, uppercutLeft};

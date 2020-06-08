@@ -19,7 +19,6 @@ public class Player{
     public Player() {
 		name = "Ryan Funyanjiwan";
 		x = 140;
-		//x = 6500;
 		y = 340;
 		width = 40;
 		height = 40;
@@ -92,29 +91,17 @@ public class Player{
 		sx += accelX;
 		sy += accelY;
 	}
-	public int update(int direct){
-		//ove(sx,sy);
-		//sx *= FRICTION;
-		//sy *= FRICTION;
-		//accelerate(0, GRAVITY);
-		//if (y > 500){
-		//	sy = 0;
-		//	y = 500;
-		//}
+	public int direct(int direct){
 		return direct;
 	}
-	public void update2(){
+	public void update(){
 		move(sx,sy);
-		//sx *= FRICTION;
-		//sy *= FRICTION;
+
 		accelerate(0, GRAVITY);
 		if (y > 590){
 			sy = 0;
 			y = 590;
-		}//sfdg
-		/*if (x < 40){
-			x = 41;
-		}*/
+		}
 	}
 	public void runR(){
 		move(SPEED, 0);
