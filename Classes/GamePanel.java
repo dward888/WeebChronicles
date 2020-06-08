@@ -30,10 +30,12 @@ public class GamePanel extends JPanel implements KeyListener{
 	private int footCount;
 	private int gDeadCount;
 	private int gHitPic;
+	private int level;
 	private boolean midAir;//this boolean will make sure the user can't double jump
     private boolean onPlat;
     private boolean falling;
     private boolean playRun;
+    private boolean bossBattle;
 
     private int lifeCounter;
 
@@ -125,7 +127,7 @@ public class GamePanel extends JPanel implements KeyListener{
     private Sound heal;
 
     Font fontLocal=null;
-
+    private Abobo abobo;
     public GamePanel(WeebChronicles m) {
     	keys = new boolean[KeyEvent.KEY_LAST+1];
 		mainFrame = m;
@@ -138,6 +140,8 @@ public class GamePanel extends JPanel implements KeyListener{
         right = 2;
         stillLeft = 3;
 
+        level = 1;
+
         direction = right;
         walking = false;
         onPlat = false;
@@ -147,6 +151,7 @@ public class GamePanel extends JPanel implements KeyListener{
 
         //getLife = false;
         loseLife = false;
+        bossBattle = false;
 
         offset = 0;
         currentF = 0;
@@ -195,7 +200,7 @@ public class GamePanel extends JPanel implements KeyListener{
         attackDone = true;
 
         lifeCounter = 0;
-
+        abobo = new Abobo();
 
         loadSprite();
 
@@ -666,36 +671,17 @@ public class GamePanel extends JPanel implements KeyListener{
         g.fillRect(0,0,1500,50);
         g.setColor(new Color(255,215,0,255));
         g.setFont(fontLocal);
-        g.drawString("SCORE " + " " + " " + p.getScore(),1000,40);
-
-        //g.setColor(Color.WHITE);
-
-
-        /*for(int i = 0; i<p.getLives(); i++){
-            for (Life l : pLives){
-                g.drawImage(l.getFrame(),l.getX(),l.getY(),null);
-            }
-        }*/
+        System.out.println(bossBattle);
+        if(level == 1 && bossBattle){
+            //g.drawImage(abobo.getFrame(), abobo.getX(), abobo.getY(), null);
+            g.drawRect(7200,500,500,10);
+            g.drawImage(abobo.getFrame(), 7200, 500, null);
+        }
 
         for(int i = 0; i<p.getLives(); i++){
             g.drawImage(pLives.get(i).getFrame(),pLives.get(i).getX(),pLives.get(i).getY(),null);
         }
 
-        /*for (Life l : pLives){
-            g.drawImage(l.getFrame(),l.getX(),l.getY(),null);
-        }*/
-
-        /*for (int i = 0; i < pLives.size(); i++){
-            g.drawImage(pLives.get(i).getFrame(),pLives.get(i).getX(),pLives.get(i).getY(),null);
-        }*/
-
-        //g.drawString(""+p.getScore(),500,500);
-
-
-        //g.drawImage(platPic,500-offset,500,null);+
-
-        //g.fillRect(500 - offset, 510, 1000, 40);
-        //g.drawRect(500, 500, 1920,40);
     }
 
     //user moving the character f
@@ -717,14 +703,15 @@ public class GamePanel extends JPanel implements KeyListener{
             p.runR();
             direction = right;
             walking = true;
-
+            if(p.getX() >= 6500){
+                bossBattle = true;
+            }
         }
         if (keys[KeyEvent.VK_A] && !p.checkHit()) {
             p.update(left);
             p.runL();
             direction = left;
             walking = true;
-
         }
     }
 
@@ -979,8 +966,6 @@ public class GamePanel extends JPanel implements KeyListener{
         }
     }
 
-
-
     public void loadSprite(){
 		loadSprite(runRight, runLeft, "Ryan Funyanjiwan/Run/run");
 		loadSprite(idleRight, idleLeft, "Ryan Funyanjiwan/Idle/idle");
@@ -997,7 +982,7 @@ public class GamePanel extends JPanel implements KeyListener{
 		jumpRight = new ImageIcon("Ryan Funyanjiwan/jump.png").getImage();
 		jumpLeft = flipImage(jumpRight);
 	}
-    public static int randint(int low, int high){
+    public int randint(int low, int high){
         return(int)(Math.random()*(high-low+1)+low);
     }
 	public void loadSprite(Image[]actionRight, Image[]actionLeft, String directory){

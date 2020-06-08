@@ -50,9 +50,6 @@ public class Sound {
             //float dB = (float) (Math.log(v) / Math.log(10.0) * 20.0);
             //gainControl.setValue(dB);
         }
-
-
-
         public boolean checkPlaying(){
             return clip.isActive();
         }
