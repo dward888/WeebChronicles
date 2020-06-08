@@ -55,6 +55,7 @@ public class Draconius{
         fiftyfifty = new int[]{right, left};
     }
     public Image getFrame(){
+        //This method is used to get the frames of whatever action the boss is doing
         if(direction == left){
             if(x + currentAct.getmX(direction) <= maxLeft){
                 direction = right;

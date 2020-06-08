@@ -721,6 +721,7 @@ public class GamePanel2 extends JPanel implements KeyListener{
             if(frame > 680){
                 miniscene = false;
                 draconius.start();
+                frame = 0;
             }
         }
         if(draconius.getHits() <= 0){
@@ -729,20 +730,21 @@ public class GamePanel2 extends JPanel implements KeyListener{
         }
         if(miniscene2){
             frame++;
-            g.drawImage(bossDead, draconius.getX()-offset, draconius.getY(), null);
-            if(frame > 50 && frame < 100){
+            if(frame > 50 && frame < 150){
                 g.setColor(Color.black);
                 g.fillRect(0,0,1200,650);
             }
-            if(frame > 90){
+            if(frame > 140){
                 g.drawImage(ryanIdle, 200,520, null);
                 g.drawImage(maiIdle,800,520,null);
+                g.drawImage(bossDead, 900, draconius.getY(), null);
             }
-            if(frame > 190){
+            if(frame > 280){
                 g.setColor(Color.black);
                 g.fillRect(0,0,1200,650);
                 g.setColor(Color.white);
-                g.drawString("THE END", 500,200);
+                g.setFont(big);
+                g.drawString("THE END", 600,250);
             }
         }
         /*for (Life l : pLives){
