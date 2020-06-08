@@ -678,7 +678,7 @@ public class GamePanel extends JPanel implements KeyListener{
         System.out.println(bossBattle);
         if(level == 1 && bossBattle){
             g.drawImage(abobo.getFrame(), abobo.getX()-offset, abobo.getY(), null);
-        }
+        }//adfad
 
         for(int i = 0; i<p.getLives(); i++){
             g.drawImage(pLives.get(i).getFrame(),pLives.get(i).getX(),pLives.get(i).getY(),null);
