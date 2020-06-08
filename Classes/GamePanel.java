@@ -305,7 +305,7 @@ public class GamePanel extends JPanel implements KeyListener{
                 //platRects = new ArrayList<Rectangle>();
                 plats.add(tmp);
                 //platRects.add(tmp.getRect());
-            }
+            }//fdadf
             if (lvl == 3){
                 //plats3.add(tmp);
                 plats = new ArrayList<Platform>();
