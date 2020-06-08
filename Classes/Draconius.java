@@ -36,7 +36,7 @@ public class Draconius{
     public Draconius(){
         currentF = 0;
         x = 7650;
-        y = 485;
+        y = 400;
         maxLeft = 6720;
         maxRight = 7800;
         left = 2;
@@ -50,13 +50,13 @@ public class Draconius{
         health = 1;
         //health = 150;
 
-        jump = new bossAction("draconiusFrames/jump/jump", 4, 1, 1, 1);
-        swing = new bossAction("draconiusFrames/swing/swing", 3, 1, 1, 1);
-        died = new bossAction("draconiusFrames/dead/dead", 4, 1,0,1);
+        jump = new bossAction("draconiusFrames/jump/jump", 4, 10, 1, 10);
+        swing = new bossAction("draconiusFrames/swing/swing", 3, 10, 1, 1);
+        died = new bossAction("draconiusFrames/dead/dead", 4, 10,1,1);
 
-        idle = new bossAction("draconiusFrames/idle/idle", 0,1,0,0);
+        idle = new bossAction("draconiusFrames/idle/idle", 1,1,0,0);
 
-        walk = new bossAction("draconiusFrames/walking/walking",5,1,2,0);
+        walk = new bossAction("draconiusFrames/walking/walking",5,30,10,1);
         actions = new bossAction[]{swing,jump, idle};
         currentAct = idle;
         decision = new int[]{walking, act};
