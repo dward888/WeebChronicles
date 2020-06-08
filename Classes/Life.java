@@ -1,3 +1,8 @@
+//Life.java
+//Edward yang and jim JI
+//Class that keeps track of the lives that can be obtained in the level
+
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -10,8 +15,6 @@ import java.io.IOException;
 public class Life {
     private Rectangle rect;
     private Image pic;
-    //private int adjustment;
-
     private int direction;
     private int left = 1;
     private int right = 2;
@@ -24,10 +27,9 @@ public class Life {
         pic =  new ImageIcon("Pictures/heart.png").getImage();
         direction = right;
         rect = new Rectangle(x1,y1,pic.getWidth(null), pic.getHeight(null));
-        //adjustment = a;
+
         rightF = new Image[frames];
         leftF = new Image[frames];
-        //loadSprite(rightF,leftF,"coinFrames/coin/tile");
         loadSprite(rightF,leftF,"heartFrames/tile");
     }
 
@@ -38,9 +40,6 @@ public class Life {
         return rect.y;
     }
 
-    //public int getAdjust(){
-    //return adjustment;
-    //}
     public Rectangle getRect(){
         return rect;
     }

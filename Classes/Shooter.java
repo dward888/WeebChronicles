@@ -1,3 +1,8 @@
+//Shooter.java
+//Edward yand and Jim Ji
+//Class that tracks all the shooters in the levels
+
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -18,13 +23,6 @@ public class Shooter {
     private int direction;
     private int left = 1;
     private int right = 2;
-    private int up = 6;
-    private int down = 7;
-    private int xAdjust;
-    private int yAdjust;
-    private int wAdjust;
-    private int hAdjust;
-    private int dAdjust; //adjustment for dead frames
     private int hp;
 
     private boolean checkHit;
@@ -42,8 +40,6 @@ public class Shooter {
 
     private Image[]rightF;
     private Image[]leftF;
-    private Image[]rightFDead;
-    private Image[]leftFDead;
     private int f;
 
     public Shooter(int x1, int y1, int dist, String file, int size, int h){
@@ -53,7 +49,6 @@ public class Shooter {
 
         maxHeight = y-dist;
         minHeight = y+dist;
-        direction = up;
         pic =  new ImageIcon("badPics/" + file + ".png").getImage();
         lHitPic = new ImageIcon("badHitPics/" + file + "HitL.png").getImage();
         rHitPic = new ImageIcon("badHitPics/" + file + "HitR.png").getImage();
@@ -67,8 +62,6 @@ public class Shooter {
 
         rightF = new Image[size];
         leftF = new Image[size];
-        rightFDead = new Image[size];
-        leftFDead = new Image[size];
         loadSprite(leftF,rightF,"badFrames/"+file+"/tile");
         //loadSprite(rightFDead,leftFDead,"badFrames/"+file+"Dead/tile");
 
@@ -87,21 +80,6 @@ public class Shooter {
     }
     public int getHeight(){
         return height;
-    }
-    public int getXAdjust(){
-        return xAdjust;
-    }
-    public int getYAdjust(){
-        return yAdjust;
-    }
-    public int getWAdjust() {
-        return wAdjust;
-    }
-    public int getHAdjust(){
-        return hAdjust;
-    }
-    public int getDAdjust(){
-        return dAdjust;
     }
     public int getHp(){
         return hp;
@@ -155,30 +133,8 @@ public class Shooter {
 
         f ++;
 
-        //if (direction == left) {
-            //return rightF[f/12];
-       // }
-       // else {
         return leftF[f/12];
-        //}
-    }
-    public Image getDeadFrame() {
-        if (f >= (rightFDead.length-1)*20) {
-            f = -1;
 
-        }
-        f ++;
-        if (f / 20 != rightFDead.length-1) {
-            //if (direction == left) {
-
-               // return rightFDead[f / 20];
-            //} else {
-            return rightFDead[f / 20];
-            //}
-        }
-        else{
-            return null;
-        }
     }
 
     public String getType(){
@@ -230,7 +186,7 @@ public class Shooter {
         move(0, -SPEED);
     }
     public Rectangle getRect(){
-        return new Rectangle(x+xAdjust,y+yAdjust,width,height);
+        return new Rectangle(x,y,width,height);
     }
     public Image getRHitImage(){
         return rHitPic;

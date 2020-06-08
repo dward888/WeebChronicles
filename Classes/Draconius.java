@@ -35,12 +35,11 @@ public class Draconius{
         right = 1;
         walking = 1;
         act = 2;
-        //hits = 32;
-        hits = 1;
+        hits = 16;
         direction = left;
         startMoving = false;
         health = 1;
-        //health = 150;
+
 
         jump = new bossAction("draconiusFrames/jump/jump", 4, 15, 1, 10);
         swing = new bossAction("draconiusFrames/swing/swing", 3, 20, 1, 1);

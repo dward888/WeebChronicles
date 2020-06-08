@@ -1,4 +1,6 @@
+//WeebChronicles.java
 //Edward Yang and Jim Ji Final Project
+//Class that loads all the levels and is the mainframe of the game
 
 import java.awt.*;
 import java.awt.event.*;
@@ -12,7 +14,6 @@ public class WeebChronicles extends JFrame implements ActionListener {
 	int gPanel;
 	int gPanel2;
 	int cutScene1;
-	int level;
 
 	startScreen start;
 	GamePanel game;
@@ -33,17 +34,12 @@ public class WeebChronicles extends JFrame implements ActionListener {
 		start = new startScreen(this);
 		cScene1 = new CutScene1(this);
 		cards = new JPanel(cLayout);
-		//***Following code --> change order so that the start screen appears
-		//cards.add(start, "start");
 
-		//cards.add(game, "game");
+		cards.add(start, "start");
+
+		cards.add(game, "game");
 		cards.add(game2,"game2");
 		cards.add(cScene1, "cutScene1");
-		cards.add(game, "game");
-
-		//cards.add(game2,"game2");
-		//cards.add(start, "start");
-		//cards.add(game, "game");
 
 		add(cards);
 
@@ -51,15 +47,9 @@ public class WeebChronicles extends JFrame implements ActionListener {
 		gPanel = 1;
 		cutScene1 = 2;
 
-		//status = startScreen;
-		//status = gPanel;
+		status = startScreen;
 
-		//status = startScreen;
-		status = gPanel2;
-
-		//status = cutScene1;
-
-		try {
+		try {//loading in all the aspects of each level. game represents the first level, game 2 reps the second level
 			game.loadPLives();
 			game.loadPlats();
 			game.loadDecor();
@@ -72,24 +62,10 @@ public class WeebChronicles extends JFrame implements ActionListener {
 			game2.loadGoombs();
 			game2.loadCoins();
 			game2.loadLvlLives();
-			//game2.loadShooters();
-
-			//game.loadPlats("plat2.txt",2);
+			game2.loadShooters();
 		}catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		/*try {
-			game.loadGoombs("goomba1.txt",1);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		try {
-			game.loadDecor("decor1.txt",1);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
 
 		setVisible(true);
 	}
@@ -142,7 +118,6 @@ public class WeebChronicles extends JFrame implements ActionListener {
 			game2.move();
 			game2.playerUpdate();//applying physics
 			game2.badMove();
-
 			game2.badUpdate();
 			game2.checkCollisions();
 			game2.repaint();

@@ -1052,8 +1052,6 @@ public class GamePanel2 extends JPanel implements KeyListener{
 
 
         if (draconius.getHits() <= 0){
-            //new GamePanel(mainFrame, 2);
-            //reset();
         }
     }
 

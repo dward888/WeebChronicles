@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 
 public class Sound {
-    private static ArrayList<Sound>sounds = new ArrayList<>(); //arraylist to keep track of all sounds
 
     private Clip clip; //clip object of the respective sound file
     private String file; //the file name
@@ -28,7 +27,6 @@ public class Sound {
             clip.open(audioInputStream); //opening the clip
             volume = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN); //calculating the volume level
             setVolume(volumeLevel);
-            sounds.add(this);//adding the sound to the arraylist
             if (loop){//if we want the sound to loop
                 clip.loop(Clip.LOOP_CONTINUOUSLY);
             }
@@ -36,28 +34,17 @@ public class Sound {
     }
 
         public void play(){
-            //gainControl.setValue(-10.0f);
             clip.setMicrosecondPosition(0);
-            clip.start();
-        }
-        public void resume(){
             clip.start();
         }
         public void stop(){
             clip.stop();
         }
-        public void closeSound(){
-            clip.close();
-            //sounds.remove(this);
-        }
+
         // Setters
         public void setVolume(int volumeLevel){
-            float range = volume.getMaximum() - volume.getMinimum(); // Getting the range of volume provided by the system
-            float gain = (float)(range * (volumeLevel/100.0)) + volume.getMinimum(); // Calculating the gain
+            float range = volume.getMaximum() - volume.getMinimum(); //getting the range of the volume
+            float gain = (float)(range * (volumeLevel/100.0)) + volume.getMinimum(); //calculating the gain
             volume.setValue(gain);
-        }
-
-        public boolean checkPlaying(){
-            return clip.isActive();
         }
 }

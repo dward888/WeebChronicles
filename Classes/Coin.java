@@ -1,3 +1,8 @@
+//Coin.java
+//Edward Yang and Jim Ji
+//Class that keeps track of all the coins and their positions
+
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -10,7 +15,6 @@ import java.io.IOException;
 public class Coin {
     private Rectangle rect;
     private Image pic;
-    //private int adjustment;
 
     private int direction;
     private int left = 1;
@@ -24,11 +28,9 @@ public class Coin {
         pic =  new ImageIcon("Pictures/" + file + ".png").getImage();
 
         rect = new Rectangle(x1,y1,pic.getWidth(null), pic.getHeight(null));
-        //adjustment = a;
         rightF = new Image[frames];
         leftF = new Image[frames];
         direction = right;
-        //loadSprite(rightF,leftF,"coinFrames/coin/tile");
         loadSprite(rightF,leftF,"coinFrames/tile");
     }
 
@@ -52,11 +54,8 @@ public class Coin {
 
         if (f >= (rightF.length-1)*5) {
             f = -1;
-
         }
-
         f ++;
-
         if (direction == right) {
             return rightF[f/5];
         }
