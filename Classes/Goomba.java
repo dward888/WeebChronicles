@@ -172,8 +172,7 @@ public class Goomba {
         }
         f ++;
         if (f / 20 != rightFDead.length-1) {
-            if (direction == left) {
-
+            if (direction == right) {
                 return rightFDead[f / 20];
             } else {
                 return leftFDead[f / 20];
