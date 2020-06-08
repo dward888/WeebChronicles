@@ -38,12 +38,12 @@ public class WeebChronicles extends JFrame implements ActionListener {
 		//cards.add(start, "start");
 
 		//cards.add(game, "game");
-
-		cards.add(game, "game");
 		cards.add(game2,"game2");
+		cards.add(cScene1, "cutScene1");
+		cards.add(game, "game");
+
 		//cards.add(game2,"game2");
 		//cards.add(start, "start");
-		cards.add(cScene1, "cutScene1");
 		//cards.add(game, "game");
 
 		add(cards);
@@ -53,10 +53,10 @@ public class WeebChronicles extends JFrame implements ActionListener {
 		cutScene1 = 2;
 
 		//status = startScreen;
-		status = gPanel;
+		//status = gPanel;
 
 		//status = startScreen;
-		//status = gPanel2;
+		status = gPanel2;
 
 		//status = cutScene1;
 

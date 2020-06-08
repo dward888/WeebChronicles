@@ -41,6 +41,7 @@ public class GamePanel2 extends JPanel implements KeyListener{
     private boolean falling;
     private boolean playRun;
     private boolean miniscene;
+    private boolean miniscene2;
     private int lifeCounter;
 
     private Rectangle badRect;
@@ -89,6 +90,9 @@ public class GamePanel2 extends JPanel implements KeyListener{
     //private Image platPic;
     private Image longPlat;
     private Image airPlat;
+    private Image bossDead;
+    private Image ryanIdle;
+    private Image maiIdle;
 
     private int mx;
     private int my;
@@ -147,6 +151,7 @@ public class GamePanel2 extends JPanel implements KeyListener{
 
     Font fontLocal=null;
     Font newyork;
+    Font big;
 
     public GamePanel2(WeebChronicles m) {
         keys = new boolean[KeyEvent.KEY_LAST+1];
@@ -190,6 +195,9 @@ public class GamePanel2 extends JPanel implements KeyListener{
         airPlat = new ImageIcon("platPics/airPlat.png").getImage();
         text = new ImageIcon("Pictures/text bubble.png").getImage();
         flowerHit = new ImageIcon("badHitPics/flowerHit.png").getImage();
+        bossDead = flipImage(new ImageIcon("draconiusFrames/dead/dead1.png").getImage());
+        ryanIdle = new ImageIcon("Ryan Funyanjiwan/standing.png").getImage();
+        maiIdle = flipImage(new ImageIcon("Mai-san/standing.png").getImage());
         //heart = new ImageIcon("heart.png").getImage();
 
         //addMouseListener(this);
@@ -227,6 +235,7 @@ public class GamePanel2 extends JPanel implements KeyListener{
         attack = false;
         attackDone = true;
         miniscene = false;
+        miniscene2 = false;
         lifeCounter = 0;
 
         draconius = new Draconius();
@@ -237,7 +246,9 @@ public class GamePanel2 extends JPanel implements KeyListener{
             fontLocal = Font.createFont(Font.TRUETYPE_FONT, new File("font/naruto1.ttf"));
             fontLocal = fontLocal.deriveFont(30f);
             newyork = Font.createFont(Font.TRUETYPE_FONT, new File("font/newyorkescape.ttf"));
-            newyork = newyork.deriveFont(20f);
+            newyork = newyork.deriveFont(16f);
+            big = Font.createFont(Font.TRUETYPE_FONT, new File("font/newyorkescape.ttf"));
+            big = big.deriveFont(30f);
         }
         catch (FontFormatException | IOException e) {
             e.printStackTrace();
@@ -266,13 +277,13 @@ public class GamePanel2 extends JPanel implements KeyListener{
     public void keyTyped(KeyEvent e){
     }
     public void keyPressed(KeyEvent e){
-        if (e.getKeyCode() == KeyEvent.VK_W && !keys[e.getKeyCode()] && !p.checkHit() && !miniscene){
+        if (e.getKeyCode() == KeyEvent.VK_W && !keys[e.getKeyCode()] && !p.checkHit() && !miniscene && !miniscene2){
             if(!midAir){
                 p.jump();
                 midAir = true;
             }
         }
-        if(e.getKeyCode() == KeyEvent.VK_SPACE && !keys[e.getKeyCode()] && !p.checkHit() && !miniscene){
+        if(e.getKeyCode() == KeyEvent.VK_SPACE && !keys[e.getKeyCode()] && !p.checkHit() && !miniscene && !miniscene2){
             Bullet tmp = new Bullet(p.getX(), p.getY(), "plasma", "good");
             bList.add(tmp);
             if (direction == right){
@@ -285,7 +296,7 @@ public class GamePanel2 extends JPanel implements KeyListener{
             //b.setDirection(direction);
             //bList.add(b);
         }
-        if(e.getKeyCode() == KeyEvent.VK_ENTER && !keys[e.getKeyCode()] && attackDone && !p.checkHit() && !miniscene){
+        if(e.getKeyCode() == KeyEvent.VK_ENTER && !keys[e.getKeyCode()] && attackDone && !p.checkHit() && !miniscene && !miniscene2){
             attack = true;
             currentF = 0;
             attackDone = false;
@@ -545,7 +556,7 @@ public class GamePanel2 extends JPanel implements KeyListener{
         }
 
         //Following code draws player sprites
-        if(direction == right && !midAir && !attack && !p.checkHit()){
+        if(direction == right && !midAir && !attack && !p.checkHit() && !miniscene2){
             if(!walking){ //Standing Right
                 if(currentF >= (idleRight.length - 1) * 8){
                     currentF = 0;
@@ -633,21 +644,6 @@ public class GamePanel2 extends JPanel implements KeyListener{
             playRun();
         }
 
-        if (p.getLives() == 1) {
-            if (p.checkHit()){
-                if (direction == left){
-                    g.drawImage(dazedL[currentF/3],p.getX()-offset,p.getY(),null);
-                    dazedCount++;
-                }
-                else{
-                    g.drawImage(dazedR[currentF/3],p.getX()-offset,p.getY(),null);
-                    dazedCount++;
-                }
-                if (dazedCount % 10 == 0){
-                    p.gainLife();
-                }
-            }
-        }
 
         footCount++;
         currentF++;
@@ -684,7 +680,7 @@ public class GamePanel2 extends JPanel implements KeyListener{
         if (bossBattle){
             g.drawImage(draconius.getFrame(),draconius.getX()-offset,draconius.getY(),null);
         }
-        if(draconius.getStart()){
+        if(draconius.getStart() && bossBattle){
             g.setColor(Color.white);
             g.fillRect(295,95,610,60);
             g.setColor(Color.gray);
@@ -696,28 +692,57 @@ public class GamePanel2 extends JPanel implements KeyListener{
             g.setColor(Color.black);
             g.fillRect(364, 114, 512, 22);
             g.setColor(Color.green);
-            g.fillRect(364, 114, 32*draconius.getHits(), 22);
+            g.fillRect(364, 114, 16*draconius.getHits(), 22);
         }
 
         if(miniscene){
             frame++;
             if(frame > 100) {
-                g.drawImage(text, 630, 340, null);
+                g.drawImage(text, 690, 270, null);
                 g.setColor(Color.black);
                 g.setFont(newyork);
                 if (frame < 230) {
-                    g.drawString("AHAHAHAHA!", 750, 415);
+                    g.drawString("Welcome to my", 810, 335);
+                    g.drawString("realm!!!", 840, 355);
                 }
             }
             if(frame > 250 && frame < 380){
-                g.drawString("Just as expected!", 702,415);
+                g.drawString("You have not", 810,335);
+                g.drawString("dissapointed me.",810,355);
             }
-            if(frame > 400){
-                g.drawString("Prove your worth", 705,415);
+            if(frame > 400 && frame < 530){
+                g.drawString("But it is not", 810,335);
+                g.drawString("over yet!!!!", 810,355);
             }
-            if(frame > 530){
+            if(frame > 550){
+                g.drawString("PROVE YOUR WORTH!",780,345);
+            }
+
+            if(frame > 680){
                 miniscene = false;
                 draconius.start();
+            }
+        }
+        if(draconius.getHits() <= 0){
+            miniscene2 = true;
+            bossBattle = false;
+        }
+        if(miniscene2){
+            frame++;
+            g.drawImage(bossDead, draconius.getX()-offset, draconius.getY(), null);
+            if(frame > 50 && frame < 100){
+                g.setColor(Color.black);
+                g.fillRect(0,0,1200,650);
+            }
+            if(frame > 90){
+                g.drawImage(ryanIdle, 200,520, null);
+                g.drawImage(maiIdle,800,520,null);
+            }
+            if(frame > 190){
+                g.setColor(Color.black);
+                g.fillRect(0,0,1200,650);
+                g.setColor(Color.white);
+                g.drawString("THE END", 500,200);
             }
         }
         /*for (Life l : pLives){
@@ -739,7 +764,7 @@ public class GamePanel2 extends JPanel implements KeyListener{
 
     //user moving the character f
     public void move(){
-        if (keys[KeyEvent.VK_D] && !p.checkHit() && !miniscene){
+        if (keys[KeyEvent.VK_D] && !p.checkHit() && !miniscene && !miniscene2){
             if (p.getX() >= 7300){
                 p.setX(p.getX());
                 if (p.getX() >= 7820){
@@ -759,16 +784,15 @@ public class GamePanel2 extends JPanel implements KeyListener{
             if (p.getX() >= 6500){
                 bossBattle = true;
             }
-            if(p.getX() >= 7290 && frame < 530){
+            if(p.getX() >= 7290 && frame < 530 && !draconius.getStart()){
                 miniscene = true;
             }
         }
-        if (keys[KeyEvent.VK_A] && !p.checkHit() && !miniscene) {
+        if (keys[KeyEvent.VK_A] && !p.checkHit() && !miniscene && !miniscene2) {
             p.update(left);
             p.runL();
             direction = left;
             walking = true;
-
         }
     }
 

@@ -16,16 +16,8 @@ public class Draconius{
     private int health;
     private bossAction currentAct;
     private bossAction jump;
-    private bossAction backhand;
-    private bossAction died;
-    private bossAction getHit;
-    private bossAction gutpunch;
-    private bossAction headbutt;
     private bossAction idle;
     private bossAction swing;
-    private bossAction jumpelbow;
-    private bossAction laugh;
-    private bossAction thunderclap;
     private bossAction walk;
     private int walking;
     private int act;
@@ -43,21 +35,21 @@ public class Draconius{
         right = 1;
         walking = 1;
         act = 2;
-        //hits = 16;
-        hits = 20;
+        //hits = 32;
+        hits = 1;
         direction = left;
         startMoving = false;
         health = 1;
         //health = 150;
 
-        jump = new bossAction("draconiusFrames/jump/jump", 4, 10, 1, 10);
-        swing = new bossAction("draconiusFrames/swing/swing", 3, 10, 1, 1);
-        died = new bossAction("draconiusFrames/dead/dead", 4, 10,1,1);
+        jump = new bossAction("draconiusFrames/jump/jump", 4, 15, 1, 10);
+        swing = new bossAction("draconiusFrames/swing/swing", 3, 20, 1, 1);
+        //died = new bossAction("draconiusFrames/dead/dead", 4, 10,1,1);
 
         idle = new bossAction("draconiusFrames/idle/idle", 1,1,0,0);
 
-        walk = new bossAction("draconiusFrames/walking/walking",5,30,10,1);
-        actions = new bossAction[]{swing,jump, idle};
+        walk = new bossAction("draconiusFrames/walking/walking",5,15,3,1);
+        actions = new bossAction[]{swing, swing, swing, jump, idle};
         currentAct = idle;
         decision = new int[]{walking, act};
         fiftyfifty = new int[]{right, left};
@@ -99,7 +91,7 @@ public class Draconius{
         if(next == act){
             currentAct = actions[randint(0, actions.length - 1)];
             currentAct.resetCurrentF();//adsf
-            if(currentAct == backhand || currentAct == gutpunch || currentAct == headbutt || currentAct == thunderclap){
+            if(currentAct == swing || currentAct == jump){
                 attack = true;
             }
         }
@@ -122,7 +114,6 @@ public class Draconius{
     }
     public void gotHit(){
         hits --;
-        currentAct = getHit;
     }
     public int getHits(){
         return hits;
@@ -134,7 +125,7 @@ public class Draconius{
         return direction;
     }
     public Rectangle getRect(){
-        return new Rectangle(x ,y, 100,100);
+        return new Rectangle(x ,y, 200,200);
     }
     public int randint(int low, int high){
         return(int)(Math.random()*(high-low+1)+low);

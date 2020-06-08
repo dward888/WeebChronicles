@@ -44,8 +44,7 @@ public class Abobo {
         right = 1;
         walking = 1;
         act = 2;
-        //hits = 16;
-        hits = 1;
+        hits = 16;
         direction = left;
         startMoving = false;
         jump = new bossAction("Abobo/jump/jump", 1, 1, 1, 1);

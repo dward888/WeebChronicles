@@ -37,8 +37,8 @@ public class CutScene1 extends JPanel {
     private Image maiSuprised;
     private Image scream;
     private Image cage;
-    private Image dragonLow;
-    private Image dragonHigh;
+    private Image dracoJump;
+    private Image draco;
     private Image plat;
     private Image door;
     private Image[]road;
@@ -74,8 +74,8 @@ public class CutScene1 extends JPanel {
         maiSuprised = new ImageIcon("Mai-san/suprised.png").getImage();
         scream = new ImageIcon("Pictures/scream bubble with no arm.png").getImage();
         cage = new ImageIcon("Pictures/cage.png").getImage();
-        dragonHigh = new ImageIcon("dragon/high stance.png").getImage();
-        dragonLow = new ImageIcon("dragon/low stance.png").getImage();
+        dracoJump = flipImage(new ImageIcon("draconiusFrames/jump/jump1.png").getImage());
+        draco = flipImage(new ImageIcon("draconiusFrames/idle/idle0.png").getImage());
         plat = new ImageIcon("platPics/doorPlat.png").getImage();
         door = new ImageIcon("decorPics/door.png").getImage();
         road = new Image[5];
@@ -216,10 +216,7 @@ public class CutScene1 extends JPanel {
             fCount1++;
             fCount2-=4; //fCount2 is being changed so that the sprite is moving across the screen
         }
-        if(frame == 2300){
-            fCount1 = 0; //fCount1 is being used as an y coordinate next
-            fCount2 = -170; //fCount2 is being used as an y coordinate next
-        }
+
         if(frame > 2299 && frame < 3995){
             g.drawImage(flipImage(maiStand), 800,530,null);
             if(frame < 2760) {
@@ -288,9 +285,13 @@ public class CutScene1 extends JPanel {
             g.drawString("NOT SO", 750, 175);
             g.drawString("FAST!!", 765, 210);
         }
+        if(frame == 3780){
+            fCount1 = 0; //fCount1 is being used as an y coordinate next
+            fCount2 = -100; //fCount2 is being used as an y coordinate next
+        }
         if(frame > 3950 && frame < 3985){
             g.drawImage(cage,760,fCount1,null);//y500
-            g.drawImage(dragonLow, 820,fCount2, null);
+            g.drawImage(dracoJump, 820,fCount2, null);
             //Following variable have 15 added to them so that the images are dropped down the screen
             fCount1+=15;
             fCount2+=15;
@@ -307,7 +308,7 @@ public class CutScene1 extends JPanel {
         }
         if(frame > 3982 && frame < 5550){
             g.drawImage(cage, 760, 500,null);
-            g.drawImage(dragonHigh, 820, 350,null);
+            g.drawImage(draco, 820, 430,null);
         }
         if(frame > 4050 && frame < 4200){
             g.drawImage(yellBubble, 520,200,null);
