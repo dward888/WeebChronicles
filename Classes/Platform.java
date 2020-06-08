@@ -1,3 +1,8 @@
+//Platform.java
+//Jim Ji and Edward Yang
+//Class that tracks the position of the platforms
+
+
 import javax.swing.*;
 import java.awt.*;
 

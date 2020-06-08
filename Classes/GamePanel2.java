@@ -1,3 +1,8 @@
+//GamePanel2.java
+//jim ji and edward yang
+//Class that keeps track of everything in the second level
+
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.imageio.ImageIO;
@@ -8,7 +13,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -17,39 +21,24 @@ public class GamePanel2 extends JPanel implements KeyListener{
     private boolean []keys;
     private WeebChronicles mainFrame;
     private Player p;
-    private Goomba b;
-    private Character[]chars;
     private boolean walking;
     private int frame;
-    private int stillRight;
-    private int stillLeft;
     private int right;
     private int left;
     private int down;
     private int up;
     private int direction;
-    private int bulletRight;
-    private int bulletLeft;
     private int currentF;
     private int footCount;
     private int gDeadCount;
-    private int dazedCount;
     private int gHitPic;
-    private int level;
     private boolean midAir;//this boolean will make sure the user can't double jump
-    private boolean onPlat;
     private boolean falling;
     private boolean playRun;
     private boolean miniscene;
     private boolean miniscene2;
     private int lifeCounter;
 
-    private Rectangle badRect;
-    private boolean enemyHit;
-    private boolean playerHit;
-    //rivate boolean drawGHitPic;
-    //private ArrayList<Rectangle>platRects = new ArrayList<Rectangle>();
-    //private ArrayList<Rectangle>badRects = new ArrayList<Rectangle>();
     private ArrayList<Platform>plats = new ArrayList<Platform>();
     private ArrayList<Life>pLives = new ArrayList<Life>();
     private ArrayList<Life>pLivesRemove = new ArrayList<Life>();
@@ -57,10 +46,6 @@ public class GamePanel2 extends JPanel implements KeyListener{
     private ArrayList<Life>lvlLives = new ArrayList<Life>();
     private ArrayList<Life>lvlLivesRemove = new ArrayList<Life>();
 
-    //private ArrayList<Platform>plats1 = new ArrayList<Platform>();
-    //private ArrayList<Platform>plats2 = new ArrayList<Platform>();
-    //private ArrayList<Platform>plats3 = new ArrayList<Platform>();
-    //yo
     private ArrayList<Goomba>goombs = new ArrayList<Goomba>();
     private ArrayList<Goomba>gDead = new ArrayList<Goomba>();
     private ArrayList<Goomba>gDeadRemove = new ArrayList<Goomba>();
@@ -73,7 +58,7 @@ public class GamePanel2 extends JPanel implements KeyListener{
 
     private ArrayList<Coin>coins = new ArrayList<Coin>();
     private ArrayList<Coin>cRemove = new ArrayList<Coin>(); //Records all the coins that the player has collected
-    //private ArrayList<Coin>cCurrent = new ArrayList<Coin>();
+
 
     private ArrayList<Bullet>bList = new ArrayList<Bullet>(); //array list for the projectiles (bullets)
     private ArrayList<Bullet>bRemove = new ArrayList<Bullet>(); //Records all the bullets that have hit an object
@@ -83,13 +68,7 @@ public class GamePanel2 extends JPanel implements KeyListener{
     private int f = 0;
     private int offset;
     //images//
-    private Image back1;
     private Image back2;
-    private Image back3;
-    private Image star;
-    //private Image platPic;
-    private Image longPlat;
-    private Image airPlat;
     private Image bossDead;
     private Image ryanIdle;
     private Image maiIdle;
@@ -127,16 +106,11 @@ public class GamePanel2 extends JPanel implements KeyListener{
     private boolean attack;
     private boolean attackDone;
     private boolean hitBadGuy;
-    private boolean loseLife;
     private boolean bossBattle;
-    //dfgsdfhsdfh
 
     private Image jumpRight;
     private Image jumpLeft;
     private Image text;
-    //private Image heart;
-
-    private Image flowerHit;
 
     private Sound coinSound;
     private Sound run;
@@ -157,53 +131,32 @@ public class GamePanel2 extends JPanel implements KeyListener{
         keys = new boolean[KeyEvent.KEY_LAST+1];
         mainFrame = m;
         p = new Player();
-        //b = new Goomba(500, 400,500,600);
         frame = 0;
         //Direction
-        stillRight = 0;
         right = 1;
         left = 2;
         up = 6;
         down = 7;
-        stillLeft = 3;
-
         direction = right;
         walking = false;
-        onPlat = false;
         falling = true;
 
         playRun = false;
 
-        //getLife = false;
-        loseLife = false;
 
         offset = 0;
         currentF = 0;
         footCount = 0;
         gDeadCount = 0;
-        bulletLeft = 4;
-        bulletRight = 5;
 
         addKeyListener(this);
 
         //loading images//
-        back1 = new ImageIcon("Pictures/back.png").getImage();
         back2 = new ImageIcon("Pictures/space.png").getImage();
-        star = new ImageIcon("Pictures/star.png").getImage();
-        //platPic = new ImageIcon("Pictures/plat pic.png").getImage();
-        longPlat =  new ImageIcon("platPics/longPlat.png").getImage();
-        airPlat = new ImageIcon("platPics/airPlat.png").getImage();
         text = new ImageIcon("Pictures/text bubble.png").getImage();
-        flowerHit = new ImageIcon("badHitPics/flowerHit.png").getImage();
         bossDead = flipImage(new ImageIcon("draconiusFrames/dead/dead1.png").getImage());
         ryanIdle = new ImageIcon("Ryan Funyanjiwan/standing.png").getImage();
         maiIdle = flipImage(new ImageIcon("Mai-san/standing.png").getImage());
-        //heart = new ImageIcon("heart.png").getImage();
-
-        //addMouseListener(this);
-        //initilizing the platforms as rects
-        //Rectangle plat1 = new Rectangle(500,525,1000,40);
-        //plats1.add(plat1);
 
         //Frame Arrays
         runRight  = new Image[10];
@@ -228,9 +181,6 @@ public class GamePanel2 extends JPanel implements KeyListener{
 
         dazedR = new Image[4];
         dazedL = new Image[4];
-
-        //bigHeartR = new Image[16];
-        //bigHeartL =  new Image[16];
 
         attack = false;
         attackDone = true;
@@ -293,8 +243,6 @@ public class GamePanel2 extends JPanel implements KeyListener{
                 tmp.setDirection(left);
             }
             plasma.play();
-            //b.setDirection(direction);
-            //bList.add(b);
         }
         if(e.getKeyCode() == KeyEvent.VK_ENTER && !keys[e.getKeyCode()] && attackDone && !p.checkHit() && !miniscene && !miniscene2){
             attack = true;
@@ -778,7 +726,7 @@ public class GamePanel2 extends JPanel implements KeyListener{
                     offset += p.SPEED;
                 }
             }
-            p.update(right);
+            p.direct(right);
 
             p.runR();
             direction = right;
@@ -791,7 +739,7 @@ public class GamePanel2 extends JPanel implements KeyListener{
             }
         }
         if (keys[KeyEvent.VK_A] && !p.checkHit() && !miniscene && !miniscene2) {
-            p.update(left);
+            p.direct(left);
             p.runL();
             direction = left;
             walking = true;
@@ -833,7 +781,7 @@ public class GamePanel2 extends JPanel implements KeyListener{
 
 
     public void playerUpdate(){
-        p.update2();
+        p.update();
         if(p.getSy() == 0){
             midAir = false;
             p.resetCurrentF();
@@ -920,13 +868,10 @@ public class GamePanel2 extends JPanel implements KeyListener{
                     p.setSy(0);//because the player is on a platform, the speed in the y component is zero
                     p.setY(plat.getRect().y-55);
                     midAir = false;
-                    onPlat = true;
+
 
                 }
 
-            }
-            else{
-                onPlat = false;
             }
 
         }
@@ -1108,7 +1053,6 @@ public class GamePanel2 extends JPanel implements KeyListener{
 
         if (draconius.getHits() <= 0){
             //new GamePanel(mainFrame, 2);
-            level = 2;
             //reset();
         }
     }
