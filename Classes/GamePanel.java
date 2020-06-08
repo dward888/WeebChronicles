@@ -1072,22 +1072,6 @@ public class GamePanel extends JPanel implements KeyListener{
         }
     }
 
-    public void addBBullets(){
-        for (Shooter s : shooters){
-            if (s.checkShoot()) {
-                Bullet tmp =  new Bullet(s.getX(), s.getY()+50, "ice");
-                tmp.setDirection(left);
-                badBList.add(tmp);
-                ice.play();
-                s.setShoot(false);
-            }
-        }
-    }
-    public void moveBullets(){
-        for (Bullet b : badBList){
-            b.move();
-        }
-    }
 
     public void drawAddedLife(int num){
         Life tmp = new Life(60*num,-5,16);

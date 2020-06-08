@@ -161,6 +161,7 @@ public class Player{
 	public void setHit(boolean n) {
 		gotHit = n;
 	}
+
 }
 
     

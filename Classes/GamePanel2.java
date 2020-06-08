@@ -33,6 +33,7 @@ public class GamePanel2 extends JPanel implements KeyListener{
     private int currentF;
     private int footCount;
     private int gDeadCount;
+    private int dazedCount;
     private int gHitPic;
     private int level;
     private boolean midAir;//this boolean will make sure the user can't double jump
@@ -111,9 +112,14 @@ public class GamePanel2 extends JPanel implements KeyListener{
     private Image[] gotHitR;
     private Image[]gotHitL;
 
+    private Image[]dazedR;
+    private Image[]dazedL;
+
+
     private Image[]badBulletR;
     private Image[]badBulletL;
-
+    private Image[]pBulletR;
+    private Image[]pBulletL;
     private boolean attack;
     private boolean attackDone;
     private boolean hitBadGuy;
@@ -135,6 +141,7 @@ public class GamePanel2 extends JPanel implements KeyListener{
     private Sound oof;
     private Sound heal;
     private Sound ice;
+    private Sound plasma;
 
     private Draconius draconius;
 
@@ -208,6 +215,11 @@ public class GamePanel2 extends JPanel implements KeyListener{
 
         badBulletR = new Image[30];
         badBulletL = new Image[30];
+        pBulletR = new Image[3];
+        pBulletL = new Image[3];
+
+        dazedR = new Image[4];
+        dazedL = new Image[4];
 
         //bigHeartR = new Image[16];
         //bigHeartL =  new Image[16];
@@ -239,6 +251,7 @@ public class GamePanel2 extends JPanel implements KeyListener{
             oof = new Sound("oof.wav",false, 80);
             heal = new Sound("heal.wav",false, 80);
             ice = new Sound("iceShot.wav",false,80);
+            plasma = new Sound ("plasma.wav",false,70);
         }
         catch (UnsupportedAudioFileException | IOException | LineUnavailableException e){
             e.printStackTrace();
@@ -260,7 +273,15 @@ public class GamePanel2 extends JPanel implements KeyListener{
             }
         }
         if(e.getKeyCode() == KeyEvent.VK_SPACE && !keys[e.getKeyCode()] && !p.checkHit() && !miniscene){
-            //Bullet b = new Bullet(p.getX()-offset, p.getY());
+            Bullet tmp = new Bullet(p.getX(), p.getY(), "plasma", "good");
+            bList.add(tmp);
+            if (direction == right){
+                tmp.setDirection(right);
+            }
+            if (direction == left){
+                tmp.setDirection(left);
+            }
+            plasma.play();
             //b.setDirection(direction);
             //bList.add(b);
         }
@@ -487,7 +508,15 @@ public class GamePanel2 extends JPanel implements KeyListener{
         for (Bullet b : badBList){
             g.drawImage(badBulletL[currentF/30], b.getX()-offset,b.getY(),null);
         }
+        for (Bullet b : bList){
+            if (b.getDirection() == left){
+                g.drawImage(pBulletL[currentF/30], b.getX()-offset,b.getY(),null);
+            }
+            if (b.getDirection() == right){
+                g.drawImage(pBulletR[currentF/30], b.getX()-offset,b.getY(),null);
+            }
 
+        }
 
         for (int i=0; i < lvlLives.size(); i++){
             g.drawImage(lvlLives.get(i).getFrame(),lvlLives.get(i).getX()-offset,lvlLives.get(i).getY(),null);
@@ -604,6 +633,21 @@ public class GamePanel2 extends JPanel implements KeyListener{
             playRun();
         }
 
+        if (p.getLives() == 1) {
+            if (p.checkHit()){
+                if (direction == left){
+                    g.drawImage(dazedL[currentF/3],p.getX()-offset,p.getY(),null);
+                    dazedCount++;
+                }
+                else{
+                    g.drawImage(dazedR[currentF/3],p.getX()-offset,p.getY(),null);
+                    dazedCount++;
+                }
+                if (dazedCount % 10 == 0){
+                    p.gainLife();
+                }
+            }
+        }
 
         footCount++;
         currentF++;
@@ -915,6 +959,16 @@ public class GamePanel2 extends JPanel implements KeyListener{
                     }
                 }
             }
+            for (Bullet b : bList){
+                if (bad.getRect().intersects(b.getRect())){
+                    bad.setHit(true);
+                    b.setHit(true);
+                    bad.setDrawHitPic(true);
+                    bad.loseHp(50);
+                    hitBadGuy = false;
+                }
+            }
+
         }
 
 
@@ -948,6 +1002,8 @@ public class GamePanel2 extends JPanel implements KeyListener{
                 b.setHit(true);
             }
         }
+
+
 
         for (int i=0; i < coins.size(); i++){
             if (coins.get(i).getRect().intersects(p.getRect())){
@@ -1014,6 +1070,16 @@ public class GamePanel2 extends JPanel implements KeyListener{
                 bRemove.add(badBList.get(i));
         }
 
+        for (int i = 0; i <bList.size(); i++){
+            if (bList.get(i).checkHit()){
+                bRemove.add(bList.get(i));
+            }
+            if (bList.get(i).getDist() >= 500){
+                bRemove.add(bList.get(i));
+            }
+        }
+
+
         if (draconius.getHits() <= 0){
             //new GamePanel(mainFrame, 2);
             level = 2;
@@ -1025,7 +1091,7 @@ public class GamePanel2 extends JPanel implements KeyListener{
         for (Shooter s : shooters){
             if (s.checkShoot()) {
                 if (p.getX() + 500 >= s.getX()){
-                    Bullet tmp =  new Bullet(s.getX(), s.getY()+50, "ice");
+                    Bullet tmp =  new Bullet(s.getX(), s.getY()+50, "ice","bad");
                     tmp.setDirection(left);
                     badBList.add(tmp);
                     ice.play();
@@ -1037,6 +1103,9 @@ public class GamePanel2 extends JPanel implements KeyListener{
     }
     public void moveBullets(){
         for (Bullet b : badBList){
+            b.move();
+        }
+        for (Bullet b : bList){
             b.move();
         }
     }
@@ -1075,17 +1144,16 @@ public class GamePanel2 extends JPanel implements KeyListener{
             lvlLives.remove(lvlLivesRemove.get(i));
         }
     }
-
     public void removeBullets(){
-        for (int i = 0; i < bRemove.size(); i ++){
-            badBList.remove(bRemove.get(i));
+        for (int i = 0; i < bRemove.size(); i ++) {
+            if (bRemove.get(i).getSide().equals("bad")){
+                badBList.remove(bRemove.get(i));
+            }
+            if (bRemove.get(i).getSide().equals("good")){
+                bList.remove(bRemove.get(i));
+            }
         }
     }
-
-    public int getLevel(){
-        return level;
-    }
-
 
     public void loadSprite(){
         loadSprite(runRight, runLeft, "Ryan Funyanjiwan/Run/run");
@@ -1096,6 +1164,8 @@ public class GamePanel2 extends JPanel implements KeyListener{
         loadSprite(airPunchRight, airPunchLeft, "Ryan Funyanjiwan/Jump Punch/jump punch");
         loadSprite(gotHitR, gotHitL, "Ryan Funyanjiwan/Gets Hit/hit");
         loadSprite(badBulletR, badBulletL, "bulletFrames/ice/tile");
+        loadSprite(pBulletR,pBulletL,"bulletFrames/plasma/tile");
+        loadSprite(dazedR, dazedL, "Ryan Funyanjiwan/Dazed/dazed");
         //loadSprite(artR, bigHeartL, "heartFrames/tile");
 
         attackPickRight = new Image[][]{kickRight, punchRight, uppercutRight};

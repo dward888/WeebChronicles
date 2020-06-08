@@ -16,8 +16,8 @@ public class Goomba {
     private int maxR, maxL;
 
     private int direction;
-    private int left = 2;
-    private int right = 1;
+    private int left = 1;
+    private int right = 2;
     private int xAdjust;
     private int yAdjust;
     private int wAdjust;
@@ -172,7 +172,7 @@ public class Goomba {
         }
         f ++;
         if (f / 20 != rightFDead.length-1) {
-            if (direction == right) {
+            if (direction == left) {
 
                 return rightFDead[f / 20];
             } else {

@@ -14,20 +14,24 @@ public class Bullet {
     private int direction;
     private int frame;
     private String type;
+    private String side;
     private Image[]rightF;
     private Image[]leftF;
     private Image pic;
     private int f;
     private Rectangle rect;
+    private int dist;
     private boolean hit;
 
-    public Bullet(int gx, int gy, String t){
+    public Bullet(int gx, int gy, String t, String s){
         x = gx;
         y = gy;
         left = 2;
         right = 1;
         frame = 0;
         type = t;
+        side = s;
+        dist = 0;
         pic =  new ImageIcon("Pictures/"+t+".png").getImage();
         rect = new Rectangle(gx,gy,pic.getWidth(null), pic.getHeight(null));
         hit = false;
@@ -48,9 +52,11 @@ public class Bullet {
     public void move(){
         if (direction == left){
             x -= 3;
+            dist += 3;
         }
         else if (direction == right){
             x += 3;
+            dist += 3;
         }
     }
     public Rectangle getRect(){
@@ -61,6 +67,12 @@ public class Bullet {
     }
     public void setHit(boolean n){
         hit = n;
+    }
+    public int getDist(){
+        return dist;
+    }
+    public String getSide(){
+        return side;
     }
 
 }
