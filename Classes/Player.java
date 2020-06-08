@@ -1,5 +1,5 @@
 import java.awt.*;
-//1
+//2
 public class Player{
 	private int x,y,width,height,hp,sp;
 	private int bx,bx2;

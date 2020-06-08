@@ -80,6 +80,7 @@ public class GamePanel extends JPanel implements KeyListener{
 	//images//
 	private Image back;
 	private Image star;
+	private Image text;
 	//private Image platPic;
 	private Image longPlat;
 	private Image airPlat;
@@ -168,7 +169,7 @@ public class GamePanel extends JPanel implements KeyListener{
 		//platPic = new ImageIcon("Pictures/plat pic.png").getImage();
 		longPlat =  new ImageIcon("platPics/longPlat.png").getImage();
 		airPlat = new ImageIcon("platPics/airPlat.png").getImage();
-
+        text = new ImageIcon("Pictures/text bubble.png").getImage();
 		flowerHit = new ImageIcon("badHitPics/flowerHit.png").getImage();
 		//heart = new ImageIcon("heart.png").getImage();
 
@@ -206,6 +207,7 @@ public class GamePanel extends JPanel implements KeyListener{
 
         try {
             fontLocal = Font.createFont(Font.TRUETYPE_FONT, new File("font/naruto1.ttf"));
+
             fontLocal = fontLocal.deriveFont(30f);
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
@@ -673,9 +675,7 @@ public class GamePanel extends JPanel implements KeyListener{
         g.setFont(fontLocal);
         System.out.println(bossBattle);
         if(level == 1 && bossBattle){
-            //g.drawImage(abobo.getFrame(), abobo.getX(), abobo.getY(), null);
-            g.drawRect(7200,500,500,10);
-            g.drawImage(abobo.getFrame(), 7200, 500, null);
+            g.drawImage(abobo.getFrame(), abobo.getX()-offset, abobo.getY(), null);
         }
 
         for(int i = 0; i<p.getLives(); i++){

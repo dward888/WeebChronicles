@@ -16,11 +16,11 @@ public class bossAction {
     private int right;
     private int left;
 
-    public bossAction(String directory, int len, int fD, int mX, int mY){
+    public bossAction(String directory, int len, int fDivide, int mX, int mY){
         framesRight = new Image[len];
         framesLeft = new Image[len];
         loadSprite(framesRight, framesLeft, directory);
-        frameDivide = fD;
+        frameDivide = fDivide;
         moveX = mX;
         moveY = mY;
         currentF = -1;
@@ -57,7 +57,7 @@ public class bossAction {
         return moveY;
     }
     public void resetCurrentF(){
-        currentF = -1;
+        currentF = 0;
     }
     public void loadSprite(Image[]actionRight, Image[]actionLeft, String directory){
         try{
