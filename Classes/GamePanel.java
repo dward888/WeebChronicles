@@ -446,7 +446,6 @@ public class GamePanel extends JPanel implements KeyListener{
 
         g.drawImage(back1, 0, 0, null);
 
-        g.setColor(Color.white);
         //g.drawImage(heart,200, 0, null);
         //+12,100,55
         //-40,y+12,90,55
@@ -456,7 +455,7 @@ public class GamePanel extends JPanel implements KeyListener{
 
         for (Platform p : plats){
             g.drawImage(p.getImage(),p.getX() - offset,p.getY()+p.getAdjust(),null);
-            g.drawRect(p.getX()-offset,p.getY()+p.getAdjust(),p.getRect().width,p.getRect().height);
+
         }
         for (Goomba b : goombs){
             if (b.drawHitPic()){//b.checkHit()){
@@ -500,7 +499,6 @@ public class GamePanel extends JPanel implements KeyListener{
         for(int i = 0; i < coins.size(); i++){
             g.drawImage(coins.get(i).getFrame(),coins.get(i).getX()-offset,coins.get(i).getY(),null);
             //g.setColor()
-            g.drawRect(coins.get(i).getX()-offset,coins.get(i).getY(),coins.get(i).getRect().width,coins.get(i).getRect().height);
         }
 
         for (Bullet b : badBList){
