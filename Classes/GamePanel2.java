@@ -429,18 +429,17 @@ public class GamePanel2 extends JPanel implements KeyListener{
     public void paintComponent(Graphics g){
         //background
         Point mousePos = getMousePosition();
-        System.out.println(level);
+
         //mx = (int) mousePos.getX();
         //my = (int) mousePos.getY();
-        //g.drawImage(back+level, 0, 0, null);
+
+        System.out.println(mx+","+my);
 
         g.drawImage(back2, 0, 0, null);
 
-        g.setColor(Color.white);
-
         for (Platform p : plats){
             g.drawImage(p.getImage(),p.getX() - offset,p.getY()+p.getAdjust(),null);
-            g.drawRect(p.getX()-offset,p.getY()+p.getAdjust(),p.getRect().width,p.getRect().height);
+
         }
         for (Goomba b : goombs){
             if (b.drawHitPic()){//b.checkHit()){

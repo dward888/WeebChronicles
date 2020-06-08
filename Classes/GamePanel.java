@@ -439,7 +439,6 @@ public class GamePanel extends JPanel implements KeyListener{
     public void paintComponent(Graphics g){
         //background
         Point mousePos = getMousePosition();
-        System.out.println(level);
         //mx = (int) mousePos.getX();
         //my = (int) mousePos.getY();
         //g.drawImage(back+level, 0, 0, null);
