@@ -1,36 +1,37 @@
+//Sound.java
+//Jim Ji and Edward Yang
+//This class file allows us to load in .wav files from our game folder and manipulate them. (Play, pause, adjust volume)
+
+
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import javax.sound.sampled.*;
-public class Sound {
-    private static ArrayList<Sound> sounds = new ArrayList<>();
 
-    private Clip clip;
-    private String file;
-    //private FloatControl volume;
+
+public class Sound {
+    private static ArrayList<Sound>sounds = new ArrayList<>(); //arraylist to keep track of all sounds
+
+    private Clip clip; //clip object of the respective sound file
+    private String file; //the file name
     private AudioInputStream audioInputStream;
     FloatControl volume;
-    //FloatControl gainControl;
-    FloatControl gainControl;
 
-
+    //constructor
     public Sound(String file, boolean loop, int volumeLevel) throws UnsupportedAudioFileException, IOException, LineUnavailableException{
         {
             audioInputStream =
                     AudioSystem.getAudioInputStream(new File(file).getAbsoluteFile());
 
+            clip = AudioSystem.getClip(); //getting the clip
 
-            clip = AudioSystem.getClip();
-            //FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-
-            clip.open(audioInputStream);
-            volume = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            clip.open(audioInputStream); //opening the clip
+            volume = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN); //calculating the volume level
             setVolume(volumeLevel);
-            if (loop){
+            sounds.add(this);//adding the sound to the arraylist
+            if (loop){//if we want the sound to loop
                 clip.loop(Clip.LOOP_CONTINUOUSLY);
             }
-            //clip.loop(Clip.LOOP_CONTINUOUSLY);
         }
     }
 
@@ -47,7 +48,7 @@ public class Sound {
         }
         public void closeSound(){
             clip.close();
-            sounds.remove(this);
+            //sounds.remove(this);
         }
         // Setters
         public void setVolume(int volumeLevel){

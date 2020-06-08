@@ -33,8 +33,8 @@ public class WeebChronicles extends JFrame implements ActionListener {
 		//***Following code --> change order so that the start screen appears
 		//cards.add(start, "start");
 		cards.add(game, "game");
-		cards.add(start, "start");
-		cards.add(cScene1, "cutScene1");
+		//cards.add(start, "start");
+		//cards.add(cScene1, "cutScene1");
 		//cards.add(game, "game");
 
 		add(cards);
@@ -54,6 +54,7 @@ public class WeebChronicles extends JFrame implements ActionListener {
 			game.loadPLives();
 			game.loadLvlLives("life1.txt",1);
 			game.loadShooters("shooter1.txt",1);
+			//game.loadPlats("plat2.txt",2);
 
 		}catch (IOException e) {
 			e.printStackTrace();

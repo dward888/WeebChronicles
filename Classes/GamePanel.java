@@ -313,14 +313,14 @@ public class GamePanel extends JPanel implements KeyListener{
             }
             if (lvl == 2){
                 //plats2.add(tmp);
-                plats = new ArrayList<Platform>();
+
                 //platRects = new ArrayList<Rectangle>();
                 plats.add(tmp);
                 //platRects.add(tmp.getRect());
             }//fdadf
             if (lvl == 3){
                 //plats3.add(tmp);
-                plats = new ArrayList<Platform>();
+                //plats = new ArrayList<Platform>();
                 //platRects = new ArrayList<Rectangle>();
                 plats.add(tmp);
                 //platRects.add(tmp.getRect());
@@ -1135,8 +1135,6 @@ public class GamePanel extends JPanel implements KeyListener{
             badBList.remove(bRemove.get(i));
         }
     }
-
-
 
 
     public void loadSprite(){
