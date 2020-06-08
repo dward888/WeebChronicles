@@ -20,6 +20,7 @@ public class GamePanel extends JPanel implements KeyListener{
 	private Goomba b;
 	private Character[]chars;
 	private boolean walking;
+	private int frame;
 	private int stillRight;
 	private int stillLeft;
 	private int right;
@@ -38,7 +39,7 @@ public class GamePanel extends JPanel implements KeyListener{
     private boolean onPlat;
     private boolean falling;
     private boolean playRun;
-
+    private boolean miniscene;
     private int lifeCounter;
 
     private Rectangle badRect;
@@ -76,9 +77,6 @@ public class GamePanel extends JPanel implements KeyListener{
     private ArrayList<Bullet>bRemove = new ArrayList<Bullet>(); //Records all the bullets that have hit an object
 
     private ArrayList<Bullet>badBList = new ArrayList<Bullet>();
-
-
-
 
     private int f = 0;
     private int offset;
@@ -123,6 +121,7 @@ public class GamePanel extends JPanel implements KeyListener{
 
 	private Image jumpRight;
 	private Image jumpLeft;
+	private Image text;
 	//private Image heart;
 
 	private Image flowerHit;
@@ -138,12 +137,14 @@ public class GamePanel extends JPanel implements KeyListener{
     private Abobo abobo;
 
     Font fontLocal=null;
+    Font newyork;
 
     public GamePanel(WeebChronicles m) {
     	keys = new boolean[KeyEvent.KEY_LAST+1];
 		mainFrame = m;
         p = new Player();
         //b = new Goomba(500, 400,500,600);
+        frame = 0;
 
         //Direction
         stillRight = 0;
@@ -179,7 +180,7 @@ public class GamePanel extends JPanel implements KeyListener{
 		//platPic = new ImageIcon("Pictures/plat pic.png").getImage();
 		longPlat =  new ImageIcon("platPics/longPlat.png").getImage();
 		airPlat = new ImageIcon("platPics/airPlat.png").getImage();
-
+        text = new ImageIcon("Pictures/text bubble.png").getImage();
 		flowerHit = new ImageIcon("badHitPics/flowerHit.png").getImage();
 		//heart = new ImageIcon("heart.png").getImage();
 
@@ -212,7 +213,7 @@ public class GamePanel extends JPanel implements KeyListener{
 
         attack = false;
         attackDone = true;
-
+        miniscene = false;
         lifeCounter = 0;
 
         abobo = new Abobo();
@@ -222,7 +223,10 @@ public class GamePanel extends JPanel implements KeyListener{
         try {
             fontLocal = Font.createFont(Font.TRUETYPE_FONT, new File("font/naruto1.ttf"));
             fontLocal = fontLocal.deriveFont(30f);
-        } catch (FontFormatException | IOException e) {
+            newyork = Font.createFont(Font.TRUETYPE_FONT, new File("font/newyorkescape.ttf"));
+            newyork = newyork.deriveFont(20f);
+        }
+        catch (FontFormatException | IOException e) {
             e.printStackTrace();
         }
 
@@ -248,18 +252,18 @@ public class GamePanel extends JPanel implements KeyListener{
     public void keyTyped(KeyEvent e){
     }
     public void keyPressed(KeyEvent e){
-        if (e.getKeyCode() == KeyEvent.VK_W && !keys[e.getKeyCode()] && !p.checkHit()){
+        if (e.getKeyCode() == KeyEvent.VK_W && !keys[e.getKeyCode()] && !p.checkHit() && !miniscene){
            if(!midAir){
                p.jump();
                midAir = true;
            }
         }
-        if(e.getKeyCode() == KeyEvent.VK_SPACE && !keys[e.getKeyCode()] && !p.checkHit()){
+        if(e.getKeyCode() == KeyEvent.VK_SPACE && !keys[e.getKeyCode()] && !p.checkHit() && !miniscene){
             //Bullet b = new Bullet(p.getX()-offset, p.getY());
             //b.setDirection(direction);
             //bList.add(b);
         }
-        if(e.getKeyCode() == KeyEvent.VK_ENTER && !keys[e.getKeyCode()] && attackDone && !p.checkHit()){
+        if(e.getKeyCode() == KeyEvent.VK_ENTER && !keys[e.getKeyCode()] && attackDone && !p.checkHit() && !miniscene){
             attack = true;
             currentF = 0;
             attackDone = false;
@@ -665,8 +669,6 @@ public class GamePanel extends JPanel implements KeyListener{
             }
         }
 
-
-
         if (footCount % 15 == 0){
             playRun();
         }
@@ -707,7 +709,46 @@ public class GamePanel extends JPanel implements KeyListener{
         if (bossBattle && level == 1){
             g.drawImage(abobo.getFrame(),abobo.getX()-offset,abobo.getY(),null);
         }
+        if(abobo.getStart()){
+            g.setColor(Color.white);
+            g.fillRect(295,95,610,60);
+            g.setColor(Color.gray);
+            g.fillRect(300,100,600,50);
+            g.setColor(Color.white);
+            g.fillRect(360, 110,520, 30);
+            g.setFont(newyork);
+            g.drawString("HP", 310,130);
+            g.setColor(Color.black);
+            g.fillRect(364, 114, 512, 22);
+            g.setColor(Color.green);
+            int aboboMaxHealth = 150;
+            double health = 512*(abobo.getHealth()/aboboMaxHealth);
+            System.out.println(health);
+            System.out.println(abobo.getHealth());
+;            g.fillRect(364, 114, (int) health, 22);
+        }
 
+        if(miniscene){
+            frame++;
+            if(frame > 100) {
+                g.drawImage(text, 630, 340, null);
+                g.setColor(Color.black);
+                g.setFont(newyork);
+                if (frame < 230) {
+                    g.drawString("AHAHAHAHA!", 750, 415);
+                }
+            }
+            if(frame > 250 && frame < 380){
+                g.drawString("Just as expected!", 702,415);
+            }
+            if(frame > 400){
+                g.drawString("Prove your worth", 705,415);
+            }
+            if(frame > 530){
+                miniscene = false;
+                abobo.start();
+            }
+        }
         /*for (Life l : pLives){
             g.drawImage(l.getFrame(),l.getX(),l.getY(),null);
         }*/
@@ -727,7 +768,7 @@ public class GamePanel extends JPanel implements KeyListener{
 
     //user moving the character f
     public void move(){
-        if (keys[KeyEvent.VK_D] && !p.checkHit()){
+        if (keys[KeyEvent.VK_D] && !p.checkHit() && !miniscene){
             if (p.getX() >= 7300){
                 p.setX(p.getX());
                 if (p.getX() >= 7820){
@@ -747,9 +788,11 @@ public class GamePanel extends JPanel implements KeyListener{
             if (p.getX() >= 6500){
                 bossBattle = true;
             }
-
+            if(p.getX() >= 7290 && frame < 530){
+                miniscene = true;
+            }
         }
-        if (keys[KeyEvent.VK_A] && !p.checkHit()) {
+        if (keys[KeyEvent.VK_A] && !p.checkHit() && !miniscene) {
             p.update(left);
             p.runL();
             direction = left;
@@ -939,7 +982,30 @@ public class GamePanel extends JPanel implements KeyListener{
                 }
             }
         }
-
+        if(abobo.getRect().intersects(p.getRect())){
+            if(hitBadGuy && !abobo.getAttack()){
+                abobo.gotHit();
+            }
+            if(!attack && abobo.getAttack()){
+                if(abobo.getDirection() == right){
+                    if(p.getX() > abobo.getX()){
+                        p.setHit(true);
+                        oof.play();
+                        lifeCounter++;
+                    }
+                }
+                if(abobo.getDirection() == left){
+                    if(p.getX() < abobo.getX()){
+                        p.setHit(true);
+                        oof.play();
+                        lifeCounter++;
+                    }
+                }
+            }
+            if(hitBadGuy && abobo.getAttack()){
+                abobo.gotHit();
+            }
+        }
         for (Bullet b : badBList){
             if (b.getRect().intersects(p.getRect())){
                 b.setHit(true);

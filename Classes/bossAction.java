@@ -9,6 +9,7 @@ import java.io.IOException;
 public class bossAction {
     private Image[]framesRight;
     private Image[]framesLeft;
+    private boolean done;
     private int frameDivide;
     private int moveX;
     private int moveY;
@@ -20,12 +21,13 @@ public class bossAction {
         framesRight = new Image[len];
         framesLeft = new Image[len];
         loadSprite(framesRight, framesLeft, directory);
+        done = false;
         frameDivide = fDivide;
         moveX = mX;
         moveY = mY;
         currentF = -1;
-        left = 1;
-        right = 2;
+        left = 2;
+        right = 1;
     }
     public Image f(){
         return framesRight[0];
@@ -35,12 +37,14 @@ public class bossAction {
         if(direction == left) {
             if (currentF >= (framesLeft.length - 1) * frameDivide) {
                 resetCurrentF();
+                done = true;
             }
             return framesLeft[currentF / frameDivide];
         }
         else{
             if(currentF >= (framesRight.length - 1) * frameDivide){
                 resetCurrentF();
+                done = true;
             }
             return framesRight[currentF / frameDivide];
         }
@@ -56,9 +60,9 @@ public class bossAction {
     public int getmY(){
         return moveY;
     }
-    public void resetCurrentF(){
-        currentF = 0;
-    }
+    public void resetCurrentF(){ currentF = 0; }
+    public void resetMove(){done = false;}
+    public boolean isDone(){return done;}
     public void loadSprite(Image[]actionRight, Image[]actionLeft, String directory){
         try{
             for(int i = 0; i < actionRight.length; i++) {
