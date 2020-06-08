@@ -36,11 +36,14 @@ public class WeebChronicles extends JFrame implements ActionListener {
 		level = game.getLevel();
 		//***Following code --> change order so that the start screen appears
 		//cards.add(start, "start");
+
+		//cards.add(game, "game");
+
 		cards.add(game2,"game2");
 		cards.add(game, "game");
 		//cards.add(game2,"game2");
 		//cards.add(start, "start");
-		//cards.add(cScene1, "cutScene1");
+		cards.add(cScene1, "cutScene1");
 		//cards.add(game, "game");
 
 		add(cards);
@@ -48,8 +51,13 @@ public class WeebChronicles extends JFrame implements ActionListener {
 		startScreen = -1;
 		gPanel = 1;
 		cutScene1 = 2;
+
+		status = startScreen;
+		//status = gPanel;
+
 		//status = startScreen;
 		status = gPanel2;
+
 		//status = cutScene1;
 
 		try {
