@@ -158,7 +158,7 @@ public class Goomba {
 
         f ++;
 
-        if (direction == left) {
+        if (direction == right) {
             return rightF[f/12];
         }
         else {
@@ -172,7 +172,7 @@ public class Goomba {
         }
         f ++;
         if (f / 20 != rightFDead.length-1) {
-            if (direction == left) {
+            if (direction == right) {
 
                 return rightFDead[f / 20];
             } else {
@@ -187,6 +187,7 @@ public class Goomba {
     public String getType(){
         return type;
     }
+
     public void move(double xDelta, double yDelta){
         x += xDelta;
         y += yDelta;

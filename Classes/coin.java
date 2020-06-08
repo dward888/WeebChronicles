@@ -22,11 +22,12 @@ public class Coin {
 
     public Coin(int x1,int y1, String file, int frames){
         pic =  new ImageIcon("Pictures/" + file + ".png").getImage();
-        direction = right;
+
         rect = new Rectangle(x1,y1,pic.getWidth(null), pic.getHeight(null));
         //adjustment = a;
         rightF = new Image[frames];
         leftF = new Image[frames];
+        direction = right;
         //loadSprite(rightF,leftF,"coinFrames/coin/tile");
         loadSprite(rightF,leftF,"coinFrames/tile");
     }
@@ -38,9 +39,6 @@ public class Coin {
         return rect.y;
     }
 
-    //public int getAdjust(){
-        //return adjustment;
-    //}
     public Rectangle getRect(){
         return rect;
     }
@@ -61,7 +59,7 @@ public class Coin {
 
 
 
-        if (direction == left) {
+        if (direction == right) {
             return rightF[f/5];
         }
         else {

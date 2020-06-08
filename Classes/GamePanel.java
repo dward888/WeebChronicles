@@ -23,6 +23,8 @@ public class GamePanel extends JPanel implements KeyListener{
 	private int stillLeft;
 	private int right;
 	private int left;
+	private int down;
+	private int up;
 	private int direction;
 	private int bulletRight;
 	private int bulletLeft;
@@ -71,6 +73,9 @@ public class GamePanel extends JPanel implements KeyListener{
     private ArrayList<Bullet>bList = new ArrayList<Bullet>(); //array list for the projectiles (bullets)
     private ArrayList<Bullet>bRemove = new ArrayList<Bullet>(); //Records all the bullets that have hit an object
 
+    private ArrayList<Bullet>badBList = new ArrayList<Bullet>();
+
+
 
 
     private int f = 0;
@@ -103,8 +108,10 @@ public class GamePanel extends JPanel implements KeyListener{
     private Image[]att;
     private Image[] gotHitR;
     private Image[]gotHitL;
-    private Image[]bigHeartR;
-    private Image[]bigHeartL;
+
+    private Image[]badBulletR;
+    private Image[]badBulletL;
+
     private boolean attack;
     private boolean attackDone;
     private boolean hitBadGuy;
@@ -134,8 +141,10 @@ public class GamePanel extends JPanel implements KeyListener{
 
         //Direction
         stillRight = 0;
-        left = 1;
-        right = 2;
+        right = 1;
+        left = 2;
+        up = 6;
+        down = 7;
         stillLeft = 3;
 
         direction = right;
@@ -188,8 +197,11 @@ public class GamePanel extends JPanel implements KeyListener{
         gotHitR = new Image[9];
         gotHitL = new Image[9];
 
-        bigHeartR = new Image[16];
-        bigHeartL =  new Image[16];
+        badBulletR = new Image[30];
+        badBulletL = new Image[30];
+
+        //bigHeartR = new Image[16];
+        //bigHeartL =  new Image[16];
 
         attack = false;
         attackDone = true;
@@ -207,12 +219,12 @@ public class GamePanel extends JPanel implements KeyListener{
         }
 
         try {
-            coinSound = new Sound("coin.wav",false);
-            run = new Sound("run.wav",false);
-            runLeaf = new Sound("runLeaf.wav",false);
-            hit = new Sound("hit.wav", false);
-            oof = new Sound("oof.wav",false);
-            heal = new Sound("heal.wav",false);
+            coinSound = new Sound("coin.wav",false, 80);
+            run = new Sound("run.wav",false, 100);
+            runLeaf = new Sound("runLeaf.wav",false, 100);
+            hit = new Sound("hit.wav", false, 80);
+            oof = new Sound("oof.wav",false, 100);
+            heal = new Sound("heal.wav",false, 100);
         }
         catch (UnsupportedAudioFileException | IOException | LineUnavailableException e){
             e.printStackTrace();
@@ -234,9 +246,9 @@ public class GamePanel extends JPanel implements KeyListener{
            }
         }
         if(e.getKeyCode() == KeyEvent.VK_SPACE && !keys[e.getKeyCode()] && !p.checkHit()){
-            Bullet b = new Bullet(p.getX()-offset, p.getY());
-            b.setDirection(direction);
-            bList.add(b);
+            //Bullet b = new Bullet(p.getX()-offset, p.getY());
+            //b.setDirection(direction);
+            //bList.add(b);
         }
         if(e.getKeyCode() == KeyEvent.VK_ENTER && !keys[e.getKeyCode()] && attackDone && !p.checkHit()){
             attack = true;
@@ -345,13 +357,12 @@ public class GamePanel extends JPanel implements KeyListener{
             String[] data = line.split(" ");//splitting up each value to be able to keep track of the x,y,max R, max L, and picture
             int x = Integer.parseInt(data[0]);
             int y = Integer.parseInt(data[1]);
-            int mL = Integer.parseInt(data[2]);
-            int mR = Integer.parseInt(data[3]);
-            String b = data[4];
-            int num = Integer.parseInt(data[5]);
-            int hp = Integer.parseInt(data[6]);
+            int dist = Integer.parseInt(data[2]);
+            String b = data[3];
+            int num = Integer.parseInt(data[4]);
+            int hp = Integer.parseInt(data[5]);
 
-            Shooter tmp = new Shooter(x, y, mL, mR, b, num, hp);
+            Shooter tmp = new Shooter(x, y, dist, b, num, hp);
             if (lvl == 1) {
                 //plats1.add(tmp);
                 shooters.add(tmp);
@@ -472,7 +483,7 @@ public class GamePanel extends JPanel implements KeyListener{
         //mx = (int) mousePos.getX();
         //my = (int) mousePos.getY();
         g.drawImage(back, 0, 0, null);
-        g.setColor(Color.blue);
+        g.setColor(Color.white);
         //g.drawImage(heart,200, 0, null);
         //+12,100,55
         //-40,y+12,90,55
@@ -529,6 +540,9 @@ public class GamePanel extends JPanel implements KeyListener{
             g.drawRect(coins.get(i).getX()-offset,coins.get(i).getY(),coins.get(i).getRect().width,coins.get(i).getRect().height);
         }
 
+        for (Bullet b : badBList){
+            g.drawImage(badBulletL[currentF/30], b.getX()-offset,b.getY(),null);
+        }
 
 
         for (int i=0; i < lvlLives.size(); i++){
@@ -681,6 +695,7 @@ public class GamePanel extends JPanel implements KeyListener{
             g.drawImage(pLives.get(i).getFrame(),pLives.get(i).getX(),pLives.get(i).getY(),null);
         }
 
+
         /*for (Life l : pLives){
             g.drawImage(l.getFrame(),l.getX(),l.getY(),null);
         }*/
@@ -743,6 +758,22 @@ public class GamePanel extends JPanel implements KeyListener{
                 b.moveL();
             }
         }
+        for (Shooter s : shooters){
+            if (s.getY() == s.getMaxH()) {
+                s.setShoot(true);
+                s.setDirection(down);
+            }
+            if (s.getY() == s.getMinH()){
+                s.setShoot(true);
+                s.setDirection(up);
+            }
+            if (s.getDirection() == up){
+                s.moveU();
+            }
+            if (s.getDirection() == down){
+                s.moveD();
+            }
+        }
     }
 
 
@@ -760,6 +791,9 @@ public class GamePanel extends JPanel implements KeyListener{
     public void badUpdate(){
         for (Goomba b : goombs){
             b.update();
+        }
+        for (Shooter s : shooters){
+            s.update();
         }
         //b.update();
 
@@ -890,6 +924,13 @@ public class GamePanel extends JPanel implements KeyListener{
                 }
             }
         }
+
+        for (Bullet b : badBList){
+            if (b.getRect().intersects(p.getRect())){
+                b.setHit(true);
+            }
+        }
+
         for (int i=0; i < coins.size(); i++){
             if (coins.get(i).getRect().intersects(p.getRect())){
                 p.addScore(25);
@@ -942,6 +983,34 @@ public class GamePanel extends JPanel implements KeyListener{
                 }
             }
         }
+
+        for (int i = 0; i < badBList.size(); i++){
+            if (badBList.get(i).checkHit()) {
+                bRemove.add(badBList.get(i));
+                oof.play();
+                p.loseLife();
+                p.setHit(true);
+                p.knockback(-2);
+            }
+            if (badBList.get(i).getX() - offset < 100 )
+                bRemove.add(badBList.get(i));
+        }
+    }
+
+    public void addBBullets(){
+        for (Shooter s : shooters){
+            if (s.checkShoot()) {
+                Bullet tmp =  new Bullet(s.getX(), s.getY(), "ice");
+                tmp.setDirection(left);
+                badBList.add(tmp);
+                s.setShoot(false);
+            }
+        }
+    }
+    public void moveBullets(){
+        for (Bullet b : badBList){
+            b.move();
+        }
     }
 
     public void drawAddedLife(int num){
@@ -979,6 +1048,13 @@ public class GamePanel extends JPanel implements KeyListener{
         }
     }
 
+    public void removeBullets(){
+        for (int i = 0; i < bRemove.size(); i ++){
+            badBList.remove(bRemove.get(i));
+        }
+    }
+
+
 
 
     public void loadSprite(){
@@ -989,6 +1065,7 @@ public class GamePanel extends JPanel implements KeyListener{
 		loadSprite(uppercutRight, uppercutLeft, "Ryan Funyanjiwan/Elbow Upercut/uppercut");
 		loadSprite(airPunchRight, airPunchLeft, "Ryan Funyanjiwan/Jump Punch/jump punch");
 		loadSprite(gotHitR, gotHitL, "Ryan Funyanjiwan/Gets Hit/hit");
+		loadSprite(badBulletR, badBulletL, "bulletFrames/ice/tile");
         //loadSprite(artR, bigHeartL, "heartFrames/tile");
 
         attackPickRight = new Image[][]{kickRight, punchRight, uppercutRight};

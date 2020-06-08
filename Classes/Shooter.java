@@ -13,11 +13,13 @@ public class Shooter {
     private Image pic;
     private Image lHitPic;
     private Image rHitPic;
-    private int maxR, maxL;
+    private int maxHeight, minHeight;
 
     private int direction;
     private int left = 1;
     private int right = 2;
+    private int up = 6;
+    private int down = 7;
     private int xAdjust;
     private int yAdjust;
     private int wAdjust;
@@ -28,6 +30,7 @@ public class Shooter {
     private boolean checkHit;
     private boolean dead;
     private boolean drawHitPic;
+    private boolean canShoot;
 
     private String type;
 
@@ -43,15 +46,14 @@ public class Shooter {
     private Image[]leftFDead;
     private int f;
 
-    public Shooter(int x1, int y1, int maxLeft, int maxRight, String file, int size, int h){
+    public Shooter(int x1, int y1, int dist, String file, int size, int h){
 
         x = x1;
         y = y1;
 
-        maxL = maxLeft;
-        maxR = maxRight;
-        dist = 0;
-        direction = right;
+        maxHeight = y-dist;
+        minHeight = y+dist;
+        direction = up;
         pic =  new ImageIcon("badPics/" + file + ".png").getImage();
         lHitPic = new ImageIcon("badHitPics/" + file + "HitL.png").getImage();
         rHitPic = new ImageIcon("badHitPics/" + file + "HitR.png").getImage();
@@ -67,11 +69,11 @@ public class Shooter {
         leftF = new Image[size];
         rightFDead = new Image[size];
         leftFDead = new Image[size];
-        loadSprite(rightF,leftF,"badFrames/"+file+"/tile");
+        loadSprite(leftF,rightF,"badFrames/"+file+"/tile");
         //loadSprite(rightFDead,leftFDead,"badFrames/"+file+"Dead/tile");
 
         drawHitPic = false;
-
+        canShoot =false;
     }
 
     public int getX(){
@@ -140,11 +142,11 @@ public class Shooter {
     public void setDirection(int n){
         direction = n;
     }
-    public int getMaxR(){
-        return maxR;
+    public int getMaxH(){
+        return maxHeight;
     }
-    public int getMaxL(){
-        return maxL;
+    public int getMinH(){
+        return minHeight;
     }
     public Image getFrame() {
         if (f >= (rightF.length-1)*12) {
@@ -153,12 +155,12 @@ public class Shooter {
 
         f ++;
 
-        if (direction == left) {
-            return rightF[f/12];
-        }
-        else {
-            return leftF[f/12];
-        }
+        //if (direction == left) {
+            //return rightF[f/12];
+       // }
+       // else {
+        return leftF[f/12];
+        //}
     }
     public Image getDeadFrame() {
         if (f >= (rightFDead.length-1)*20) {
@@ -167,12 +169,12 @@ public class Shooter {
         }
         f ++;
         if (f / 20 != rightFDead.length-1) {
-            if (direction == left) {
+            //if (direction == left) {
 
-                return rightFDead[f / 20];
-            } else {
-                return leftFDead[f / 20];
-            }
+               // return rightFDead[f / 20];
+            //} else {
+            return rightFDead[f / 20];
+            //}
         }
         else{
             return null;
@@ -214,12 +216,18 @@ public class Shooter {
     public void setDrawHitPic(boolean n){
         drawHitPic = n;
     }
-
-    public void moveR(){
-        move(SPEED, 0);
+    public void setShoot(boolean n){
+        canShoot = n;
     }
-    public void moveL(){
-        move(-SPEED, 0);
+    public boolean checkShoot(){
+        return canShoot;
+    }
+
+    public void moveD(){
+        move(0, SPEED);
+    }
+    public void moveU(){
+        move(0, -SPEED);
     }
     public Rectangle getRect(){
         return new Rectangle(x+xAdjust,y+yAdjust,width,height);

@@ -10,11 +10,12 @@ public class Sound {
     private String file;
     //private FloatControl volume;
     private AudioInputStream audioInputStream;
+    FloatControl volume;
     //FloatControl gainControl;
     FloatControl gainControl;
 
 
-    public Sound(String file, boolean loop) throws UnsupportedAudioFileException, IOException, LineUnavailableException{
+    public Sound(String file, boolean loop, int volumeLevel) throws UnsupportedAudioFileException, IOException, LineUnavailableException{
         {
             audioInputStream =
                     AudioSystem.getAudioInputStream(new File(file).getAbsoluteFile());
@@ -24,6 +25,8 @@ public class Sound {
             //FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 
             clip.open(audioInputStream);
+            volume = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            setVolume(volumeLevel);
             if (loop){
                 clip.loop(Clip.LOOP_CONTINUOUSLY);
             }
@@ -46,12 +49,12 @@ public class Sound {
             clip.close();
             sounds.remove(this);
         }
-        public void setVol(double v){
-            //float dB = (float) (Math.log(v) / Math.log(10.0) * 20.0);
-            //gainControl.setValue(dB);
+        // Setters
+        public void setVolume(int volumeLevel){
+            float range = volume.getMaximum() - volume.getMinimum(); // Getting the range of volume provided by the system
+            float gain = (float)(range * (volumeLevel/100.0)) + volume.getMinimum(); // Calculating the gain
+            volume.setValue(gain);
         }
-
-
 
         public boolean checkPlaying(){
             return clip.isActive();
