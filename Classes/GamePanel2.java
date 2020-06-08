@@ -3,6 +3,8 @@
 //Class that keeps track of everything in the second level
 
 
+//
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.imageio.ImageIO;
@@ -223,7 +225,7 @@ public class GamePanel2 extends JPanel implements KeyListener{
         requestFocus();
         mainFrame.start();
     }
-
+    //key inputs
     public void keyTyped(KeyEvent e){
     }
     public void keyPressed(KeyEvent e){
@@ -250,6 +252,7 @@ public class GamePanel2 extends JPanel implements KeyListener{
             attackDone = false;
             //hit.setVol((float) 40);
             hit.play();
+            //picks random attack
             if(!midAir){
                 if(direction == right){
                     att = attackPickRight[randint(0,2)];
@@ -279,8 +282,6 @@ public class GamePanel2 extends JPanel implements KeyListener{
             String[]data = line.split(" ");//splitting up each value to be able to keep track of the x,y, width, height
             int x = Integer.parseInt(data[0]);
             int y = Integer.parseInt(data[1]);
-            //int w = Integer.parseInt(data[2]);
-            //int h = Integer.parseInt(data[3]);
 
             String p = data[2];
             int a = Integer.parseInt(data[3]);
@@ -420,15 +421,16 @@ public class GamePanel2 extends JPanel implements KeyListener{
             g.drawImage(p.getImage(),p.getX() - offset,p.getY()+p.getAdjust(),null);
 
         }
+        //drawing goombas
         for (Goomba b : goombs){
             if (b.drawHitPic()){//b.checkHit()){
                 if (b.getDirection() == 1){
                     g.drawImage(b.getLHitImage(), b.getX()-offset, b.getY(),null);
-                    //b.setX(b.getX()-(int)b.getSx());
+
                 }
                 else{
                     g.drawImage(b.getRHitImage(), b.getX()-offset, b.getY(),null);
-                    //b.setX(b.getX()-(int)b.getSx());
+
                 }
 
                 if (gHitPic % 20 == 0){
@@ -446,7 +448,7 @@ public class GamePanel2 extends JPanel implements KeyListener{
             //g.drawRect(b.getX()-offset,b.getY(),32,32);
         }
 
-
+        //dead frames
         for (Goomba b : gDead){
             g.drawImage(b.getDeadFrame(), b.getX()-offset, b.getY()+b.getDAdjust(), null);
         }
@@ -463,7 +465,7 @@ public class GamePanel2 extends JPanel implements KeyListener{
             g.drawImage(coins.get(i).getFrame(),coins.get(i).getX()-offset,coins.get(i).getY(),null);
             //g.setColor()
         }
-
+        //draing bullets
         for (Bullet b : badBList){
             g.drawImage(badBulletL[currentF/30], b.getX()-offset,b.getY(),null);
         }
@@ -481,7 +483,7 @@ public class GamePanel2 extends JPanel implements KeyListener{
             g.drawImage(lvlLives.get(i).getFrame(),lvlLives.get(i).getX()-offset,lvlLives.get(i).getY(),null);
         }
 
-
+        //checking hits
         if (direction == right && p.checkHit()){
             if(currentF >= (gotHitR.length -1 )*9){
                 currentF = 0;
@@ -642,7 +644,7 @@ public class GamePanel2 extends JPanel implements KeyListener{
             g.setColor(Color.green);
             g.fillRect(364, 114, 16*draconius.getHits(), 22);
         }
-
+        //first scene
         if(miniscene){
             frame++;
             if(frame > 100) {
@@ -676,6 +678,7 @@ public class GamePanel2 extends JPanel implements KeyListener{
             miniscene2 = true;
             bossBattle = false;
         }
+        //second mini scene
         if(miniscene2){
             frame++;
             if(frame > 50 && frame < 150){
@@ -695,21 +698,6 @@ public class GamePanel2 extends JPanel implements KeyListener{
                 g.drawString("THE END", 600,250);
             }
         }
-        /*for (Life l : pLives){
-            g.drawImage(l.getFrame(),l.getX(),l.getY(),null);
-        }*/
-
-        /*for (int i = 0; i < pLives.size(); i++){
-            g.drawImage(pLives.get(i).getFrame(),pLives.get(i).getX(),pLives.get(i).getY(),null);
-        }*/
-
-        //g.drawString(""+p.getScore(),500,500);
-
-
-        //g.drawImage(platPic,500-offset,500,null);+
-
-        //g.fillRect(500 - offset, 510, 1000, 40);
-        //g.drawRect(500, 500, 1920,40);
     }
 
     //user moving the character f
@@ -847,19 +835,6 @@ public class GamePanel2 extends JPanel implements KeyListener{
 
 
     public void checkCollisions(){
-        //Rectangle player = p.getRect();//the players rect to check collision
-
-        //Rectangle test = new Rectangle(500,500,1000,40);
-        /*if (player.intersects(test)){
-            System.out.println("hi");
-            p.setSy(0);
-            p.setY(440);
-            midAir = false;
-            p.resetCurrentF();
-        }*/
-        //System.out.println(p.checkHit());
-        //
-        // System.out.println(lifeCounter);
         for(Platform plat : plats){//checking collision for each platform in the arraylist
             if (plat.getRect().intersects(p.getRect())){
                 falling = false;
@@ -868,14 +843,9 @@ public class GamePanel2 extends JPanel implements KeyListener{
                     p.setSy(0);//because the player is on a platform, the speed in the y component is zero
                     p.setY(plat.getRect().y-55);
                     midAir = false;
-
-
                 }
-
             }
-
         }
-
         for (int i=0; i < goombs.size(); i++){
             if (goombs.get(i).checkDead()) {
                 gDead.add(goombs.get(i));

@@ -35,7 +35,7 @@ public class Draconius{
         right = 1;
         walking = 1;
         act = 2;
-        hits = 16;
+        hits = 32;
         direction = left;
         startMoving = false;
         health = 1;
