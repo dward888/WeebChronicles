@@ -1072,6 +1072,10 @@ public class GamePanel extends JPanel implements KeyListener{
             if (badBList.get(i).getX() - offset < 100 )
                 bRemove.add(badBList.get(i));
         }
+
+        if (abobo.getHits() <= 0){
+            level ++;
+        }
     }
 
     public void addBBullets(){
@@ -1130,6 +1134,10 @@ public class GamePanel extends JPanel implements KeyListener{
         for (int i = 0; i < bRemove.size(); i ++){
             badBList.remove(bRemove.get(i));
         }
+    }
+
+    public int getLevel(){
+        return level;
     }
 
 

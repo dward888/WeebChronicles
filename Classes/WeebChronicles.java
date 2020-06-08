@@ -11,6 +11,7 @@ public class WeebChronicles extends JFrame implements ActionListener {
 	int startScreen;
 	int gPanel;
 	int cutScene1;
+	int level;
 
 	startScreen start;
 	GamePanel game;
@@ -29,7 +30,7 @@ public class WeebChronicles extends JFrame implements ActionListener {
 		start = new startScreen(this);
 		cScene1 = new CutScene1(this);
 		cards = new JPanel(cLayout);
-
+		level = game.getLevel();
 		//***Following code --> change order so that the start screen appears
 		//cards.add(start, "start");
 		cards.add(game, "game");
@@ -47,15 +48,21 @@ public class WeebChronicles extends JFrame implements ActionListener {
 		//status = cutScene1;
 
 		try {
+			game.loadPLives();
 			game.loadPlats("plat1.txt",1);
 			game.loadDecor("decor1.txt",1);
 			game.loadGoombs("goomba1.txt",1);
 			game.loadCoins("coin1.txt",1);
-			game.loadPLives();
 			game.loadLvlLives("life1.txt",1);
-			game.loadShooters("shooter1.txt",1);
-			//game.loadPlats("plat2.txt",2);
 
+			//game.loadShooters("shooter2.txt",1);
+			game.loadPlats("plat2.txt",2);
+			game.loadDecor("decor2.txt",2);
+			game.loadGoombs("goomba2.txt",2);
+			game.loadCoins("coin2.txt",1);
+			game.loadLvlLives("life2.txt",1);
+			game.loadShooters("shooter2.txt",1);
+			//game.loadPlats("plat2.txt",2);
 		}catch (IOException e) {
 			e.printStackTrace();
 		}
