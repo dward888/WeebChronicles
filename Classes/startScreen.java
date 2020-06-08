@@ -1,3 +1,7 @@
+//startScreen.java
+//Jim Ji and Edward Yang
+//This class is the panel with all the graphics for the starting screen of the game.
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -6,17 +10,19 @@ import javax.imageio.*;
 
 public class startScreen extends JPanel implements MouseListener{
     private WeebChronicles mainFrame;
-    private Image startBack;
-    private int mx;
-    private int my;
-    private int frame = 0;
-    private Rectangle rect;
+    private int frame = 0; //used to
+    private Rectangle rect; //Rect to check collision with the start button
+
+    //Fonts
     private Font font;
     private Font title;
     private Font littleFont;
-    private boolean loaded;
-    private boolean start;
-    private boolean click;
+
+    private boolean loaded; //checks if the loading screen is done so that the cut scene can start
+    private boolean start; //checks if the start button was pressed
+    private boolean click; //used to see if the mouse was pressed
+
+    //Images and Frames
     private Image[]load;
     private Image[]fastCity;
     private Image redStart;
@@ -25,6 +31,7 @@ public class startScreen extends JPanel implements MouseListener{
 
     public startScreen(WeebChronicles m){
         mainFrame = m;
+        //Following code loads the fonts
         try {
             font = Font.createFont(Font.TRUETYPE_FONT, new File("font/newyorkescape.ttf"));
             title = font.deriveFont(50f);
@@ -49,11 +56,12 @@ public class startScreen extends JPanel implements MouseListener{
         super.addNotify();
         requestFocus();
     }
+    //Following code loads in images from a file and adds them all to a Image array
     public Image[] loadSprite(String fileName, int len){
         Image[]b = new Image[len];
         try{
             for(int i = 0; i < len; i++) {
-                Image img = ImageIO.read(new File(fileName + i + ".png"));
+                Image img = ImageIO.read(new File(fileName + i + ".png")); //reads from a file
                 b[i] = img;
             }
         }
@@ -63,18 +71,17 @@ public class startScreen extends JPanel implements MouseListener{
         return b;
     }
     public void paintComponent(Graphics g){
-        //PointerInfo point = MouseInfo.getPointerInfo();
-
+        //Following code gets the coordinates of the mouse
         Point mousePos = getMousePosition();
         if(mousePos == null){
             mousePos = new Point(0,0);
         }
-        //mx = (int) mousePos.getX();
-        //my = (int) mousePos.getY();
-        if(!start) {
+        if(!start) { //When the start button has not been clicked
             if (frame % 3 == 0) {
-                g.drawImage(fastCity[frame / 3], 0, 0, null);
+                //The picture that is drawn is changed to the next frame every 3 loops
+                g.drawImage(fastCity[frame / 3], 0, 0, null); //background sprite
             }
+            //Following code is draws and checks if the start button is clicked
             g.drawImage(grayStart, 910,500,null);
             if(rect.contains(mousePos)){
                 g.drawImage(redStart, 910, 500, null);
@@ -82,6 +89,7 @@ public class startScreen extends JPanel implements MouseListener{
                     start = true;
                 }
             }
+            //Title
             g.setColor(Color.white);
             g.setFont(title);
             g.drawString("The Weeb Chronicles", 225,70);
@@ -89,25 +97,30 @@ public class startScreen extends JPanel implements MouseListener{
             g.drawString(" Created By the Vincent Massey Anime Association",30,600);
 
             frame++;
-            if (frame == 90) {
+            //Following code resets the frame value when the all frames have been drawn
+            if (frame == fastCity.length * 3) {
                 frame = 3;
             }
         }
-        if(start){
+        if(start){ //when the start button is clicked
             if(frame % 10 == 0){
-                g.drawImage(load[frame / 10], 0, 0, null);
+                g.drawImage(load[frame / 10], 0, 0, null); //loading screen
             }
             frame++;
-            if(frame == 480){
+            //Following code resets the frame value when the all frames have been drawn
+            if(frame == load.length * 10){
                 frame = 0;
                 loaded = true;
             }
         }
         click = false;
     }
+    //Following function is used to change the start sceen to the firt cut scene
     public boolean getLoaded(){
         return loaded;
     }
+
+    //Following methods are related to mouse input
     @Override
     public void mouseClicked(MouseEvent e) { }
     @Override

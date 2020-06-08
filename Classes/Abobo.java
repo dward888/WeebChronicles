@@ -1,15 +1,18 @@
-import javax.imageio.ImageIO;
+//Abobo.java
+//Jim Ji and Edward Yang
+//This class is used to make the level 1 boss, Abobo. This class outputs the frames and takes in account of the health
+//and the attacks.
+
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 
 public class Abobo {
-    private int currentF;
+    private int currentF; //variable used to keep track of the frames
+    //maxLeft and maxRight are used to keep the x coordinate of the boss within a range
     private int x, y, maxLeft,maxRight;
     private int direction, left, right;
-    private boolean startMoving;
-    private boolean attack;
-    private int hits;
+    private boolean startMoving; //variable used to check that the mini cut scene is over
+    private boolean attack; //variable used to check if the boss is attacking
+    private int hits; //used as a health variable, the boss can take up to 16 hits
     private int health;
     private bossAction currentAct;
     private bossAction jump;

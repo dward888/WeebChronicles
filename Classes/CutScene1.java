@@ -1,3 +1,8 @@
+//CutScene1.java
+//Jim Ji and Edward Yang
+//This class is the panel with all the graphics related to the first cut scene of the game. This class uses
+//a frame variable to determine when to draw objects onto the screen to make a movie.
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -9,17 +14,19 @@ import java.io.IOException;
 
 public class CutScene1 extends JPanel {
     private WeebChronicles mainFrame;
-    private int frame;
-    private int fCount1;
-    private int fCount2;
-    private boolean watched;
+    private int frame; //variable used to time when objects are drawn
+    private int fCount1; //variable used to draw sprites
+    private int fCount2; //second variable used to draw sprites
+    private boolean watched; //used to check that the cutscene is over to advance to the game
 
+    //Fonts
     private Font font;
     private Font initialFont;
     private Font weebFont;
     private Font smallerFont;
     private Font miniFont;
 
+    //Images and Frames
     private Image city;
     private Image textBubble;
     private Image yellBubble;
@@ -46,7 +53,7 @@ public class CutScene1 extends JPanel {
         fCount1 = 0;
         fCount2 = 0;
         watched = false;
-        try {
+        try { //loading sprites
             font = Font.createFont(Font.TRUETYPE_FONT, new File("font/newyorkescape.ttf"));
             initialFont = font.deriveFont(35f);
             weebFont = font.deriveFont(90f);
@@ -56,6 +63,7 @@ public class CutScene1 extends JPanel {
         catch (FontFormatException | IOException e) {
             e.printStackTrace();
         }
+        //loading images and frames
         city = new ImageIcon("Pictures/city.jpg").getImage();
         textBubble = new ImageIcon("Pictures/text bubble.png").getImage();
         yellBubble = new ImageIcon("Pictures/yelling bubble.png").getImage();
@@ -87,6 +95,8 @@ public class CutScene1 extends JPanel {
         mainFrame.start();
     }
     public void paintComponent(Graphics g){
+        //Following code draws objects using the frame variable. Objects are drawn withing a range and when the
+        //max value passes the object is not drawn anymore
         if(frame < 600) {
             g.setColor(Color.black);
             g.fillRect(0, 0, 1200, 650);
@@ -110,6 +120,7 @@ public class CutScene1 extends JPanel {
             g.drawImage(city,0,0,null);
             g.drawImage(road[fCount1/8],0,570,null);
             g.drawImage(ryanRun[fCount2/4],250,525,null);
+            //Following code resets the count values so that the frames can be continuously drawn
             if(fCount1 >= (road.length-1)*8){
                 fCount1 = -1;
             }
@@ -136,6 +147,7 @@ public class CutScene1 extends JPanel {
             g.setFont(initialFont);
             g.drawString("#*@^%$", 355,450);
         }
+        //Following code resets the count values to be used elsewhere
         if(frame == 1320){
             fCount1 = 0;
             fCount2 = 0;
@@ -161,12 +173,14 @@ public class CutScene1 extends JPanel {
             g.drawImage(forest, 0, 0, null);
             if (frame < 2100){
                 g.drawImage(dazed[fCount2 / 25], 260, 530, null);
+                //fCount2 keeps getting reset so that is can draw the frames without going out of range
                 if (fCount2 >= (dazed.length - 1) * 25) {
                     fCount2 = -1;
                 }
                 fCount2++;
             }
             if(frame < 1940) {
+                //fCount1 keeps getting reset so that is can draw the frames without going out of range
                 g.drawImage(fireBoom[fCount1/8], 190,370,null);
                 if (fCount1 >= (fireBoom.length - 1) * 8) {
                     fCount1 = -1;
@@ -180,8 +194,8 @@ public class CutScene1 extends JPanel {
             g.drawString("Ryan was brought into a mystical land.",20, 35);
         }
         if(frame == 2100){
-            fCount1 = 0;
-            fCount2 = 1200;
+            fCount1 = 0; //variable being reset
+            fCount2 = 1200; //fCount2 is being used as an x coordinate next
         }
         if(frame > 2100 && frame < 2729){
             g.drawImage(suprised, 260, 520, null);
@@ -195,15 +209,16 @@ public class CutScene1 extends JPanel {
         }
         if(frame > 2200 && frame < 2300){
             g.drawImage(flipImage(maiRun[fCount1/2]), fCount2,545,null);
+            //fCount1 keeps getting reset so that is can draw the frames without going out of range
             if(fCount1 >= (maiRun.length-1)*2){
                 fCount1 = -1;
             }
             fCount1++;
-            fCount2-=4;
+            fCount2-=4; //fCount2 is being changed so that the sprite is moving across the screen
         }
         if(frame == 2300){
-            fCount1 = 0;
-            fCount2 = -170;
+            fCount1 = 0; //fCount1 is being used as an y coordinate next
+            fCount2 = -170; //fCount2 is being used as an y coordinate next
         }
         if(frame > 2299 && frame < 3995){
             g.drawImage(flipImage(maiStand), 800,530,null);
@@ -276,6 +291,7 @@ public class CutScene1 extends JPanel {
         if(frame > 3950 && frame < 3985){
             g.drawImage(cage,760,fCount1,null);//y500
             g.drawImage(dragonLow, 820,fCount2, null);
+            //Following variable have 15 added to them so that the images are dropped down the screen
             fCount1+=15;
             fCount2+=15;
         }
@@ -384,15 +400,17 @@ public class CutScene1 extends JPanel {
             g.drawString("Controls", 310,85);
         }
         if(frame > 6575){
-            watched = true;
+            watched = true; //the window is going to progress to the game
         }
         frame ++;
     }
-    public boolean finished(){return watched;}
+    public boolean finished(){return watched;} //method used to signal that the cut scene is over
+
+    //Following method is used to load in the frames of a sprite
     public void loadSprite(Image[]action, String directory){
         try{
             for(int i = 0; i < action.length; i++) {
-                Image img = ImageIO.read(new File(directory +  i + ".png"));
+                Image img = ImageIO.read(new File(directory +  i + ".png")); //reads in the file
                 action[i] = img;
             }
         }
@@ -400,6 +418,8 @@ public class CutScene1 extends JPanel {
             e.printStackTrace();
         }
     }
+
+    //Following method flips/reflects an image - code found online
     public Image flipImage(Image image){
         BufferedImage bImg = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_4BYTE_ABGR);
         Graphics2D g = (Graphics2D) bImg.getGraphics();
