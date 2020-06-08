@@ -73,6 +73,7 @@ public class WeebChronicles extends JFrame implements ActionListener {
 			game2.loadGoombs();
 			game2.loadCoins();
 			game2.loadLvlLives();
+			//game2.loadShooters();
 
 			//game.loadPlats("plat2.txt",2);
 		}catch (IOException e) {

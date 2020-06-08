@@ -333,9 +333,10 @@ public class GamePanel extends JPanel implements KeyListener{
             int ha = Integer.parseInt(data[8]);
             int da = Integer.parseInt(data[9]);
             int num = Integer.parseInt(data[10]);
-            int hp = Integer.parseInt(data[11]);
+            int dNum = Integer.parseInt(data[11]);
+            int hp = Integer.parseInt(data[12]);
 
-            Goomba tmp = new Goomba(x, y, mL, mR, b, xa, ya, wa, ha, da, num, hp);
+            Goomba tmp = new Goomba(x, y, mL, mR, b, xa, ya, wa, ha, da, num, dNum, hp);
 
             goombs.add(tmp);
 

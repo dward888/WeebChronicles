@@ -43,7 +43,7 @@ public class Goomba {
     private Image[]leftFDead;
     private int f;
 
-    public Goomba(int x1, int y1, int maxLeft, int maxRight, String file, int xa,int ya, int wa, int ha, int da, int size, int h){
+    public Goomba(int x1, int y1, int maxLeft, int maxRight, String file, int xa,int ya, int wa, int ha, int da, int size,int dSize, int h){
 
         x = x1;
         y = y1;
@@ -70,8 +70,8 @@ public class Goomba {
 
         rightF = new Image[size];
         leftF = new Image[size];
-        rightFDead = new Image[size];
-        leftFDead = new Image[size];
+        rightFDead = new Image[dSize];
+        leftFDead = new Image[dSize];
         loadSprite(rightF,leftF,"badFrames/"+file+"/tile");
         loadSprite(rightFDead,leftFDead,"badFrames/"+file+"Dead/tile");
 
@@ -248,7 +248,7 @@ public class Goomba {
     public void loadSprite(Image[]actionRight, Image[]actionLeft, String directory){
         try{
             for(int i = 0; i < actionRight.length; i++) {
-                Image img = ImageIO.read(new File(directory +  i + ".png"));
+                Image img = ImageIO.read(new File(directory + i + ".png"));
                 actionRight[i] = img;
                 actionLeft[i] = flipImage(img);
             }

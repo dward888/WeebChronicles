@@ -61,6 +61,7 @@
 7500 575 longerBlock 7
 7625 575 longerBlock 7
 7750 575 longerBlock 7
+80 400 doorPlat -10
 722 450 longBlock 10
 920 380 longBlock 10
 1118 380 longBlock 10
@@ -83,6 +84,8 @@
 5115 290 airBlock 5
 5270 380 airBlock 5
 5445 470 airBlock 5
+5940 450 longerBlock 7
+6200 450 longerBlock 7
 
 
 

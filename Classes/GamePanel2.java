@@ -330,9 +330,10 @@ public class GamePanel2 extends JPanel implements KeyListener{
             int ha = Integer.parseInt(data[8]);
             int da = Integer.parseInt(data[9]);
             int num = Integer.parseInt(data[10]);
-            int hp = Integer.parseInt(data[11]);
+            int dNum = Integer.parseInt(data[11]);
+            int hp = Integer.parseInt(data[12]);
 
-            Goomba tmp = new Goomba(x, y, mL, mR, b, xa, ya, wa, ha, da, num, hp);
+            Goomba tmp = new Goomba(x, y, mL, mR, b, xa, ya, wa, ha, da, num, dNum, hp);
 
             goombs.add(tmp);
 
@@ -413,8 +414,6 @@ public class GamePanel2 extends JPanel implements KeyListener{
             int frames = Integer.parseInt(data[3]);
 
             Coin tmp = new Coin(x,y,b,frames);
-
-
             coins.add(tmp);
 
         }
@@ -433,7 +432,7 @@ public class GamePanel2 extends JPanel implements KeyListener{
         //mx = (int) mousePos.getX();
         //my = (int) mousePos.getY();
 
-        System.out.println(mx+","+my);
+        System.out.println(p.getX()+","+p.getY());
 
         g.drawImage(back2, 0, 0, null);
 
@@ -483,7 +482,6 @@ public class GamePanel2 extends JPanel implements KeyListener{
         for(int i = 0; i < coins.size(); i++){
             g.drawImage(coins.get(i).getFrame(),coins.get(i).getX()-offset,coins.get(i).getY(),null);
             //g.setColor()
-            g.drawRect(coins.get(i).getX()-offset,coins.get(i).getY(),coins.get(i).getRect().width,coins.get(i).getRect().height);
         }
 
         for (Bullet b : badBList){
@@ -1074,25 +1072,6 @@ public class GamePanel2 extends JPanel implements KeyListener{
     public int getLevel(){
         return level;
     }
-
-    /*public void reset() throws IOException {
-        //offset = 0;
-        p.setX(140);
-        p.setY(340);
-        plats = new ArrayList<Platform>();
-        goombs = new ArrayList<Goomba>();
-        decor = new ArrayList<Decor>();
-        coins = new ArrayList<Coin>();
-        lvlLives = new ArrayList<Life>();
-        shooters = new ArrayList<Shooter>();
-        loadPlats("plat" + level + ".txt");
-        loadGoombs("goomba" + level + ".txt");
-        loadDecor("decor" + level + ".txt");
-        loadCoins("coin" + level + ".txt");
-        loadLvlLives("life" + level + ".txt");
-        loadShooters("shooter"+level+".txt");
-
-    }*/
 
 
     public void loadSprite(){

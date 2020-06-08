@@ -57,8 +57,6 @@ public class Coin {
 
         f ++;
 
-
-
         if (direction == right) {
             return rightF[f/5];
         }
